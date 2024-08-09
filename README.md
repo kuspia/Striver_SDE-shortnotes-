@@ -173,7 +173,26 @@ void sortArray(vector<int>& arr, int n) {
 }
 ```
 
+6. Stock Buy and Sell [SP - CP]: You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. 
 
+> Make a Graph and observe that u have to choose largest slant line inclined towards right, (left is not possible as we need to choose to buy and then sell), Please note two points can be connected from any one to another to observe the required line which we are looking for,
+
+> While traversing the array if SP - CP turns out to be negative better ignore it (since there is option not to sell the stock If you cannot achieve any profit, return 0) and while you traverse since we want to expand the length of our line, so its better if we go deeper at SP end, this is reason why we have minsofar variable.
+
+```
+int maxProfit(vector<int> &arr) {
+    int maxPro = 0;
+    int n = arr.size();
+    int minPrice = INT_MAX;
+
+    for (int i = 0; i < arr.size(); i++) {
+        minPrice = min(minPrice, arr[i]);
+        maxPro = max(maxPro, arr[i] - minPrice); // (sp - cp) think it as a right inclined slant line over which we are choosing the endpoints and subtracting it
+    }
+    
+    return maxPro;
+}
+```
 
 
 
