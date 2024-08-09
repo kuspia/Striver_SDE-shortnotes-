@@ -41,6 +41,88 @@ class Solution
     }
 };
 ```
+2. Pascal Triangle
+
+> n space problem (easy)
+
+```
+class Solution {
+public:
+    vector<vector<int>> generate(int n) {
+        vector<vector<int>> an  ;
+        vector <int > t ;
+        t.push_back(1);
+        an.push_back(t);
+        n--;
+        if(n){
+            n--;
+            t.push_back(1);
+             an.push_back(t);
+        }
+        while(n--){
+            int sz = t.size();
+            vector <int> k ;
+            k.assign ( t.begin() , t.end());
+            t.clear();
+            t.assign( 1 + sz  , 0 );
+            t[0] = 1 ;
+            t[sz] = 1 ;
+            int id = 1 ;
+            int time = sz - 1;
+            while(time--){
+                t[id] = k[id-1] + k [id] ; 
+                id++;
+            }   
+            an.push_back(t);
+        }
+        return an ;
+    }
+};
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
    
