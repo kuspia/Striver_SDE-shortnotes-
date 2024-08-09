@@ -79,7 +79,47 @@ public:
     }
 };
 ```
+3. Next Permutation
 
+> The idea is based upon the fact that always remember that when we want to create the next permutation we try to choose the next value as close as possible to the given value, (basically a next greater permutation), ex: 1 3 4 2
+
+> So when you are at some index, and you want to increase it, then ask yourself the numbers lying after it forms the largest number? if yes you can increment the index to the closest possible value that is lying on the right-hand side of it and choose the next possible value otherwise move on from that index towards the right.
+
+> Ex: 1 3 5 4 2: you should move on from 0th index -> you should increment the 1st index since 542 forms the largest possible number among {2, 4, 5} -> 1 4: 5 3 2 ->  L: R (reverse R to get the final number) -> 1 4 2 3 5
+
+> see the code its little tricky bro !!
+
+```
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        // Step 1: Find the break point: kind of decreasing order patern we are iterating
+        int ind = -1; // break point
+        for (int i = n - 2; i >= 0; i--) {
+            if (nums[i] < nums[i + 1]) {
+                ind = i;
+                break;
+            }
+        }
+        // If break point does not exist:
+        if (ind == -1) {
+            // Reverse the whole array:
+            reverse(nums.begin(), nums.end());
+            return;
+        }
+        // Step 2: Find the next greater element and swap it with nums[ind]: since the series is in decreasing order this is only reason why we can break as soon as the if condition is satisfied 
+        for (int i = n - 1; i > ind; i--) {
+            if (nums[i] > nums[ind]) {
+                swap(nums[i], nums[ind]);
+                break;
+            }
+        }
+        // Step 3: Reverse the right half:
+        reverse(nums.begin() + ind + 1, nums.end());
+    }
+};
+```
 
 
 
