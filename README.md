@@ -121,7 +121,57 @@ public:
 };
 ```
 
+4. Kadane Algo: Find the subarray with the largest sum, and return its sum.
 
+> The only thing that you should understand here is we break the subarray as soon as the overall sum becomes **-ve**, the only reason for doing so is that taking some -ve sum won't help us further because if you add it you will just decrease the overall maximizing sum that we need. When every element is negative has been handled explicitly.
+
+```
+class Solution {
+public:
+    int maxSubArray(vector<int>& a) {
+        int s = 0;
+        int ma = INT_MIN;
+        int n = a.size();
+        for(int i=0; i< n; i++){
+            if( s + a[i] < 0 ){
+                s=0;
+                continue;
+            }else{
+                s += a[i];
+                ma = max(ma , s); // keep track of maximum sub-array sum 
+            }
+        }
+        if(ma == INT_MIN){ // when every elelemnt is negative `ma` will be -infinity 
+            for(int i=0; i< n; i++)ma = max ( ma , a[i]);  
+        }
+        return ma;
+    }
+};
+```
+
+5. Sort array having 0,1,2 (three elements only)
+
+> Just remember we need 3 pointers, `l/m/h` and yes `m` is like an iterator throughout the array while `l` and `h` are useful to mark the boundary for `0` and `1` respectively.
+
+```
+void sortArray(vector<int>& arr, int n) {
+    int low = 0, mid = 0, high = n - 1; // 3 pointers
+    while (mid <= high) {
+        if (arr[mid] == 0) {
+            swap(arr[low], arr[mid]);
+            low++;
+            mid++;
+        }
+        else if (arr[mid] == 1) {
+            mid++;
+        }
+        else {
+            swap(arr[mid], arr[high]);
+            high--;
+        }
+    }
+}
+```
 
 
 
