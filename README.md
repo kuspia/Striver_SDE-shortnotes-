@@ -1,7 +1,5 @@
 # Striver_SDE sheet solution
 
-:: Nothing but just collection of all problems :: 
-
 1. Set matrix zero
 
 > You can create a lookup row and col for each cell, the idea is to suppose we are allowed to take extra space and then create row_lookup[c] and col_lookup[r], size is shown in the [], now just iterate and wherever you find 1 mark corresponding position in both lookup tables, finally reiterate the whole matrix and see if you have marked in any of the lookup tables from the both if yes set that cell to 1.
