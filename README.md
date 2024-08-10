@@ -606,7 +606,7 @@ public:
 
 <details>
 	
-> Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/edit/main/README.md#12-inversion-of-array-explanation1-mergesort-vid-animation)
+> Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#12-inversion-of-array-explanation1-mergesort-vid-animation)
 
 ```cpp
 class Solution {
