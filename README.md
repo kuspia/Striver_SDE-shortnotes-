@@ -261,387 +261,112 @@ void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long lon
 
 10. Find duplicate in array of N+1 integers
 
->
-
-```
-```
-
-12. Repeat and missing number
-
->
-
-```
-```
-
-14. Inversion of array
-
->
-
-```
-```
-
-15.
-
->
-
-```
-```
-
-15.
-
->
-
-```
-```
-
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
+> Refer Q.11 M3
+
+```
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        for(int i = 0 ; i < nums.size() ; i++) {
+            int id = abs(nums[i]);
+            if(nums[id]>0) nums[id]*=-1;
+            else return id;
+        }
+        return 0; // dummy
+    }
+};
+```
+
+11. Repeat and missing number
+
+> M1: Let the array size be n, so as per the expectations 1 to n numbers were supposed to be present in it. However, one guy is missing while the other guy is being repeated. We use BF to find the missing/repeating number by having doubt over every single number from 1 to n  and then checking it with the given array. Clearly, it takes `O(2*n^2)`.
+
+> M2: Use the hash map, say 1 to n is my index of an array whenever we find a number we do ++ over there, clearly when you reiterate the hash array and if you find somewhere 0 b/w 1 to n that means that index is my missing number, a corollary to that is if you find somewhere as 2 stored that means that index is being repeated.
+
+> M3: Iterate the array and just imagine that array is 1 indexed, now your job is that for every index `i`, go to a[i]th index and mark the value stored with a `-ve` sign, however, if it is already marked that means a[i] is my repeating number, in that case don't mark it, and kindly continue the process, at the end you will see that one of the ith index is still having a `+ve` sign that index is actually the missing one.  
+
+> M4: Maths, say the sum of the array is s1 while the sum of squares of elements is s2, say y is your repeating number while x is the missing, we derive a formula as `x-y = n(n+1)/2 -s1` and `x^2 - y^2 = n(n+1)(2n+1)/6 - s2`, clearly you have x-y and x+y so congratulations!!
+
+> M5: This is kind of unobvious, an XOR trick, so take the xor of all array elements and then keep on taking the xor till 1 to n now at the end you will be left with a xor value which actually represents x^y, now we need to segregate the x and y from x^y which is very tricky, please see the code, and understand yourself.
+
+```
+vector<int> findMissingRepeatingNumbers(vector<int> a) {
+    int n = a.size(); 
+    int xr = 0;
+    //Step 1: Find XOR of all elements:
+    for (int i = 0; i < n; i++) {
+        xr = xr ^ a[i];
+        xr = xr ^ (i + 1);
+    }
+    //Step 2: Find the differentiating bit number: right most significant bit, reason is those two numbers (x, y) will actually differ at this bit only
+    int number = (xr & ~(xr - 1));
+    //Step 3: Group the numbers:
+    int zero = 0;
+    int one = 0;
+    for (int i = 0; i < n; i++) {
+        //part of 1 group:
+        if ((a[i] & number) != 0) {
+            one = one ^ a[i];
+        }
+        //part of 0 group:
+        else {
+            zero = zero ^ a[i];
+        }
+    }
+
+    for (int i = 1; i <= n; i++) {
+        //part of 1 group:
+        if ((i & number) != 0) {
+            one = one ^ i;
+        }
+        //part of 0 group:
+        else {
+            zero = zero ^ i;
+        }
+    }
+
+    // Last step: Identify the numbers: so one and zero are basically (x, y) after u have done group segregation with 1 - n and all array numbers 
+    int cnt = 0;
+    for (int i = 0; i < n; i++) {
+        if (a[i] == zero) cnt++;
+    }
+
+    if (cnt == 2) return {zero, one};
+    return {one, zero};
+}
+```
+
+11.1. Extension problem: Imagine if you had elements from 0 to n-1 and an array of size n, then let's say elements, appear more than once like n=10: [0 1 0 0 1 1 5 9 9 0], how do we find all duplicates and missing exactly once in `n` time and `1` space?  Here what we do is we go to arr[i] index, and increase that index by n every time, the rest code is self-explanatory.
+
+```
+class Solution {
+public:
+    vector<int> duplicates(int arr[], int n)
+{
+    vector<int> occured_twice_or_more, missing, occured_just_once;
+    for (int i = 0; i < n; i++) {
+        int index = arr[i] % n;
+        arr[index] += n;
+    }
+    for (int i = 0; i < n; i++) 
+        {
+           if ((arr[i] / n) >= 2) occured_twice_or_more.push_back(i);
+           if(arr[i] < n) missing.push_back(i);
+           if ((arr[i] / n) == 1) occured_just_once.push_back(i);
+        }
+  for (int i = 0 ; i< missing.size(); i++) cout<<missing[i]<<" ";
+  cout<<endl;
+  for (int i = 0 ; i< occured_just_once.size(); i++) cout<<occured_just_once[i]<<" ";
+  cout<<endl;
+  if(occured_twice_or_more.size()) return occured_twice_or_more;
+  else return {-1};
+}
+};
 ```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
 
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
-
->
-
-```
-```
-15.
+12. Inversion of array
 
->
 
-```
-```
 
 
 
