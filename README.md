@@ -853,7 +853,9 @@ int getLongestSubarray(vector<int>& a, long long k) {
 
 <details>
 	
-> Similar to Longest subarray with sum = K, but few things to notice are:  ________ x^b ______ ? ________ .let till this point xor is `x` we let that before that wee have encountered a xor value = `x^b`, then `?` has to be = `b` only, to satisfy the property `(x^b ^ ? = x) ? = b` so this is how we got a subarray with xor value = `b`
+> ______ x^b ______ ? ________ let till this point xor is `x` Assume that before that we have encountered a xor value = `x^b`, then `?` has to be = `b` only, to satisfy the property `(x^b ^ ? = x) => ? = b` so this is how we got a subarray with xor value = `b`
+
+> ______ x^b ______ b _______ : let you have `x` in your `xorSum`, and we can have `x^b` occuring multiple times previously, since we need to count all of them, so we need to maintain counter, to get all possible sub-arrays with xor = `b` when `xorSum` = `x`	
 	
 ```cpp
 int Solution::solve(vector<int> &A, int B) {
@@ -872,11 +874,37 @@ int Solution::solve(vector<int> &A, int B) {
 ```
 </details>
 
-## 24. 
+## 24. Longest substring without repeat
 
 <details>
+	
+> Join two hands and keep them at one distance move your right hand unless you keep on finding the unique characters the moment you see a repeated character it is your responsibility to shift your left hand and keep one distance ahead of the position where the last occurrence of repeated character was found.
+
+> So, imagine we have a string with `size>=2`, now we place `i` at `0` and `j` at `1`, and iterate unless `j` doesn't hit `n`, we say that if `s[i]` was previously found then `i` should be shifted by unity towards the right-hand side, as we always try to maintain the unique characters in my constructed substring from `i` to `j`, therefore if we shift it by one we ensure this property. However, we have to also make sure `i` should be a part of the current substring therefore we use max() very important thing (dry run with `abba` or `abcdbea`) to get the gist.
+
+> So, simply then we just record the char value at the index found in the map and ensure to keep the max possible value in ma in all possible iterations for j.
+	
 ```cpp
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        map <char , int > mp ;
+        int i = 0 ;
+        int j = 1 ;
+        int ma = INT_MIN;
+        mp[s[0]] = 0 ;
+        while (j < s.size() ){
+            if( mp.find( s[j]) != mp.end() )   
+             i = max(i, mp[s[j]] + 1); //abba dry run to get the gist 
+            mp[s[j]] = j ;
+            ma = max (ma , j-i+1);
+            j++;
+        }
+        return ma==INT_MIN ? s.size(): ma; // true condition explicitly checks the string of size 1 or 2
+    }
+};
 ```
+
 </details>
 
 ## 25. 
