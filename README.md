@@ -667,11 +667,57 @@ int reversePairs(vector<int>& a) {
 ```
 </details>
 
-## 19. Two sum 
+## 19. 2 sum 
 
 <details>
+
+> BF ways are like sort and then do BS, or maybe use hashing etc.
+
+> Refer 4 sum 
+
+```cpp
+```
+
+</details>
+
+
+## 20. 4 sum
+
+<details>
+
+> The optimized way is `O(n^3)`, so choose two elements using the `O(n^2)` loop, while the other two can be picked up using **two pointers** approach, Please note to skip duplicates for `i`, `j`, `p`, `q` pointers.
 	
 ```cpp
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& a, int k) {
+        vector<vector<int>> an;
+        sort(a.begin(), a.end()); // see this bro -< something that let you use two pointers approach 
+        int n = a.size();
+        for (int i = 0; i < n ; i++) {
+            if (i > 0 && a[i] == a[i - 1]) continue; 
+            for (int j = i + 1; j < n; j++) {
+                if (j > i + 1 && a[j] == a[j - 1]) continue; 
+                int p = j + 1;
+                int q = n - 1;
+                while (q > p) {
+                    int sum = a[i] + a[j] + a[p] + a[q];
+                    if (sum == k) {
+                        vector<int> tmp = {a[i], a[j], a[p], a[q]};
+                        an.push_back(tmp);
+                        while (p < q && a[p] == tmp[2]) p++; 
+                        while (p < q && a[q] == tmp[3]) q--; 
+                    } else if (sum > k) {
+                        q--;
+                    } else {
+                        p++;
+                    }
+                }
+            }
+        }
+        return an;
+    }
+};
 ```
 
 </details>
