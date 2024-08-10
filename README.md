@@ -880,9 +880,7 @@ int Solution::solve(vector<int> &A, int B) {
 	
 > Join two hands and keep them at one distance move your right hand unless you keep on finding the unique characters the moment you see a repeated character it is your responsibility to shift your left hand and keep one distance ahead of the position where the last occurrence of repeated character was found.
 
-> So, imagine we have a string with `size>=2`, now we place `i` at `0` and `j` at `1`, and iterate unless `j` doesn't hit `n`, we say that if `s[i]` was previously found then `i` should be shifted by unity towards the right-hand side, as we always try to maintain the unique characters in my constructed substring from `i` to `j`, therefore if we shift it by one we ensure this property. However, we have to also make sure `i` should be a part of the current substring therefore we use max() very important thing (dry run with `abba` or `abcdbea`) to get the gist.
-
-> So, simply then we just record the char value at the index found in the map and ensure to keep the max possible value in ma in all possible iterations for j.
+> So, imagine we have a string with `size>=2`, now we place `i` at `0` and `j` at `1`, and iterate unless `j` doesn't hit `n`, we say that if `s[j]` was previously found then `i` should be shifted by unity towards the right-hand side, as we always try to maintain the unique characters in my constructed substring from `i` to `j`, therefore if we shift it by one we ensure this property. However, we have to also make sure `i` should be a part of the current substring therefore we use max() very important thing (dry run with `abba` or `abcdbea`) to get the gist.
 	
 ```cpp
 class Solution {
@@ -894,10 +892,9 @@ public:
         int ma = INT_MIN;
         mp[s[0]] = 0 ;
         while (j < s.size() ){
-            if( mp.find( s[j]) != mp.end() )   
-             i = max(i, mp[s[j]] + 1); //abba dry run to get the gist 
-            mp[s[j]] = j ;
-            ma = max (ma , j-i+1);
+            if( mp.find( s[j]) != mp.end() ) i = max(i, mp[s[j]] + 1);  // often people think to do `mp[s[j]]+1`, only reason to take maximum with `i` is to ensure that we don't cosnider the string before to ith index, or you can say the string which is not even the part of our current string (i to j)  // abba dry run to get the gist 
+            mp[s[j]] = j ; // record every char index value
+            ma = max (ma , j-i+1); // keep on updating maximum length every time, who knows when we might get longest substring
             j++;
         }
         return ma==INT_MIN ? s.size(): ma; // true condition explicitly checks the string of size 1 or 2
