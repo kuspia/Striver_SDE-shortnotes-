@@ -194,17 +194,454 @@ int maxProfit(vector<int> &arr) {
 }
 ```
 
+7. Rotate the matrix 90 degrees clockwise
 
+> swap(a[i], a[j]) and then reverse every row.
 
+> observe we did this in loop `j < i` reason is we want to traverse lower triangular matrix only.
 
+```
+void rotate(vector < vector < int >> & matrix) {
+    int n = matrix.size();
+    for (int i = 0; i < n; i++) for (int j = 0; j < i; j++) swap(matrix[i][j], matrix[j][i]);
+    for (int i = 0; i < n; i++) reverse(matrix[i].begin(), matrix[i].end());
+}
+```
 
+8. Merge overlapping subintervals
 
+> Sort `iv` based on the first element and then the second element, in your hand, pick the first interval and say it is `cur` now with further intervals [1 to iv. size()-1]. Check whether there is overlap, if yes try expanding the cur interval to max boundary points else push it to the answer and choose a new interval as your `cur`.
 
+```
+class Solution {
+public:
+    static bool compare(const vector<int>& a, const vector<int>& b) {
+        if (a[0] == b[0])  return a[1] < b[1]; // second element based sorting (ascending)
+        return a[0] < b[0]; // first elemtent based sorting (ascending)
+    }
+    vector<vector<int>> merge(vector<vector<int>>& iv) {
+        // Sort iv based on the first element and then the second element
+        sort(iv.begin(), iv.end(), compare);
+        vector<vector<int>> an;
+        vector<int> cur = iv[0];
+        for (int i = 1; i < iv.size(); i++) {
+            if (cur[1] >= iv[i][0])  cur[1] = max(cur[1], iv[i][1]); // we are extending the length of merged interval as u can see stored in variable `cur`
+             else {
+                an.push_back(cur);
+                cur = iv[i];
+            }
+        }
+        an.push_back(cur); // Don't forget to add the last merged interval
+        return an;
+    }
+};
+```
+9. Merge 2 sorted array (no extra space)
 
+> To do it in `O(n+m)` you can take the extra space and do it, however, that approach is similar to what we did in merge sort, but to do it in 1 space we need `O(nlgn)` time, now we assume that `a` will keep the smallest element at [0] while `b` keeps the largest element at last in it, so please remember the initialization which has utmost importance = Place the pointer at the last of `a` and at the beginning of the array `b`. A way to remember is take two array so when you join them, pointers are supposed to be placed at the joints.
 
+```
+void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long long> &b){
+	int n = a.size();
+	int m = b.size();
+	int i =  n - 1 ;
+	int j = 0 ;
+	while(i>=0 && j < m){
+          if (a[i] > b[j]) {
+          swap(a[i], b[j]);
+		  i--;
+		  j++;
+		  }else break;
+        }
+	sort(a.begin(),a.end());
+	sort(b.begin(),b.end());
+	
+}
+```
 
+10. Find duplicate in array of N+1 integers
 
+>
 
+```
+```
+
+12. Repeat and missing number
+
+>
+
+```
+```
+
+14. Inversion of array
+
+>
+
+```
+```
+
+15.
+
+>
+
+```
+```
+
+15.
+
+>
+
+```
+```
+
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
+15.
+
+>
+
+```
+```
 
 
 
