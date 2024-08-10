@@ -1,4 +1,4 @@
-# Striver_SDE-shortnotes-
+# Striver_SDE sheet solution
 
 :: Nothing but just collection of all problems :: 
 
