@@ -511,28 +511,25 @@ public:
 
 </details>
 
-
-
 ## 15. Majority (>n/2)
 
 <details>
-	
+
 ```cpp
 class Solution {
 public:
     int majorityElement(vector<int>& a) {
-        int f ;
-        int c1 = 0;
+        int f1 ; // to store a candidate element 
+        int c1 = 0; // to count the occurences of candidate element
         for (auto no: a){
-            if(no == f) c1++;
-            else if (c1 == 0) f = no;
+            if(no == f1) c1++;
+            else if (c1 == 0) {f1 = no; c1 = 1;}
             else c1--;
         }
         int cnt = 0 ;
-        for (auto no: a) if(f == no) cnt++;
-        if(cnt > a.size()/2) return f;
+        for (auto no: a) if(f1 == no) cnt++;
+        if(cnt > a.size()/2) return f1;
         return -1;
-
     }
 };
 ```
@@ -547,16 +544,12 @@ public:
 class Solution {
 public:
     vector<int> majorityElement(vector<int>& nums) {
-        int f1 = 0, f2 = 0;
-        int c1 = 0, c2 = 0;
-        
-        // Find potential majority elements
+        int f1 = 0, f2 = 0; // to store a candidate elements
+        int c1 = 0, c2 = 0; // to count the occurences of candidate elements
         for (int num : nums) {
-            if (num == f1) {
-                c1++;
-            } else if (num == f2) {
-                c2++;
-            } else if (c1 == 0) {
+            if (num == f1) c1++;
+            else if (num == f2) c2++;
+            else if (c1 == 0) {
                 f1 = num;
                 c1 = 1;
             } else if (c2 == 0) {
@@ -567,7 +560,6 @@ public:
                 c2--;
             }
         }
-        // Count the occurrences of potential majority elements
         c1 = c2 = 0;
         for (int num : nums) {
             if (num == f1) {
@@ -583,7 +575,6 @@ public:
         if (c2 > nums.size() / 3) {
             result.push_back(f2);
         }
-        
         return result;
     }
 };
@@ -596,8 +587,8 @@ public:
 <details>
 	
 ```cpp
-```
 
+```
 </details>
 	
 ## 18. Reverse pairs
@@ -607,8 +598,8 @@ public:
 > Refer Q.12
 
 ```cpp
-```
 
+```
 </details>
 
 
