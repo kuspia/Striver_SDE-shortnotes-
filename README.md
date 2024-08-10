@@ -788,11 +788,61 @@ int longestSuccessiveElements(vector<int>&a) {
 
 
 
-## 22. Longest subarray with given sum K (positives
+## 22. Longest subarray with given sum K (positives)
 
 <details>
+
+> To find subarray with sum `k` brute force is to consider all subarrays that cost you n^3 (worst BF approach) however it can be brought down to (n^2) in case you think a little bit, but still it is BF only.
+
+> Join your hands and say with me that I will keep on moving my right hand away from my left hand unless the sum is not equal to k, the moment I hit it as k it's my duty to record the gap, however, if the sum exceeds the given `k` it's the time to move the left hand towards right unless the sum is greater than k, and yeah at every step keep on decreasing the sum with value to which your left hand was pointing.
+
+> Try seeing the code unless you haven't learned it and remember how we did the initial initialization of my variable {left, right, sum}.
+
+```cpp
+int longestSubarrayWithSumK(vector<int> a, long long k) {
+    int n = a.size(); 
+    int left = 0, right = 0; 
+    long long sum = a[0];
+    int maxLen = 0;
+    while (right < n) {
+        while (left <= right && sum > k) {
+            sum -= a[left];
+            left++;
+        }
+        if (sum == k) maxLen = max(maxLen, right - left + 1);
+        right++;
+        if (right < n) sum += a[right];
+    }
+    return maxLen;
+}
+```
+
+> What if my numbers are 0 or negative? There comes a technique that uses the hash map, so the idea is to just store the prefix sum with it's index as the value in the map, remember if you hit the same prefix sum value don't update it because we need to maximize the length of my subarray.
 	
 ```cpp
+int getLongestSubarray(vector<int>& a, long long k) {
+    int n = a.size(); // size of the array.
+    map<long long, int> preSumMap;
+    long long sum = 0;
+    int maxLen = 0;
+    for (int i = 0; i < n; i++) {
+        sum += a[i];
+        if (sum == k) { // Case when your prefix sum is exactly equal to k so just `i+1` will be your answer
+            maxLen = max(maxLen, i + 1);
+        }
+        // calculate the sum of remaining part i.e. x-k:
+        long long rem = sum - k;
+        if (preSumMap.find(rem) != preSumMap.end()) { // Look for `rem` in our map
+            int len = i - preSumMap[rem];
+            maxLen = max(maxLen, len);
+        }
+        //Finally, update the map iff prefix sum is not present in our map
+        if (preSumMap.find(sum) == preSumMap.end()) {
+            preSumMap[sum] = i;
+        }
+    }
+    return maxLen;
+}
 ```
 
 </details>
