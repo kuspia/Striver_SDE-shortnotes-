@@ -754,7 +754,9 @@ public:
 
 > Linear time solution: The time complexity is computed under the assumption that we are using unordered_set and it is taking `O(1)` for the set operations. Time Complexity: `O(N) + O(2*N) ~ O(3*N)`, where `N` = size of the array.
 
-> Reason: O(N) for putting all the elements into the set data structure. After that for every **starting element**, we are finding the consecutive elements. Though we are using nested loops, the set will be traversed at most twice in the worst case. So, the time complexity is O(2*N) instead of O(N^2).
+> Let's understand time complexity: consider this case: [1] 2 3 [6] 7 8 [10] 11 12 13: inside the set (may be in any order), now the first outer loop runs for `n` time, that's fine, now thing is we are picking only starting elements i.e. `1`, `6`, `10`, now when we pick `1` we iterate only till consecutive length which is equals to `3`, cleary we are clear we do `n` times iterations only inside the second loop.
+
+> [Youtube](https://www.youtube.com/watch?v=oO5uLE7EUlM&t=865s)
 
 ```cpp
 int longestSuccessiveElements(vector<int>&a) {
