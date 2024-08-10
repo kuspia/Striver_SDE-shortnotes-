@@ -587,7 +587,18 @@ public:
 <details>
 	
 ```cpp
-
+class Solution {
+public:
+     int countPaths(int i,int j,int n,int m)
+    {
+        if(i==(n-1)&&j==(m-1)) return 1;
+        if(i>=n||j>=m) return 0;
+        else return countPaths(i+1,j,n,m)+countPaths(i,j+1,n,m);
+    }
+    int uniquePaths(int m, int n) {
+       return countPaths(0,0,m,n);
+    }
+};
 ```
 </details>
 	
@@ -595,10 +606,59 @@ public:
 
 <details>
 	
-> Refer Q.12
+> Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/edit/main/README.md#12-inversion-of-array-explanation1-mergesort-vid-animation)
 
 ```cpp
-
+class Solution {
+public:
+int merge(vector<int> &arr, int low, int mid, int high) {
+    vector<int> temp;
+    int left = low;     
+    int right = mid + 1;  
+    long long cnt = 0; 
+    int j = mid +1 ;
+    for(int i = low ; i<=mid ; i++){
+        while(j <= high && arr[i] > 2LL * arr[j]) {cnt += (mid - i + 1);j++;}
+    }
+    while (left <= mid && right <= high) {
+        if (arr[left] <= arr[right]) {
+            temp.push_back(arr[left]);
+            left++;
+        }
+        else {
+            temp.push_back(arr[right]);
+//if(arr[left] > 2LL * arr[right]) cnt += (mid - left + 1); // wrong won't work 
+// take left half: 6 23 55 right: 3 4 5 say left/right poiting at start of both halves
+// arr[0] > arr[0] but arr[0] !> 2arr[0], so if you write above you will skip pairs like (23,3) (55,3)
+            right++;
+        }
+    }
+    while (left <= mid) {
+        temp.push_back(arr[left]);
+        left++;
+    }
+    while (right <= high) {
+        temp.push_back(arr[right]);
+        right++;
+    }
+    for (int i = low; i <= high; i++)  arr[i] = temp[i - low];
+    return cnt; 
+}
+int mergeSort(vector<int> &arr, int low, int high) {
+    if (low >= high) return 0; // array has just one element or you are accessing something invalid
+    long long cnt = 0; 
+    int mid = (low + high) / 2 ;
+    cnt += mergeSort(arr, low, mid);  // left half count
+    cnt += mergeSort(arr, mid + 1, high); // right half count
+    cnt += merge(arr, low, mid, high);  // merging sorted halves count
+    return cnt;
+}
+int numberOfInversions(vector<int>&a, int n) {
+    return mergeSort(a, 0, n - 1);
+}
+int reversePairs(vector<int>& a) {
+    return numberOfInversions(a, a.size());
+}
 ```
 </details>
 
