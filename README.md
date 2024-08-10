@@ -788,7 +788,7 @@ int longestSuccessiveElements(vector<int>&a) {
 
 
 
-## 22. Longest subarray with given sum K (positives)
+## 22. Longest subarray with given sum K
 
 <details>
 
@@ -796,7 +796,7 @@ int longestSuccessiveElements(vector<int>&a) {
 
 > Join your hands and say with me that I will keep on moving my right hand away from my left hand unless the sum is not equal to k, the moment I hit it as k it's my duty to record the gap, however, if the sum exceeds the given `k` it's the time to move the left hand towards right unless the sum is greater than k, and yeah at every step keep on decreasing the sum with value to which your left hand was pointing.
 
-> Try seeing the code unless you haven't learned it and remember how we did the initial initialization of my variable {left, right, sum}.
+> Try seeing the code unless you haven't learned it and remember how we did the initial initialization of my variable {left, right, sum}. TC: O(2*N)
 
 ```cpp
 int longestSubarrayWithSumK(vector<int> a, long long k) {
@@ -804,8 +804,8 @@ int longestSubarrayWithSumK(vector<int> a, long long k) {
     int left = 0, right = 0; 
     long long sum = a[0];
     int maxLen = 0;
-    while (right < n) {
-        while (left <= right && sum > k) {
+    while (right < n) { // n complexity 
+        while (left <= right && sum > k) { // overall this loop runs for n times hence contribute n time complexity throught the code 
             sum -= a[left];
             left++;
         }
@@ -818,6 +818,8 @@ int longestSubarrayWithSumK(vector<int> a, long long k) {
 ```
 
 > What if my numbers are 0 or negative? There comes a technique that uses the hash map, so the idea is to just store the prefix sum with it's index as the value in the map, remember if you hit the same prefix sum value don't update it because we need to maximize the length of my subarray.
+                           
+> Idea: _____ (x-k) _______ Break-point _____ k ____ (let is be a array whose sum(prefix) is x at some point, now if I look back and I found a prefix sum = (x-k), this implies that yes we encountered a subarray just now whose sum = k
 	
 ```cpp
 int getLongestSubarray(vector<int>& a, long long k) {
@@ -847,12 +849,130 @@ int getLongestSubarray(vector<int>& a, long long k) {
 
 </details>
 
+## 23. Number of subarrays with xor = b
+
+<details>
+	
+> Similar to Longest subarray with sum = K, but few things to notice are:  ________ x^b ______ ? ________ .let till this point xor is `x` we let that before that wee have encountered a xor value = `x^b`, then `?` has to be = `b` only, to satisfy the property `(x^b ^ ? = x) ? = b` so this is how we got a subarray with xor value = `b`
+	
+```cpp
+int Solution::solve(vector<int> &A, int B) {
+    int n = A.size();
+    int xorSum = 0;
+    int count = 0;
+    unordered_map<int, int> xorCount;
+    for (int i = 0; i < n; i++) {
+        xorSum ^= A[i];
+        if (xorSum == B)  count++;
+        if (xorCount.find(xorSum ^ B) != xorCount.end())  count += xorCount[xorSum ^ B];
+        xorCount[xorSum]++;
+    }
+    return count;
+}
+```
+</details>
+
+## 24. 
+
+<details>
+```cpp
+```
+</details>
+
+## 25. 
+
+<details>
+```cpp
+```
+</details>
+
+## 26. 
+
+<details>
+```cpp
+```
+</details>
+
+## 27. 
+
+<details>
+```cpp
+```
+</details>
+
+## 28. 
+
+<details>
+```cpp
+```
+</details>
+
+## 29. 
+
+<details>
+```cpp
+```
+</details>
+
+## 30. 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+## 31. 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+## 32. 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+## 33. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+## 34. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+## 35. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
 
 
 
