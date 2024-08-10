@@ -612,7 +612,7 @@ public:
 	
 > Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#12-inversion-of-array-explanation1-mergesort-vid-animation)
 
-> left(low) ______ i _________ mid     mid+1(right) _______ j ________ high, so if `a[i] > 2 * a[j]` then just a observation `right` to `j` will also satisfy the condition 
+> left(low) ______ i _________ mid     mid+1(right) _______ j ________ high, so if `a[i] > 2 * a[j]` then just a observation `right` to `j` will also satisfy the condition and that's what form the intution of the problem, notice we increment `i` and `j` in not more than `n` cost, we did it cleverly
 
 ```cpp
 class Solution {
@@ -623,9 +623,10 @@ int merge(vector<int> &arr, int low, int mid, int high) {
     int right = mid + 1;  
     long long cnt = 0; 
     int j = mid +1 ;
-    for(int i = low ; i<=mid ; i++){
-        while(j <= high && arr[i] > 2LL * arr[j]) {cnt += (mid - i + 1);j++;}
+    for (int i = low; i <= mid; ++i) { while (j <= high && arr[i] > 2LL * arr[j]) ++j;
+    cnt += (right - (mid + 1));
     }
+
     while (left <= mid && right <= high) {
         if (arr[left] <= arr[right]) {
             temp.push_back(arr[left]);
@@ -633,7 +634,7 @@ int merge(vector<int> &arr, int low, int mid, int high) {
         }
         else {
             temp.push_back(arr[right]);
-//if(arr[left] > 2LL * arr[right]) cnt += (mid - left + 1); // wrong won't work 
+            //if(arr[left] > 2LL * arr[right]) cnt += (mid - left + 1); // wrong won't work 
             right++;
         }
     }
