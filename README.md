@@ -628,8 +628,6 @@ int merge(vector<int> &arr, int low, int mid, int high) {
         else {
             temp.push_back(arr[right]);
 //if(arr[left] > 2LL * arr[right]) cnt += (mid - left + 1); // wrong won't work 
-// take left half: 6 23 55 right: 3 4 5 say left/right poiting at start of both halves
-// arr[0] > arr[0] but arr[0] !> 2arr[0], so if you write above you will skip pairs like (23,3) (55,3)
             right++;
         }
     }
