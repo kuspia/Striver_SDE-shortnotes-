@@ -410,7 +410,37 @@ int numberOfInversions(vector<int>&a, int n) {
 }
 ```
 
+13. Search in 2D matrix
 
+```
+```
+
+15. Pow(x,n)
+
+```
+```
+
+17. Majority (>n/2)
+
+```
+```
+
+19. Majority (>n/3)
+
+```
+```
+
+21. Grid unique paths
+
+```
+```
+
+23. Reverse pairs
+
+> Refer Q.12
+
+```
+```
 
 
 
