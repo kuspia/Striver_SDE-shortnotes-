@@ -1,6 +1,6 @@
 # Striver_SDE sheet solution
 
-1. Set matrix zero
+## 1. Set matrix zero
 
 > You can create a lookup row and col for each cell, the idea is to suppose we are allowed to take extra space and then create row_lookup[c] and col_lookup[r], size is shown in the [], now just iterate and wherever you find 1 mark corresponding position in both lookup tables, finally reiterate the whole matrix and see if you have marked in any of the lookup tables from the both if yes set that cell to 1.
 
@@ -39,7 +39,7 @@ class Solution
     }
 };
 ```
-2. Pascal Triangle
+## 2. Pascal Triangle
 
 > n space problem (easy)
 
@@ -77,7 +77,7 @@ public:
     }
 };
 ```
-3. Next Permutation
+## 3. Next Permutation
 
 > The idea is based upon the fact that always remember that when we want to create the next permutation we try to choose the next value as close as possible to the given value, (basically a next greater permutation), ex: 1 3 4 2
 
@@ -119,7 +119,7 @@ public:
 };
 ```
 
-4. Kadane Algo: Find the subarray with the largest sum, and return its sum.
+## 4. Kadane Algo: Find the subarray with the largest sum, and return its sum.
 
 > The only thing that you should understand here is we break the subarray as soon as the overall sum becomes **-ve**, the only reason for doing so is that taking some -ve sum won't help us further because if you add it you will just decrease the overall maximizing sum that we need. When every element is negative has been handled explicitly.
 
@@ -147,7 +147,7 @@ public:
 };
 ```
 
-5. Sort array having 0,1,2 (three elements only)
+## 5. Sort array having 0,1,2 (three elements only)
 
 > Just remember we need 3 pointers, `l/m/h` and yes `m` is like an iterator throughout the array while `l` and `h` are useful to mark the boundary for `0` and `1` respectively.
 
@@ -171,7 +171,7 @@ void sortArray(vector<int>& arr, int n) {
 }
 ```
 
-6. Stock Buy and Sell [SP - CP]: You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. 
+## 6. Stock Buy and Sell [SP - CP]: You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. 
 
 > Make a Graph and observe that u have to choose largest slant line inclined towards right, (left is not possible as we need to choose to buy and then sell), Please note two points can be connected from any one to another to observe the required line which we are looking for,
 
@@ -192,7 +192,7 @@ int maxProfit(vector<int> &arr) {
 }
 ```
 
-7. Rotate the matrix 90 degrees clockwise
+## 7. Rotate the matrix 90 degrees clockwise
 
 > swap(a[i], a[j]) and then reverse every row.
 
@@ -206,7 +206,7 @@ void rotate(vector < vector < int >> & matrix) {
 }
 ```
 
-8. Merge overlapping subintervals
+## 8. Merge overlapping subintervals
 
 > Sort `iv` based on the first element and then the second element, in your hand, pick the first interval and say it is `cur` now with further intervals [1 to iv. size()-1]. Check whether there is overlap, if yes try expanding the cur interval to max boundary points else push it to the answer and choose a new interval as your `cur`.
 
@@ -234,7 +234,7 @@ public:
     }
 };
 ```
-9. Merge 2 sorted array (no extra space)
+## 9. Merge 2 sorted array (no extra space)
 
 > To do it in `O(n+m)` you can take the extra space and do it, however, that approach is similar to what we did in merge sort, but to do it in 1 space we need `O(nlgn)` time, now we assume that `a` will keep the smallest element at [0] while `b` keeps the largest element at last in it, so please remember the initialization which has utmost importance = Place the pointer at the last of `a` and at the beginning of the array `b`. A way to remember is take two array so when you join them, pointers are supposed to be placed at the joints.
 
@@ -257,7 +257,7 @@ void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long lon
 }
 ```
 
-10. Find duplicate in array of N+1 integers
+## 10. Find duplicate in array of N+1 integers
 
 > Refer Q.11 M3
 
@@ -275,7 +275,7 @@ public:
 };
 ```
 
-11. Repeat and missing number
+## 11. Repeat and missing number
 
 > M1: Let the array size be n, so as per the expectations 1 to n numbers were supposed to be present in it. However, one guy is missing while the other guy is being repeated. We use BF to find the missing/repeating number by having doubt over every single number from 1 to n  and then checking it with the given array. Clearly, it takes `O(2*n^2)`.
 
@@ -334,7 +334,7 @@ vector<int> findMissingRepeatingNumbers(vector<int> a) {
 }
 ```
 
-11.1. Extension problem: Imagine if you had elements from 0 to n-1 and an array of size n, then let's say elements, appear more than once like n=10: [0 1 0 0 1 1 5 9 9 0], how do we find all duplicates and missing exactly once in `n` time and `1` space?  Here what we do is we go to arr[i] index, and increase that index by n every time, the rest code is self-explanatory.
+## 11.1. Extension problem: Imagine if you had elements from 0 to n-1 and an array of size n, then let's say elements, appear more than once like n=10: [0 1 0 0 1 1 5 9 9 0], how do we find all duplicates and missing exactly once in `n` time and `1` space?  Here what we do is we go to arr[i] index, and increase that index by n every time, the rest code is self-explanatory.
 
 ```
 class Solution {
@@ -362,7 +362,7 @@ public:
 };
 ```
 
-12. Inversion of array [explanation1](https://www.youtube.com/watch?v=AseUmwVNaoY&t=364s) [mergesort-vid-animation](https://www.youtube.com/watch?v=5Z9dn2WTg9o)
+## 12. Inversion of array [explanation1](https://www.youtube.com/watch?v=AseUmwVNaoY&t=364s) [mergesort-vid-animation](https://www.youtube.com/watch?v=5Z9dn2WTg9o)
 
 > You should note that we recur for the left and right parts so that also gives me an inversion count we need to add both and when you merge the two halves at any step it also generates the count so we need to add up the count for three cases, now when we go to merge and we say while merging if a guy from left half becomes greater than any guy on the right then everyone following the guy on the left side including it will be greater than the right half guy, so that's what is used to count the inversions. `cnt += (mid - left + 1); //Trick`
 
@@ -410,7 +410,7 @@ int numberOfInversions(vector<int>&a, int n) {
 }
 ```
 
-13. Search in 2D matrix
+## 13. Search in 2D matrix
 
 > You can actaully flatten `2D` matrix to `1D` array and you will have sorted array tbh, that's what we have been doing but cleverly 
 
@@ -430,7 +430,7 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 }
 ```
 
-15. Pow(x,n) x^n 
+## 14. Pow(x,n) x^n 
 
 ```
 class Solution {
@@ -449,7 +449,7 @@ public:
 };
 ```
 
-17. Majority (>n/2)
+## 15. Majority (>n/2)
 
 ```
 class Solution {
@@ -471,7 +471,7 @@ public:
 };
 ```
 
-19. Majority (>n/3)
+## 16. Majority (>n/3)
 
 ```
 class Solution {
@@ -519,12 +519,12 @@ public:
 };
 ```
 
-21. Grid unique paths
+## 17. Grid unique paths
 
 ```
 ```
 
-23. Reverse pairs
+## 18. Reverse pairs
 
 > Refer Q.12
 
