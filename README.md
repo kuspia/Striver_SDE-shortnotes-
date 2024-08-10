@@ -417,6 +417,8 @@ public:
 
 > You should note that we recur for the left and right parts so that also gives me an inversion count we need to add both and when you merge the two halves at any step it also generates the count so we need to add up the count for three cases, now when we go to merge and we say while merging if a guy from left half becomes greater than any guy on the right then everyone following the guy on the left side including it will be greater than the right half guy, so that's what is used to count the inversions. `cnt += (mid - left + 1); //Trick`
 
+> low ______ left _________ mid     mid+1 _______ right ________ high, so if `a[left] > a[right]` then we are sure, left to mid `(mid - left + 1)` are also greater than `a[right]`, this forms the intuition for this problem 
+
 ```cpp
 int merge(vector<int> &arr, int low, int mid, int high) {
     vector<int> temp;
@@ -609,6 +611,8 @@ public:
 > Imagine two sorted array and we need to count such that `i < j && a[i] > 2a[j]` so imagine `i` is on left sorted array and `j` is on the right sorted array so we are done with `i < j`, now 
 	
 > Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#12-inversion-of-array-explanation1-mergesort-vid-animation)
+
+> left(low) ______ i _________ mid     mid+1(right) _______ j ________ high, so if `a[i] > 2 * a[j]` then 
 
 ```cpp
 class Solution {
