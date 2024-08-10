@@ -412,22 +412,111 @@ int numberOfInversions(vector<int>&a, int n) {
 
 13. Search in 2D matrix
 
-```
-```
-
-15. Pow(x,n)
+> You can actaully flatten `2D` matrix to `1D` array and you will have sorted array tbh, that's what we have been doing but cleverly 
 
 ```
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    int low = 0, high = n * m - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        int row = mid / m, col = mid % m;
+        if (matrix[row][col] == target) return true;
+        else if (matrix[row][col] < target) low = mid + 1;
+        else high = mid - 1;
+    }
+    return false;
+}
+```
+
+15. Pow(x,n) x^n 
+
+```
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if (n == 0)   return 1.0;
+        double result = 1.0;
+        long long absN = abs(static_cast<long long>(n));
+        while (absN > 0) {
+            if (absN & 1)  result *= x;
+            x *= x;
+            absN >>= 1;
+        }
+        return (n < 0) ? (1.0 / result) : result;
+    }
+};
 ```
 
 17. Majority (>n/2)
 
 ```
+class Solution {
+public:
+    int majorityElement(vector<int>& a) {
+        int f ;
+        int c1 = 0;
+        for (auto no: a){
+            if(no == f) c1++;
+            else if (c1 == 0) f = no;
+            else c1--;
+        }
+        int cnt = 0 ;
+        for (auto no: a) if(f == no) cnt++;
+        if(cnt > a.size()/2) return f;
+        return -1;
+
+    }
+};
 ```
 
 19. Majority (>n/3)
 
 ```
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int f1 = 0, f2 = 0;
+        int c1 = 0, c2 = 0;
+        
+        // Find potential majority elements
+        for (int num : nums) {
+            if (num == f1) {
+                c1++;
+            } else if (num == f2) {
+                c2++;
+            } else if (c1 == 0) {
+                f1 = num;
+                c1 = 1;
+            } else if (c2 == 0) {
+                f2 = num;
+                c2 = 1;
+            } else {
+                c1--;
+                c2--;
+            }
+        }
+        // Count the occurrences of potential majority elements
+        c1 = c2 = 0;
+        for (int num : nums) {
+            if (num == f1) {
+                c1++;
+            } else if (num == f2) {
+                c2++;
+            }
+        }
+        vector<int> result;
+        if (c1 > nums.size() / 3) {
+            result.push_back(f1);
+        }
+        if (c2 > nums.size() / 3) {
+            result.push_back(f2);
+        }
+        
+        return result;
+    }
+};
 ```
 
 21. Grid unique paths
