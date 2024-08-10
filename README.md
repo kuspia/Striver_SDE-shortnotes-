@@ -676,7 +676,8 @@ int reversePairs(vector<int>& a) {
 
 </details>
 
-## 19. Two sum 
+
+## 00. 
 
 <details>
 	
@@ -684,86 +685,8 @@ int reversePairs(vector<int>& a) {
 ```
 
 </details>
-## 19. Two sum 
 
-<details>
-	
-```cpp
-```
 
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
-## 19. Two sum 
-
-<details>
-	
-```cpp
-```
-
-</details>
 
 
 
