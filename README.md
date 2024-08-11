@@ -1499,7 +1499,7 @@ public:
 };
 ```
 
-> You are taking `2N` space can you please not take it? 
+> You are taking `2N` space can you please not take it? go through the code, now when we stand at some building what we want is min(leftMax, rightMax), so how this thing is guaranteed, this is because we always pick the smaller height buidling therefore among `leftMax` and `rightMax` by default automatically the smaller one is choosen.
 
 ```cpp
 class Solution {
@@ -1511,12 +1511,12 @@ public:
         int water_trapped = 0;
         while (left <= right) {
             if (height[left] <= height[right]) {
-                if (height[left] >= left_max) left_max = height[left];
-                else water_trapped += left_max - height[left];  
+                if (height[left] >= left_max) left_max = height[left]; // case when the building we are standing is even exceding the left_max building
+                else water_trapped += left_max - height[left]; // we can store the water with help of left_max building
                 ++left;
             } else {
-                if (height[right] >= right_max) right_max = height[right];
-                else water_trapped += right_max - height[right];
+                if (height[right] >= right_max) right_max = height[right]; // case when the building we are standing is even exceding the right_max building
+                else water_trapped += right_max - height[right]; // we can store the water with help of right_max building
                 --right;
             }
         }
