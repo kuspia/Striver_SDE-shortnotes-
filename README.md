@@ -1,6 +1,6 @@
-<img width="1139" alt="Screenshot 2024-08-11 at 18 24 54" src="https://github.com/user-attachments/assets/1bdc0f77-e245-4579-ba90-a20910bdcc44"># Striver_SDE sheet solution
+## Striver_SDE sheet solution
 
-## 1. Set matrix zero
+### 1. Set matrix zero
 
 <details>
 	
@@ -43,7 +43,7 @@ class Solution
 ```
 </details>
 
-## 2. Pascal Triangle
+### 2. Pascal Triangle
 
 <details>
 	
@@ -87,7 +87,7 @@ public:
 </details>
 
 
-## 3. Next Permutation
+### 3. Next Permutation
 
 <details>
 	
@@ -133,7 +133,7 @@ public:
 
 </details>
 	
-## 4. Kadane Algo: Find the subarray with the largest sum, and return its sum.
+### 4. Kadane Algo: Find the subarray with the largest sum, and return its sum.
 
 <details>
 	
@@ -164,7 +164,7 @@ public:
 ```
 </details>
 	
-## 5. Sort array having 0,1,2 (three elements only)
+### 5. Sort array having 0,1,2 (three elements only)
 
 <details>
 	
@@ -192,7 +192,7 @@ void sortArray(vector<int>& arr, int n) {
 
 </details>
 	
-## 6. Stock Buy and Sell:
+### 6. Stock Buy and Sell:
 
 <details>
 
@@ -219,7 +219,7 @@ int maxProfit(vector<int> &arr) {
 
 </details>
 
-## 7. Rotate the matrix 90 degrees clockwise
+### 7. Rotate the matrix 90 degrees clockwise
 
 <details>
 
@@ -237,7 +237,7 @@ void rotate(vector < vector < int >> & matrix) {
 
 </details>
 
-## 8. Merge overlapping subintervals
+### 8. Merge overlapping subintervals
 
 <details>
 
@@ -271,7 +271,7 @@ public:
 </details>
 
 
-## 9. Merge 2 sorted array (no extra space)
+### 9. Merge 2 sorted array (no extra space)
 
 <details>
 	
@@ -298,7 +298,7 @@ void mergeTwoSortedArraysWithoutExtraSpace(vector<long long> &a, vector<long lon
 
 </details>
 	
-## 10. Find duplicate in array of N+1 integers
+### 10. Find duplicate in array of N+1 integers
 
 <details>
 	
@@ -321,7 +321,7 @@ public:
 </details>
 
 
-## 11. Repeat and missing number
+### 11. Repeat and missing number
 
 <details>
 	
@@ -382,7 +382,7 @@ vector<int> findMissingRepeatingNumbers(vector<int> a) {
 }
 ```
 
-## 11.1. Extension problem: Imagine if you had elements from 0 to n-1 and an array of size n, then let's say elements, appear more than once like n=10: [0 1 0 0 1 1 5 9 9 0], how do we find all duplicates and missing exactly once in `n` time and `1` space?  Here what we do is we go to arr[i] index, and increase that index by n every time, the rest code is self-explanatory.
+### 11.1. Extension problem: Imagine if you had elements from 0 to n-1 and an array of size n, then let's say elements, appear more than once like n=10: [0 1 0 0 1 1 5 9 9 0], how do we find all duplicates and missing exactly once in `n` time and `1` space?  Here what we do is we go to arr[i] index, and increase that index by n every time, the rest code is self-explanatory.
 
 ```cpp
 class Solution {
@@ -412,7 +412,7 @@ public:
 
 </details>
 
-## 12. Inversion of array [explanation1](https://www.youtube.com/watch?v=AseUmwVNaoY&t=364s) [mergesort-vid-animation](https://www.youtube.com/watch?v=5Z9dn2WTg9o)
+### 12. Inversion of array [explanation1](https://www.youtube.com/watch?v=AseUmwVNaoY&t=364s) [mergesort-vid-animation](https://www.youtube.com/watch?v=5Z9dn2WTg9o)
 
 
 <details>
@@ -468,7 +468,7 @@ int numberOfInversions(vector<int>&a, int n) {
 </details>
 
  
-## 13. Search in 2D matrix
+### 13. Search in 2D matrix
 
 <details>
 	
@@ -492,7 +492,7 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 
 </details>
 	
-## 14. Pow(x,n) x^n 
+### 14. Pow(x,n) x^n 
 
 <details>
 	
@@ -515,7 +515,7 @@ public:
 
 </details>
 
-## 15. Majority (>n/2)
+### 15. Majority (>n/2)
 
 <details>
 
@@ -540,7 +540,7 @@ public:
 
 </details>
 	
-## 16. Majority (>n/3)
+### 16. Majority (>n/3)
 
 <details>
 
@@ -586,7 +586,7 @@ public:
 
 </details>
 
-## 17. Grid unique paths
+### 17. Grid unique paths
 
 <details>
 	
@@ -606,7 +606,7 @@ public:
 ```
 </details>
 	
-## 18. Reverse pairs
+### 18. Reverse pairs
 
 <details>
 
@@ -669,7 +669,7 @@ int reversePairs(vector<int>& a) {
 ```
 </details>
 
-## 19. 2 sum 
+### 19. 2 sum 
 
 <details>
 
@@ -683,7 +683,7 @@ int reversePairs(vector<int>& a) {
 </details>
 
 
-## 20. 4 sum
+### 20. 4 sum
 
 <details>
 
@@ -725,7 +725,7 @@ public:
 </details>
 
 
-## 21. Longest Consecutive Subsequence
+### 21. Longest Consecutive Subsequence
 
 <details>
 
@@ -788,7 +788,7 @@ int longestSuccessiveElements(vector<int>&a) {
 
 
 
-## 22. Longest subarray with given sum K
+### 22. Longest subarray with given sum K
 
 <details>
 
@@ -849,7 +849,7 @@ int getLongestSubarray(vector<int>& a, long long k) {
 
 </details>
 
-## 23. Number of subarrays with xor = b
+### 23. Number of subarrays with xor = b
 
 <details>
 	
@@ -874,7 +874,7 @@ int Solution::solve(vector<int> &A, int B) {
 ```
 </details>
 
-## 24. Longest substring without repeat
+### 24. Longest substring without repeat
 
 <details>
 	
@@ -904,7 +904,7 @@ public:
 
 </details>
 
-## 25. Reverse a LL
+### 25. Reverse a LL
 <details>
 	
 > You should remember this as we often require this reversal technique most of the time. nh(NULL) : <- (todo) : [h] -> [] -> [] -> null
@@ -926,7 +926,7 @@ public:
 ```
 </details>
 
-## 26. Middle of LL
+### 26. Middle of LL
 
 <details>
 
@@ -952,7 +952,7 @@ public:
 ```
 </details>
 
-## 27. Merge two sorted LL
+### 27. Merge two sorted LL
 
 <details>
 
@@ -982,7 +982,7 @@ public:
 ```
 </details>
 
-## 28. Remove Nth node from back of LL 
+### 28. Remove Nth node from back of LL 
 
 <details>
 
@@ -1014,7 +1014,7 @@ public:
 ```
 </details>
 
-## 29. Add two numbers as LLs (numbers are stored in reverse order)
+### 29. Add two numbers as LLs (numbers are stored in reverse order)
 
 <details>
 	
@@ -1050,7 +1050,7 @@ public:
 ```
 </details>
 
-## 30. Delete a given node from LL O(1)
+### 30. Delete a given node from LL O(1)
 
 <details>
 
@@ -1070,7 +1070,7 @@ public:
 
 </details>
 
-## 31. Intersection of two LL (Y structure pattern not X pattern)
+### 31. Intersection of two LL (Y structure pattern not X pattern)
 
 <details>
 
@@ -1100,7 +1100,7 @@ public:
 
 </details>
 
-## 32. Cycle in LL
+### 32. Cycle in LL
 
 <details>
 
@@ -1132,7 +1132,7 @@ public:
 
 </details>
 
-## 33. Reverse a LL in a group of size k
+### 33. Reverse a LL in a group of size k
 
 <details>
 	
@@ -1172,7 +1172,7 @@ public:
 
 </details>
 
-## 34. Palindrome LL
+### 34. Palindrome LL
 
 <details>
 
@@ -1233,7 +1233,7 @@ return prev;
 
 </details>
 
-## 35. Starting point of loop in LL
+### 35. Starting point of loop in LL
 
 <details>
 
@@ -1267,7 +1267,7 @@ public:
 </details>
 
 
-## 36. Flattening of LL
+### 36. Flattening of LL
 
 <details>
 
@@ -1320,7 +1320,7 @@ Node *flatten(Node *r)
 
 </details>
 
-## 37. Rotate a LL
+### 37. Rotate a LL
 
 <details>
 > <img width="286" alt="Screenshot 2024-08-11 at 18 17 16" src="https://github.com/user-attachments/assets/38f89328-dc0a-4b5e-95c5-23cc5520aca7">
@@ -1351,7 +1351,7 @@ public:
 
 </details>
 
-## 38. Clone a LL with random and next pointer
+### 38. Clone a LL with random and next pointer
 
 <details>
 
@@ -1400,7 +1400,7 @@ public:
 
 </details>
 
-## 39. 3 sum: Find triplets that add up to a zero
+### 39. 3 sum: Find triplets that add up to a zero
 
 <details>
 
@@ -1471,7 +1471,7 @@ public:
 
 </details>
 
-## 40. Trapping Rainwater
+### 40. Trapping Rainwater
 
 <details>
 
@@ -1526,7 +1526,7 @@ public:
 
 </details>
 
-## 41. Remove duplicates from sorted array
+### 41. Remove duplicates from sorted array
 
 <details>
 
@@ -1536,7 +1536,7 @@ public:
 
 </details>
 
-## 42. Max consecutive ones
+### 42. Max consecutive ones
 
 <details>
 
@@ -1546,7 +1546,7 @@ public:
 
 </details>
 
-## 43. 
+### 43. 
 
 <details>
 
