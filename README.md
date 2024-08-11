@@ -1100,22 +1100,72 @@ public:
 
 </details>
 
-## 32. 
+## 32. Cycle in LL
 
 <details>
 
+> Maintain slow and fast pointers where slow and fast have different speeds of traversing the LL, if at any point you encounter a null pointed by slow or fast that means there is no cycle else those slow and fast pointers will definitely meet that confirms there is a cycle and we return 1.
+
+> Please note that they may meet anywhere at any node in the cycle not necessarily at the starting point or somewhere. Also, see our fast pointer try to catch the slow one, the slow pointer is guaranteed to be caught in one completion round of the circle it can't take more than one round however fast may take `n` complete rotations + a few steps from the starting point of the circle to catch the slow.
+
+> So let's say from head to starting point distance is `l1`, and the point of meetup from the starting point of the circle is at distance `l2` so slow pointer will travel l1+l2 distance while fast will travel `l1+l2+nc` distance => [`2*(l1+l2)` `=` `l1+l2+nc`], clearly fast travel twice the distance slow does, therefore you can get a relation as `l1 = nc -l2`, so if you need to locate the starting point then move a pointer from the head and move another pointer from the meetup point by one step and wherever they will meet will be your starting point of the circle. 
 
 ```cpp
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *s = head ;
+        ListNode *f = head ;
+        while(1){
+            if(!s) return 0;
+            s = s-> next ;
+            if(!s) return 0;
+            f = f-> next ;
+            if(!f) return 0;
+            f = f->next;
+            if(!f) return 0;
+            if(s == f) return 1;
+        }
+    }
+};
 ```
 
 </details>
 
-## 33. 
+## 33. Reverse a LL in a group of size k
 
 <details>
 
+> Self-explanatory code, very interesting just see it at least 2-3 times, the idea is to check this: `if (len < k) return h` before you process any recursion call if it fails then simply reverse the `k` size LL from the current state value of `h` using two pointers `prev` and `current` which is very easy and clearly h->next in your current state of recursion call will point to some node that will be returned by the next recursion call which will accept new head as the `current` pointer value. The new head of the reversed group will be pointed by your `prev` pointer if you observe carefully.
 
 ```cpp
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* h, int k) {
+
+        int len = 0;
+        ListNode* current = h;
+        while (current) {len++;current = current->next;}
+        // Check if there are at least k nodes in the remaining part
+        if (len < k) return h;
+        
+        // Reverse the first k nodes in the current group
+        ListNode* prev = nullptr;
+        current = h;
+        for (int i = 0; i < k; i++) {
+            ListNode* tmp = current->next;
+            current->next = prev;
+            prev = current;
+            current = tmp;
+        }
+        
+        // Recursively reverse the next k nodes and connect the groups
+        h->next = reverseKGroup(current, k);
+        
+        // Return the new head of the reversed group
+        return prev;
+    }
+};
 ```
 
 </details>
