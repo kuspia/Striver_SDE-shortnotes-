@@ -904,10 +904,25 @@ public:
 
 </details>
 
-## 25. 
-
+## 25. Reverse a LL
 <details>
+	
+> You should remember this as we often require this reversal technique most of the time. [h] -> [] -> [] -> null
+
 ```cpp
+class Solution {
+public:
+    ListNode* reverseList(ListNode* h) {
+        ListNode* nh = NULL;
+        while(h){
+            ListNode* temp = h->next;
+            h->next = nh;
+            nh = h;
+            h = temp;
+        }
+        return nh;
+    }
+};
 ```
 </details>
 
