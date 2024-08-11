@@ -1530,8 +1530,28 @@ public:
 
 <details>
 
+> n cost: easy just take two pointers pointing at index 1 now iterate the array unless `i` doesn't hit `n`, so what happens is we just check it with the previous element if `a[i] == a[i-1]` simply move on, otherwise try storing `a[i]` at `a[j]`, also in that case move both `i` and `j` pointers. Basically `j` pointer is used to store non-repeated elements, 
 
 ```cpp
+class Solution {
+public:
+    int removeDuplicates(vector<int>& a) {
+        int n = a.size();
+        int k = 0;
+        int i = 1, j=1;
+        while(i!=n){
+            if(a[i] == a[i-1]) {
+                i++;
+                continue;
+            }else{
+                a[j] = a[i];
+                j++;
+                i++;
+            }
+        }
+        return j;
+    }
+};
 ```
 
 </details>
@@ -1540,8 +1560,23 @@ public:
 
 <details>
 
+> The intuition is based upon the fact that whenever you encounter a 0 that means it's a breakpoint of my previously followed 1's count, also note that you may get lot of consecutive 1 series but we need to keep track of the max count, so see the code carefully to get the gist.
 
 ```cpp
+class Solution {
+public:
+    int findMaxConsecutiveOnes(vector<int>& nums) {
+        int max_count = 0; // To store the maximum length of consecutive 1s
+        int current_count = 0; // To count the current streak of 1s
+        for (int num : nums) {
+            if (num == 1) current_count++;
+            else current_count = 0;
+            max_count = max(max_count, current_count);
+        }
+        return max_count;
+    }
+};
+
 ```
 
 </details>
