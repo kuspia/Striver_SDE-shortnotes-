@@ -1320,7 +1320,81 @@ Node *flatten(Node *r)
 
 </details>
 
-## 37. 
+## 37. Rotate a LL
+
+<details>
+> <img width="286" alt="Screenshot 2024-08-11 at 18 17 16" src="https://github.com/user-attachments/assets/38f89328-dc0a-4b5e-95c5-23cc5520aca7">
+
+> Please note we need to find the length and then point the tail node to the head and k+1th node to null counted from the right-hand side in the original LL.
+
+```cpp
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if (!head || k == 0)  return head;
+        int length = 1;
+        ListNode* tail = head;
+        while (tail->next) {
+            length++;
+            tail = tail->next;
+        }
+        k = k % length; // Calculate effective rotation amount
+        if (k == 0)   return head; // No rotation needed
+        tail->next = head; // Connect the tail to the head to form a loop
+        for (int i = 0; i < length - k; i++)  tail = tail->next;
+        ListNode* newHead = tail->next;
+        tail->next = nullptr;
+        return newHead;
+    }
+};
+```
+
+</details>
+
+## 38. Clone a LL with random and next pointer
+
+<details>
+
+> Idea is based on the fact that we create a new node between every two nodes and connect the next pointers of each other after that we try to connect null pointers and then the next pointers, make sure you preserve the old LL connections too at the end, connecting next pointers is kinda tricky however random is very easy.
+
+```cpp
+class Solution {
+public:
+    Node* copyRandomList(Node* h) {
+        if(!h) return h;
+        Node* th = h;
+        Node* nh = NULL ;
+        // trying to create a new node between every two nodes and connecting the next pointers of each other
+        while(th){ 
+         Node *new_node = new Node(th->val);
+            Node* temp = th -> next ;
+            th->next = new_node;
+            new_node->next = temp;
+            th = th -> next->next ;
+        }
+        th = h;
+        while(th){ // connect the new LL random pointers 
+            if(th->random) th->next->random = th-> random -> next ;
+            else th->next->random = NULL;
+            th = th->next->next;
+        }
+        th = h;
+        nh = h->next;
+            while(th){ // connect the new LL next pointers and old LL next pointers too
+            Node* fh =  th->next ;
+            th -> next = fh -> next ;
+            th = th -> next ;
+            if(th) fh -> next = th -> next ;
+            else  fh -> next = NULL;
+        } 
+        return nh;
+    }
+};
+```
+
+</details>
+
+## 39. 3 sum
 
 <details>
 
@@ -1329,6 +1403,47 @@ Node *flatten(Node *r)
 ```
 
 </details>
+
+## 40. Trapping Rainwater
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+## 41. Remove duplicates from sorted array
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+## 42. Max consecutive ones
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+## 43. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
 
 
 
