@@ -1172,22 +1172,96 @@ public:
 
 </details>
 
-## 34. 
+## 34. Palindrome LL
 
 <details>
 
+> Easy, find the length and then reverse the next half of LL and maintain two pinter one at the beginning and one at the start of the reversed right half of the LL, compare one by one, please note first see the even length code then odd (we have skipped middle element in the case of odd).
 
 ```cpp
+class Solution {
+public:
+ListNode* reverse(ListNode* h){
+ListNode* prev = NULL;
+while(h){
+    ListNode* nxt = h->next;
+    h->next = prev;
+    prev = h;
+    h = nxt;
+}
+return prev;
+}
+    bool isPalindrome(ListNode* h) {
+        if( ! h->next ) return 1; // case of 1 node 
+        ListNode *dh, *pt;
+        dh = h;
+        int len =0;
+        while(dh){
+            len++;
+            dh= dh->next;
+        }
+        if(len&1){
+             dh = h; // 1 2 3 4 5
+            int op = len / 2; // op is 2
+            while (op--) dh = dh->next; // dh points at 3 now
+            dh->next = reverse(dh->next);  // 1 2 3 5 4
+            dh = dh->next; // dh points at 5 now (skipped middle element cleverly as the length was odd
+            pt = h;
+            while (pt->val == dh->val) {
+                pt = pt->next;
+                dh = dh->next;
+                if (!dh) return 1;
+            }
+        }else{
+            dh = h;
+            int op = len/2;
+            op--;
+            while(op--) dh = dh->next ; // 1 2 3 4 5 6 
+            dh->next = reverse(dh->next); // here for above example dh will point at // 1 2 3 6 5 4
+            dh = dh->next ; // now dh points to 6
+            pt = h ;
+            while(pt->val == dh->val){
+                pt = pt->next;
+                dh = dh->next;
+                if(!dh) return 1; 
+            }
+        }
+        return 0; 
+    }
+};
 ```
 
 </details>
 
-## 35. 
+## 35. Starting point of loop in LL
 
 <details>
 
+> Refer [Q.32](https://github.com/kuspia/Striver_SDE-shortnotes-#32-cycle-in-ll)
 
 ```cpp
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *s = head ;
+        ListNode *f = head ;
+        while(1){
+            if(!s) return NULL;
+            s = s-> next ;
+            if(!s) return NULL;
+            f = f-> next ;
+            if(!f) return NULL;
+            f = f->next;
+            if(!f) return NULL;
+            if(s == f) break;
+        }
+        while(head!=s){
+            s = s->next;
+            head = head->next;
+        }
+        return s;
+    }
+};
 ```
 
 </details>
