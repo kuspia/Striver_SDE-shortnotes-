@@ -626,7 +626,7 @@ int merge(vector<int> &arr, int low, int mid, int high) {
     long long cnt = 0; 
     int j = mid +1 ;
     for (int i = low; i <= mid; ++i) { while (j <= high && arr[i] > 2LL * arr[j]) ++j;
-    cnt += (right - (mid + 1));
+    cnt += (j - (mid + 1)); // notice j is already (j++) that's why we have done this way
     }
 
     while (left <= mid && right <= high) {
