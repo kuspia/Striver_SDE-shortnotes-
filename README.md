@@ -1,4 +1,4 @@
-# Striver_SDE sheet solution
+<img width="1139" alt="Screenshot 2024-08-11 at 18 24 54" src="https://github.com/user-attachments/assets/1bdc0f77-e245-4579-ba90-a20910bdcc44"># Striver_SDE sheet solution
 
 ## 1. Set matrix zero
 
@@ -1475,8 +1475,53 @@ public:
 
 <details>
 
+> <img width="469" alt="Screenshot 2024-08-11 at 20 55 43" src="https://github.com/user-attachments/assets/32841d05-9169-4411-8e87-adf258897e41">
+
+> The idea is to store the left max and right max heights and then do as shown.
 
 ```cpp
+class Solution {
+public:
+    int trap(vector<int>& h) {
+        int n = h.size();
+	if (n <= 2) return 0; // Single or two heights cannot trap any water
+        vector<int> l(n); //prefixMax
+        vector<int> r(n); //suffixMax
+        l[0] = h[0];
+        for(int i =1;i<n;i++) l[i] = max ( l[i-1] , h[i]);
+        r[n-1] = h[n-1];
+        for(int i =n-2;i>=0;i--) r[i] = max ( r[i+1] , h[i]);
+        int an=0;
+        for(int i = 1 ; i < n-1 ; i++) an += max(0, min(l[i], r[i]) - h[i]);
+        return an;
+    }
+};
+```
+
+> You are taking `2N` space can you please not take it? 
+
+```cpp
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        if (n <= 2) return 0; // Single or two heights cannot trap any water
+        int left = 0, right = height.size() - 1;
+        int left_max = 0, right_max = 0;
+        int water_trapped = 0;
+        while (left <= right) {
+            if (height[left] <= height[right]) {
+                if (height[left] >= left_max) left_max = height[left];
+                else water_trapped += left_max - height[left];  
+                ++left;
+            } else {
+                if (height[right] >= right_max) right_max = height[right];
+                else water_trapped += right_max - height[right];
+                --right;
+            }
+        }
+        return water_trapped;
+    }
+};
 ```
 
 </details>
