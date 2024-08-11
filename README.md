@@ -907,7 +907,7 @@ public:
 ## 25. Reverse a LL
 <details>
 	
-> You should remember this as we often require this reversal technique most of the time. [h] -> [] -> [] -> null
+> You should remember this as we often require this reversal technique most of the time. nh(NULL) : <- (todo) : [h] -> [] -> [] -> null
 
 ```cpp
 class Solution {
@@ -926,17 +926,59 @@ public:
 ```
 </details>
 
-## 26. 
+## 26. Middle of LL
 
 <details>
+
+> Use s/f pointers, easy
+
 ```cpp
+class Solution {
+public:
+    ListNode* middleNode(ListNode* h) {
+        if(!h->next) return h; // only one node is present
+        ListNode *s, *f;
+        s = h;
+        f = h;
+        while(f){
+            s = s->next;
+            f = f->next;
+            f = f->next;
+            if(!f || !f->next) return s;
+        }
+        return NULL; // dummy 
+    }
+};
 ```
 </details>
 
-## 27. 
+## 27. Merge two sorted LL
 
 <details>
+
+> Refer (Q.36)
+
 ```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode *dh = new ListNode();
+        ListNode *cur = dh;
+        while(list1 && list2){
+            if(list1->val>list2->val){
+                cur->next = list2;
+                list2 = list2->next; 
+            }else{
+                cur->next = list1;
+                list1 = list1->next;
+            }
+            cur = cur->next;
+        }
+        if(list1) cur ->next = list1;
+        if(list2) cur-> next = list2;
+        return dh->next;
+    }
+};
 ```
 </details>
 
@@ -1013,6 +1055,74 @@ public:
 ```
 
 </details>
+
+
+## 36. Flattening of LL
+
+<details>
+
+> <img width="573" alt="Screenshot 2024-08-11 at 11 27 39" src="https://github.com/user-attachments/assets/1d70d1b9-105b-4715-a3d8-7e32cdca3e4f">
+
+> Good question so FYI LL is sorted from top to bottom and from left to right, we are supposed to flatten it and give the final sorted LL. The thought process is that we store the top node addresses of each LL in the vector and reverse it to process it, I mean as we have a lot of sorted LLs we assume our ans as the last LL and then we merge it from the back side one by one, this is very obvious as we finally need to make the sorted flattened LL. Don't forget to do `ans -> next = NULL` at the end and also make sure the final sorted LL: `ans`  last bottom node also points to NULL. FYI the final LL will be stored in a vertical manner and also every node's next pointer points to NULL in the `ans`.
+
+> So as you are clear with the question now we have to simply merge two sorted LL which is very easy but still give it a dry run to have the gist of how it really works.
+
+> Create a dummy node to simplify the merging process, yes just learn this and remember to make a copy of dummy node k/as current that moves and helps you to merge both of them.
+
+> Why from back? TO-write
+
+```cpp
+Node* merge(Node* r1, Node* r2) {
+    Node* dummy = new Node(0); 
+    Node* current = dummy;
+    while (r1 && r2) {
+        if (r1->data <= r2->data) {
+            current->bottom = r1;
+            r1 = r1->bottom;
+        } else {
+            current->bottom = r2;
+            r2 = r2->bottom;
+        }
+        current = current->bottom;
+    }
+    // Attach the remaining nodes (if any)
+    if (r1)  current->bottom = r1;
+    else  current->bottom = r2;
+    return dummy->bottom; // The merged list starts from the next of the dummy node
+}
+Node *flatten(Node *r)
+{
+   if(! r->next) return r;
+   vector<Node*> v;
+   Node *d , *ans;
+   d=r;
+   while(d){
+       v.push_back(d);
+       d = d -> next;
+   }
+   reverse (v.begin(), v.end());
+   ans = v[0];
+   for(int i =1; i <= v.size()-1 ; i++) ans = merge(ans, v[i]);
+   ans -> next = NULL;
+   return ans;
+}
+```
+
+</details>
+
+## 37. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+
+
+
 
 
 
