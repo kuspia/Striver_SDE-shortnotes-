@@ -1014,19 +1014,58 @@ public:
 ```
 </details>
 
-## 29. 
+## 29. Add two numbers as LLs
 
 <details>
+	
+> <img width="464" alt="Screenshot 2024-08-11 at 12 04 22" src="https://github.com/user-attachments/assets/94fd8e9c-b38f-4d3f-818b-3b61c960e25b">
+
+> The idea is to create a new `dh`, and point `h` to `dh`, please note that `h` is like a node traversal pointer in our newly created LL that stores the sum block by block, clearly the question is very easy however you should see till when we are running the while loop and how we initialize `s` to `c` then add list values if there exist any.
+
 ```cpp
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *dh = new ListNode ();
+        ListNode *h = dh;
+        int c = 0;
+        while(l1||l2||c){
+            int s = c;
+            if(l1){
+                s+=l1->val;
+                l1=l1->next;
+            }
+            if(l2){
+                s+=l2->val;
+                l2=l2->next;
+            }
+            c=s/10;
+          ListNode *block = new ListNode (s%10, NULL);
+          h->next = block;
+          h=block;
+        } 
+        return dh->next; 
+    }
+};
 ```
 </details>
 
-## 30. 
+## 30. Delete a given node from LL O(1)
 
 <details>
 
+> What we do is we copy the value to our current node of it's next node and then point the current node to the next to next node, finally we release the current node's next node however, it is not mandatory.
 
 ```cpp
+class Solution {
+public:
+    void deleteNode(ListNode* n){
+        ListNode* nxt = n->next;
+        n->val = nxt->val;
+        n->next = nxt->next;
+        delete nxt; 
+    }
+};
 ```
 
 </details>
