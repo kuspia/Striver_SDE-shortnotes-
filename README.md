@@ -1355,7 +1355,13 @@ public:
 
 <details>
 
-> Idea is based on the fact that we create a new node between every two nodes and connect the next pointers of each other after that we try to connect null pointers and then the next pointers, make sure you preserve the old LL connections too at the end, connecting next pointers is kinda tricky however random is very easy.
+> <img width="1118" alt="Screenshot 2024-08-11 at 18 22 53" src="https://github.com/user-attachments/assets/696f57e7-9b14-4c84-b6dc-bfa275d64d0c">
+
+> <img width="1139" alt="Screenshot 2024-08-11 at 18 24 54" src="https://github.com/user-attachments/assets/5bd2bd27-7eb2-4a42-9f02-88556a2eb5a1">
+
+
+> Idea is based on the fact that we create a new node between every two nodes and connect the next pointers of each other after that we try to connect random pointers and then the next pointers, make sure you preserve the old LL connections too at the end, connecting next pointers is kinda tricky however random is very easy.
+
 
 ```cpp
 class Solution {
