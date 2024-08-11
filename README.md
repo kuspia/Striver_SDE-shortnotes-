@@ -1581,15 +1581,115 @@ public:
 
 </details>
 
-### 43. 
+### 43. N meetings in one room 
 
 <details>
+
 
 
 ```cpp
 ```
 
+
 </details>
+
+### 44. Minimum number of platforms needed for a railway
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 45. Job sequencing problem
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 46. Fractional Knapsack
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 47. Find minimum number of coins
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 48. Assign cookies
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 49. 
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 50. 
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 51. 
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+
 
 
 
