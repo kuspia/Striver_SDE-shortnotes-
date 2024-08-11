@@ -819,7 +819,7 @@ int longestSubarrayWithSumK(vector<int> a, long long k) {
 
 > What if my numbers are 0 or negative? There comes a technique that uses the hash map, so the idea is to just store the prefix sum with it's index as the value in the map, remember if you hit the same prefix sum value don't update it because we need to maximize the length of my subarray.
                            
-> Idea: _____ (x-k) _______ Break-point _____ k ____ (let is be a array whose sum(prefix) is x at some point, now if I look back and I found a prefix sum = (x-k), this implies that yes we encountered a subarray just now whose sum = k
+> Idea: _____ (x-k) _______ | _____ k ____ (let is be a array whose sum(prefix) is x at some point, now if I look back and I found a prefix sum = (x-k), this implies that yes we encountered a subarray just now whose sum = k
 	
 ```cpp
 int getLongestSubarray(vector<int>& a, long long k) {
@@ -1400,12 +1400,73 @@ public:
 
 </details>
 
-## 39. 3 sum
+## 39. 3 sum: Find triplets that add up to a zero
 
 <details>
 
+> Good problem, so one way is to try all triplets and store them (answer) in a sorted fashion in a set in n^3 complexity,
+
+> A better way is to try iterating all the pairs in `n^2` time, for the third element which will be -(a[i]+a[j]) use the hash map to check whether it exists or not, please note a very important thing i.e. since `i!=j!=k` therefore you may try using a hash map cleverly which only stores the value b/w `i` to `j` index. Please see the code to get the gist.
+
+```
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& a) {
+        set<vector<int>> an;
+        int n = a.size();
+        for(int i = 0; i < n; i++){
+            unordered_map<int , bool > mp;
+            for(int j=i+1; j<n;j++){
+            int v3 = -(a[i]+a[j]);
+            if(mp[v3]){
+                vector<int> temp = {v3,a[i],a[j]};
+                sort(temp.begin(), temp.end());
+                an.insert(temp); 
+            }
+                mp[a[j]] =1;
+            }
+            mp.clear();
+        }
+         vector<vector<int>> ans;
+        for (const std::vector<int>& v : an) ans.push_back(v);
+        return ans;
+    }
+};
+```
+
+> it is `n^2lgm`, can we do it better like just `n^2` complexity? yes, we can do that if we sort the array and iterate the `i` pointer one by one and for every `i` we cleverly move our `j` and `k` pointers since the array is sorted, please observe that `j` and `k` pointers approach is like finding pair sum using 2 pointers approach. Please notice how we skip duplicates to boost the performance, as well as it is mandatory to do so as we need to avoid any duplicate triplets.
+
+> similar to [Q.20](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#20-4-sum)
 
 ```cpp
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& arr) {
+        int n = arr.size();
+         vector<vector<int>> ans;
+    sort(arr.begin(), arr.end());
+    for (int i = 0; i < n; i++) {
+        if (i != 0 && arr[i] == arr[i - 1]) continue; //remove duplicates:
+        int j = i + 1;
+        int k = n - 1;
+        while (j < k) {
+            int sum = arr[i] + arr[j] + arr[k];
+            if (sum < 0) j++; 
+            else if (sum > 0) k--;
+            else {
+                vector<int> temp = {arr[i], arr[j], arr[k]};
+                ans.push_back(temp);
+                j++;
+                k--;
+                //skip the duplicates:
+                while (j < k && arr[j] == arr[j - 1]) j++;
+                while (j < k && arr[k] == arr[k + 1]) k--;
+            }
+        }
+    }
+    return ans;
+    }
+};
 ```
 
 </details>
