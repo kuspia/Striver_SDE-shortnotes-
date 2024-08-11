@@ -1135,6 +1135,8 @@ public:
 ## 33. Reverse a LL in a group of size k
 
 <details>
+	
+> <img width="427" alt="Screenshot 2024-08-11 at 17 50 49" src="https://github.com/user-attachments/assets/fc762480-fded-4f0f-9ea7-850c3d427ca6">
 
 > Self-explanatory code, very interesting just see it at least 2-3 times, the idea is to check this: `if (len < k) return h` before you process any recursion call if it fails then simply reverse the `k` size LL from the current state value of `h` using two pointers `prev` and `current` which is very easy and clearly h->next in your current state of recursion call will point to some node that will be returned by the next recursion call which will accept new head as the `current` pointer value. The new head of the reversed group will be pointed by your `prev` pointer if you observe carefully.
 
