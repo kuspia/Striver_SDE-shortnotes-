@@ -1070,12 +1070,32 @@ public:
 
 </details>
 
-## 31. 
+## 31. Intersection of two LL (Y structure pattern not X pattern)
 
 <details>
 
+> Draw a big `Y` with one line longer than another to get the gist of both intution.
+
+> <img width="269" alt="Screenshot 2024-08-11 at 17 13 34" src="https://github.com/user-attachments/assets/93d68714-59f2-45ef-b1c3-55ebb12a3268">
+
+> A tricky question so what you have to do is find the length of LL and take the absolute difference of both, now if is greater than 0 then please travel longer LL by that many steps, and after that move by one step in both LL to find the meeting point.
+
+> Another way is to travel both LLs by one step and when you reach the null, just exchange the traversal path by pointing the iterator to the other path head node.  
 
 ```cpp
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *head1, ListNode *head2) {
+    ListNode* d1 = head1;
+    ListNode* d2 = head2;
+    
+    while(d1 != d2) {
+        d1 = d1 == NULL? head2:d1->next; // we assign d1 and at same time we are checking had we arrrived the null 
+        d2 = d2 == NULL? head1:d2->next; // we assign d2 and at same time we are checking had we arrrived the null 
+    }
+    return d1;
+    }
+};
 ```
 
 </details>
