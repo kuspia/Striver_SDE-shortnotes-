@@ -956,7 +956,7 @@ public:
 
 <details>
 
-> Refer (Q.36)
+> Refer [Q.36](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#36-flattening-of-ll)
 
 ```cpp
 class Solution {
@@ -982,10 +982,35 @@ public:
 ```
 </details>
 
-## 28. 
+## 28. Remove Nth node from back of LL 
 
 <details>
+
+> Intuition: imagine a line (L): _____________|___ 2cm ____ now if we place another line from start say of 2cm and marks both ends as `s` and `f`, clearly when we drag that line along the (L) and as soon as `f` reaches the end, we can say `s` is pointing to start of 2cm from the end.
+
+> The trick is to create a dummy head and point it to the head, while slow and fast pointers store the address of the dummy head initially, now move fast by n+1 times, and then move slow and fast both unless fast doesn't hit NULL, doing so you will observe slow points to a node just before the nth node from the end.
+
+> [dh]`(s/f)` - - - > [h] -> [] -> [] -> null
+
 ```cpp
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* h, int n) {
+        ListNode *s, *f, *dh;
+        dh = new ListNode();
+        dh->next = h;
+        s=dh;
+        f=dh;
+        n++;
+        while(n--) f = f->next;
+        while(f){
+            s = s->next;
+            f = f->next;
+        }
+        s->next = s->next->next; // reconnect the LL and drop the nth node 
+        return dh->next;
+    }
+};
 ```
 </details>
 
