@@ -1014,7 +1014,7 @@ public:
 ```
 </details>
 
-## 29. Add two numbers as LLs
+## 29. Add two numbers as LLs (numbers are stored in reverse order)
 
 <details>
 	
