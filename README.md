@@ -1839,7 +1839,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 </details>
 
-### 49. 
+### 49. Subset Sum
 
 <details>
 
@@ -1851,7 +1851,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 </details>
 
-### 50. 
+### 50. Subset II
 
 <details>
 
@@ -1863,7 +1863,91 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 </details>
 
-### 51. 
+### 51. Combination Sum 1
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 52. Combination Sum 1
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 53. Palindrome Partitioning
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 54. Kth permutation sequence
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 55. Print all permuation of a string or array
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 56. N queen problem 
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 57. Sudko Solver
+
+<details>
+
+
+
+```cpp
+```
+
+
+</details>
+
+### 58. M coloring problem 
 
 <details>
 
@@ -1876,9 +1960,37 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 </details>
 
 
+### 59. Rat in a maze
+
+<details>
 
 
 
+```cpp
+```
+
+
+</details>
+
+### 60. Word break (print all ways)
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 61. 
+
+<details>
+
+
+```cpp
+```
+
+</details>
 
 
 
