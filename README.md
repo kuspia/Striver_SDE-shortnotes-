@@ -1693,7 +1693,7 @@ class Solution{
 
 <details>
 
-// Very interesting and tricky greedy problem, see the idea is that we have to pick the maximum profit job in our iteration one by one and then we need to do it at the last moment that's how we achieve maximum profit, `last` means at the deadline and if the deadline is occupied maybe try doing it before the deadline but the most delayed possible day.   
+> Very interesting and tricky greedy problem, see the idea is that we have to pick the maximum profit job in our iteration one by one and then we need to do it at the last moment that's how we achieve maximum profit, `last` means at the deadline and if the deadline is occupied maybe try doing it before the deadline but the most delayed possible day.   
 
 ```cpp
 class Solution 
