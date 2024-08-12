@@ -1843,28 +1843,30 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 <details>
 
-> Easy, just use the `take` or `ntake` property to have all subsets and their unique sum using sets, we maintain the `sum_val` variable that stores the current sum of our current recursion subset.
+> Given an array print all the sum of the subset generated from it, in the increasing order.
 
 ```cpp
-class Solution
-{
+class Solution {
 public:
-    void f (  vector<int> arr, int n, int i ,  vector<int>& s , int sum_val){
-        if(i==n) return;
-        // take 
-        s.push_back(sum_val+arr[i]);
-        f( arr, n , i+1, s, sum_val+arr[i]);
-        // ntake nd move om
-        f( arr, n , i+1, s, sum_val);
+    void f(const vector<int>& arr, int n, int i, vector<int>& s, int sum_val) {
+        if (i == n) {
+            s.push_back(sum_val);
+            return;
+        }
+        // Take the current element
+        f(arr, n, i + 1, s, sum_val + arr[i]);
+        // Do not take the current element
+        f(arr, n, i + 1, s, sum_val);
     }
-    vector<int> subsetSums( vector<int> arr, int n    )
-    {
-       vector <int> s;
-       s.push_back(0);
-       f( arr, n , 0, s, 0);  
-       return s;
+    vector<int> subsetSums(const vector<int>& arr, int n) {
+	sort(arr.begin(), arr.end()); // do it as a good practice 
+        vector<int> s;
+        f(arr, n, 0, s, 0);
+	sort(s.begin(), s.end());
+        return s;
     }
 };
+
 ```
 
 </details>
@@ -1873,83 +1875,105 @@ public:
 
 <details>
 
-> We need to print all unique subsets, so here basically we try choosing all subsets and use set for uniqueness property, so again we use `take` or `ntake` property to decide and move on further 
+> Given an array of integers that may contain duplicates the task is to return all possible subsets. Return only unique subsets and they can be in any order.
 
 ```cpp
 class Solution {
 public:
-    void f (vector<int>& nums, int i,  set < vector<int> >& s, vector<int>& subset){
-        if(i == nums.size()) return;
-        //take
+    void f(const vector<int>& nums, int i, set<vector<int>>& s, vector<int>& subset) {
+        if (i == nums.size()) return; 
+        // Take the current element
         subset.push_back(nums[i]);
-        vector<int> sortedSubset = subset; // Copy the original subset
-        sort(sortedSubset.begin(), sortedSubset.end());
-        s.insert(sortedSubset);
-        f( nums , i+1 , s , subset);
-        //ntake
+        s.insert(subset);
+        f(nums, i + 1, s, subset);
+        // Backtrack
         subset.pop_back();
-        f( nums , i+1 , s , subset);
+        f(nums, i + 1, s, subset);
     }
 
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        set < vector<int> > s ;
-        vector<int> subset ; 
-        s.insert(subset);
-        f( nums , 0 , s , subset);
+        set<vector<int>> s;
+        vector<int> subset;
+        // Start with the empty subset
+        s.insert(vector<int>());
+        // Sort the input to ensure subsets are considered in a sorted order
+        sort(nums.begin(), nums.end());
+        f(nums, 0, s, subset);
+        // Convert the set to vector for return
         vector<vector<int>> vec(s.begin(), s.end());
         return vec;
     }
 };
-```
 
+```
 
 </details>
 
-### 51. Combination Sum 1 (distinct-integers-array-sum-to-target-pick-elements-many-times)
+### 51. Combination Sum 1 (distinct-integers-array-sums-to-a-target-pick-elements-many-times)
+
+> Given an array of distinct integers and a target, you have to return the list of all unique combinations where the chosen numbers sum to target. 
 
 <details>
-
-> This is not totally based on the `take` and `ntake` approach instead here we enter the recursion and then try iterating from `0 to n-1` for the candidates array and picking the elements we only return in two cases which you may see in the code below itself, the problem is quite good but very easy.
 
 ```cpp
 class Solution {
 public:
-void f( vector<int>&candidates , int& target ,  int i , int sum_val ,  vector <int>&subset , set<vector<int>>& ans){
-if(sum_val == target){
- std::vector<int> sortedSubset = subset; 
-    std::sort(sortedSubset.begin(), sortedSubset.end());
-    ans.insert(sortedSubset);    
-return;
-}
-if (sum_val > target ) return;
-for(int j = 0 ; j < candidates.size() ; j++){
-// take 
-  subset.push_back(candidates[j]);
-  f( candidates , target ,  i+1 , sum_val+candidates[j] , subset, ans );
-// ntake
-   subset.pop_back();
-}
-}
+    vector<vector<int>> ans;
+    void helper(vector<int>& candidates, int target, int i, int curSum, vector<int> temp) {
+        if (curSum == target) {
+            ans.push_back(temp);
+            return;
+        }
+        if (curSum > target || i >= candidates.size()) return;
+        temp.push_back(candidates[i]);
+        helper(candidates, target, i, curSum + candidates[i], temp);
+        temp.pop_back();
+	//ntake
+        helper(candidates, target, i + 1, curSum, temp);
+    }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-    vector <int> subset;
-    set<vector<int>> ans ;
-    f( candidates , target ,  0 , 0 , subset, ans );
-    vector<vector<int>> ans1  (ans.begin() , ans.end()) ; 
-    return ans1;
+        vector<int> temp;
+	sort(candidates.begin(), candidates.end()); // do it as a good practice 
+        helper(candidates, target, 0, 0, temp);
+        return ans;
     }
 };
-```
 
+```
 
 </details>
 
-### 52. Combination Sum 2
+### 52. Combination Sum 2 (integers-array-sum-to-target-pick-elements-once)
 
 <details>
 
-
-
 ```cpp
+class Solution {
+public:
+    std::vector<std::vector<int>> ans;
+    void helper(std::vector<int>& candidates, int target, int i, int curSum, std::vector<int>& temp) {
+        if (curSum == target) {
+            ans.push_back(temp);
+            return;
+        }
+        if (curSum > target || i >= candidates.size()) return;
+        temp.push_back(candidates[i]);
+        helper(candidates, target, i + 1, curSum + candidates[i], temp);
+        temp.pop_back();  
+        // Skip duplicates: move to the next distinct element
+        while (i + 1 < candidates.size() && candidates[i] == candidates[i + 1]) i++;
+        // Recurse without including the current element
+        helper(candidates, target, i + 1, curSum, temp);
+    }
+
+    std::vector<std::vector<int>> combinationSum2(std::vector<int>& candidates, int target) {
+        std::vector<int> temp;
+        std::sort(candidates.begin(), candidates.end()); // Sort to handle duplicates
+        helper(candidates, target, 0, 0, temp);
+        return ans;
+    }
+};
+
 ```
 
 
