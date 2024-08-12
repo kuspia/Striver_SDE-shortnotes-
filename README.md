@@ -613,7 +613,7 @@ public:
 
 > Imagine two sorted array and we need to count such that `i < j && a[i] > 2a[j]` so imagine `i` is on left sorted array and `j` is on the right sorted array so we are done with `i < j`, now 
 	
-> Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#12-inversion-of-array-explanation1-mergesort-vid-animation)
+> Refer [Q.12](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#12-inversion-of-array)
 
 > left(low) ______ i _________ mid     mid+1(right) _______ j ________ high, so if `a[i] > 2 * a[j]` then just a observation `right` to `j` will also satisfy the condition and that's what form the intution of the problem, notice we increment `i` and `j` in not more than `n` cost, we did it cleverly
 
