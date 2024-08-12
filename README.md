@@ -1624,16 +1624,14 @@ sort(v.begin() , v.end() , ss);
  
 > We sort it by `dept` time as usual and then try iterating from index `1 to n-1`, whenever you feel a new station is needed create it and make the `dept` time of that train be stored in `ans` vector at its right place.
 
-`auto it = std::lower_bound(ans.begin(), ans.end(), arr);` 
-In other words, it returns an iterator to the first element that is greater or equal to the given value, therefore we decrease it to replace the value with the new `dest` time of our current train.
+> `auto it = std::lower_bound(ans.begin(), ans.end(), arr);` In other words, it returns an iterator to the first element that is greater or equal to the given value, therefore we decrease it to replace the value with the new `dest` time of our current train.
 
-However, if u get index 0 in `it` that suggests that a new platform is needed since a Train has arrived whose arrival time is less than dept time of all other trains standing in our platforms vector `ans`.
+> However, if u get index 0 in `it` that suggests that a new platform is needed since a Train has arrived whose arrival time is less than dept time of all other trains standing in our platforms vector `ans`.
 
 ```cpp
 class Solution{
     public:
-    static bool ss (  pair<int,int> &a , pair<int,int> &b ){
-    return a.second < b.second ;}
+    static bool ss (  pair<int,int> &a , pair<int,int> &b ){return a.second < b.second ;}
     int findPlatform(int start[], int end[], int n)
     {
 vector<pair<int,int>> v;
@@ -1654,14 +1652,15 @@ vector<int> ans;
         *it = dept;
         sort(ans.begin() , ans.end());
     }
-    else{ // case when a train has arrived and there is no platform that can me made available means all platform have trains whose departure time is more than arrival time of current train
-
+    else{
+    // case when a train has arrived and there is no platform that can me made available means
+    // all platform have trains whose departure time is more than 
+    // arrival time of current train
     // we need to create a new platform for that train
     auto it = std::lower_bound(ans.begin(), ans.end(), dept);
     ans.insert(it, dept);
     }
  }
- 
 return ans.size();
 }
 };
