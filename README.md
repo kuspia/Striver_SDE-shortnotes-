@@ -1905,19 +1905,45 @@ public:
 
 </details>
 
-### 51. Combination Sum 1
+### 51. Combination Sum 1 (distinct-integers-array-sum-to-target-pick-elements-many-times)
 
 <details>
 
-> This is not based on the take and intake approach instead here we enter the recursion and then try iterating from `0 to n-1` for the candidates array and picking the elements we only return in two cases which you may see in the code below itself, the problem is quite good but very easy.
+> This is not totally based on the `take` and `ntake` approach instead here we enter the recursion and then try iterating from `0 to n-1` for the candidates array and picking the elements we only return in two cases which you may see in the code below itself, the problem is quite good but very easy.
 
 ```cpp
+class Solution {
+public:
+void f( vector<int>&candidates , int& target ,  int i , int sum_val ,  vector <int>&subset , set<vector<int>>& ans){
+if(sum_val == target){
+ std::vector<int> sortedSubset = subset; 
+    std::sort(sortedSubset.begin(), sortedSubset.end());
+    ans.insert(sortedSubset);    
+return;
+}
+if (sum_val > target ) return;
+for(int j = 0 ; j < candidates.size() ; j++){
+// take 
+  subset.push_back(candidates[j]);
+  f( candidates , target ,  i+1 , sum_val+candidates[j] , subset, ans );
+// ntake
+   subset.pop_back();
+}
+}
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    vector <int> subset;
+    set<vector<int>> ans ;
+    f( candidates , target ,  0 , 0 , subset, ans );
+    vector<vector<int>> ans1  (ans.begin() , ans.end()) ; 
+    return ans1;
+    }
+};
 ```
 
 
 </details>
 
-### 52. Combination Sum 1
+### 52. Combination Sum 2
 
 <details>
 
