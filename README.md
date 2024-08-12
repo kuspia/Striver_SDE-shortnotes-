@@ -1645,20 +1645,18 @@ vector<int> ans;
  for(int i =1 ;  i < n ; i++){
      int arr  = v[i].first;
      int dept =  v[i].second;
-     
      auto it = std::lower_bound(ans.begin(), ans.end(), arr);
       if (it != ans.begin()) { 
         it--; 
         *it = dept;
-        sort(ans.begin() , ans.end());
     }
     else{
     // case when a train has arrived and there is no platform that can me made available means
     // all platform have trains whose departure time is more than 
     // arrival time of current train
     // we need to create a new platform for that train
-    auto it = std::lower_bound(ans.begin(), ans.end(), dept);
-    ans.insert(it, dept);
+    sort(ans.begin(), ans.end());
+    ans.insert(dept);
     }
  }
 return ans.size();
@@ -1666,6 +1664,28 @@ return ans.size();
 };
 ```
 
+> `O(n)` The problem of finding the minimum number of platforms required for trains at a railway station is indeed similar to the concept of locating that integer value that overlaps maximum times in all of the given ranges and printing the occurrences of that integer value, as we need to handle that time-stamp (which is our integer value) when maximum platforms are needed to handle all trains.
+
+```cpp
+class Solution{
+    public:
+    int findPlatform(int arrival[], int departure[], int n)
+{
+   int pf[2361] ;
+   int requiredPlatform = 1;
+   memset(pf , 0 , sizeof(pf));
+   for (int i = 0; i < n; i++) {
+        ++pf[arrival[i]]; 
+        --pf[departure[i] + 1];
+    }
+     for (int i = 1; i < 2361; i++) {
+        pf[i] = pf[i] + pf[i - 1]; 
+        requiredPlatform = max(requiredPlatform, pf[i]);
+    }
+      return requiredPlatform;
+}
+};
+```
 
 </details>
 
@@ -1673,11 +1693,50 @@ return ans.size();
 
 <details>
 
-
+// Very interesting and tricky greedy problem, see the idea is that we have to pick the maximum profit job in our iteration one by one and then we need to do it at the last moment that's how we achieve maximum profit, `last` means at the deadline and if the deadline is occupied maybe try doing it before the deadline but the most delayed possible day.   
 
 ```cpp
+class Solution 
+{
+    public:
+    static bool ss (  pair<int,int> &a , pair<int,int> &b ){return a.first > b.first;}
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+	vector<pair<int,int>> v;
+	for(int i = 0 ; i<n ; i++){
+	v.push_back(make_pair( arr[i].profit  , arr[i].dead  ));
+	}
+	vector<int> ans1;
+	sort(v.begin() , v.end() , ss);
+	int pft = 0 ;
+	int chk[n+1]; // stores which day is occupied with which process index id (as per sorted one not the given one)
+	memset(chk,-1,sizeof(chk));
+	int cnt = 0 ; // stores total number of jobs done
+	for(int i = 0 ; i< v.size() ; i++){
+	  if(chk[v[i].second] == -1){ //the day is free
+	      pft+=v[i].first;
+	      cnt++;
+	      chk[v[i].second] = i; // make it occupied by the job index id 
+	  }else{
+	      int cc = v[i].second; // cc is the deadline day if it is 4 then that job is needed to be completed by the 4th day not necessarily on the 4th day (key point)
+	      while( chk[cc] != -1){ // but on that day some job was already scheduled so we try finding a free day
+	          cc--;
+	          if(cc==0) break; // remember we did 1 indexing so if u reached 0 that means we can't schedule it at any cost
+	      }
+	      if(cc>0){ // scheduling our profitable job not exactly on the deadline but before our deadline
+              pft+=v[i].first;
+              cnt++;
+	      chk[cc] = i;
+	      }
+	  }
+	}
+	// formatting the answer that's it
+	ans1.push_back(cnt);
+	ans1.push_back(pft);
+	return ans1;
+    } 
+};
 ```
-
 
 </details>
 
@@ -1685,11 +1744,40 @@ return ans.size();
 
 <details>
 
-
-
 ```cpp
+/*
+struct Item{
+    int value;
+    int weight;
+};
+*/
+bool cf(Item a,Item b){
+        double x = (double)a.value/a.weight;
+        double y = (double)b.value/b.weight;
+        return x>=y; 
+}
+class Solution
+{
+    public:
+    double fractionalKnapsack(int W, Item A[], int n)
+    {
+        sort(A,A+n,cf);
+        double p;  // answer
+        for(int i=0;i<n;i++){
+            if(A[i].weight<=W){ // we are taking whole units at of the items without cutting it
+                W = W - A[i].weight;
+                p = p + A[i].value;
+            }
+            else{
+                p = p + W*(double)A[i].value/A[i].weight;
+                break; // you can't take more now, we are totally filled 
+            }
+        }
+        return p;
+    }
+        
+};
 ```
-
 
 </details>
 
@@ -1697,9 +1785,31 @@ return ans.size();
 
 <details>
 
-
+> Given a value V, if we want to make a change for V Rs, and we have an infinite supply of each of the denominations in Indian currency, i.e., we have an infinite supply of { 1, 2, 5, 10, 20, 50, 100, 500, 1000} valued coins/notes, what is the minimum number of coins and/or notes needed to make the change.
 
 ```cpp
+vector<int> MinimumCoins(int n)
+{
+    int coin[9];
+    coin[0] = 1;
+     coin[1] = 2;
+      coin[2] = 5;
+       coin[3] = 10;
+        coin[4] = 20;
+         coin[5] = 50;
+          coin[6] = 100;
+           coin[7] = 500;
+            coin[8] = 1000;
+            vector<pair<int,int>> v ;
+            vector<int> ans ;
+            for(int i = 8 ; i>=0 ; i--){
+                if(n==0) break;
+                v.push_back(  make_pair(n/coin[i] , coin[i]  )  ); // { how many, which coin}
+                n = n%coin[i];
+            }
+            for(int i =0 ; i < v.size() ; i++)    while(v[i].first--) ans.push_back(v[i].second);
+            return ans;
+}
 ```
 
 
@@ -1709,11 +1819,23 @@ return ans.size();
 
 <details>
 
-
+> just see the code and figure out urself what is going on (easy)
 
 ```cpp
+int findContentChildren(vector<int>& g, vector<int>& s) {
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end());
+    int child_i = 0;  
+    int cookie_i = 0;
+    while (child_i < g.size() && cookie_i < s.size()) {
+        if (s[cookie_i] >= g[child_i]) { // If the current cookie can satisfy the current child
+            child_i++;  // Move to the next child
+        }
+        cookie_i++;  // Move to the next cookie
+    }
+    return child_i;
+}
 ```
-
 
 </details>
 
