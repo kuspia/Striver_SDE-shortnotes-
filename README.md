@@ -1839,25 +1839,67 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 </details>
 
-### 49. Subset Sum
+### 49. Sum of all Subsets (2^n)
 
 <details>
 
-
+> Easy, just use the `take` or `ntake` property to have all subsets and their unique sum using sets, we maintain the `sum_val` variable that stores the current sum of our current recursion subset.
 
 ```cpp
+class Solution
+{
+public:
+    void f (  vector<int> arr, int n, int i ,  vector<int>& s , int sum_val){
+        if(i==n) return;
+        // take 
+        s.push_back(sum_val+arr[i]);
+        f( arr, n , i+1, s, sum_val+arr[i]);
+        // ntake nd move om
+        f( arr, n , i+1, s, sum_val);
+    }
+    vector<int> subsetSums( vector<int> arr, int n    )
+    {
+       vector <int> s;
+       s.push_back(0);
+       f( arr, n , 0, s, 0);  
+       return s;
+    }
+};
 ```
-
 
 </details>
 
-### 50. Subset II
+### 50. Subset II (print unique subsets)
 
 <details>
 
-
+> We need to print all unique subsets, so here basically we try choosing all subsets and use set for uniqueness property, so again we use `take` or `ntake` property to decide and move on further 
 
 ```cpp
+class Solution {
+public:
+    void f (vector<int>& nums, int i,  set < vector<int> >& s, vector<int>& subset){
+        if(i == nums.size()) return;
+        //take
+        subset.push_back(nums[i]);
+        vector<int> sortedSubset = subset; // Copy the original subset
+        sort(sortedSubset.begin(), sortedSubset.end());
+        s.insert(sortedSubset);
+        f( nums , i+1 , s , subset);
+        //ntake
+        subset.pop_back();
+        f( nums , i+1 , s , subset);
+    }
+
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        set < vector<int> > s ;
+        vector<int> subset ; 
+        s.insert(subset);
+        f( nums , 0 , s , subset);
+        vector<vector<int>> vec(s.begin(), s.end());
+        return vec;
+    }
+};
 ```
 
 
@@ -1867,7 +1909,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 <details>
 
-
+> This is not based on the take and intake approach instead here we enter the recursion and then try iterating from `0 to n-1` for the candidates array and picking the elements we only return in two cases which you may see in the code below itself, the problem is quite good but very easy.
 
 ```cpp
 ```
