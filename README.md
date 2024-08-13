@@ -1655,8 +1655,8 @@ vector<int> ans;
     // all platform have trains whose departure time is more than 
     // arrival time of current train
     // we need to create a new platform for that train
-    sort(ans.begin(), ans.end());
-    ans.insert(dept);
+   
+    ans.insert(it, dept); //inserting it at begnning 
     }
  }
 return ans.size();
