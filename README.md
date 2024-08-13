@@ -1986,11 +1986,50 @@ public:
 
 <details>
 
+> Return all palindromic partitions of s.
 
+> The problem is solved by putting a bar between the characters of the string, so we start as usual and set the bar that divides the string into two halves, we check for the left half whether it is palindrome or not, if not try putting the bar to next position or recurse for the remaining right half, clearly when u reach at the position when the bar is at the end that is a successful attempt hence just print all those left substrings that u kept on chopping.
 
 ```cpp
+class Solution {
+public:
+int isP(const string &s) {
+    int left = 0;
+    int right = s.size() - 1;
+    while (left < right) {
+        if (s[left] != s[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+void f ( string s, int n , int bar ,  vector<vector<string>>& ans,vector<string>& str_coll     ){
+        if(bar == n){
+        ans.push_back(str_coll);
+            return;
+        }
+        for(int i = bar ;  i < s.size() ; i++ ){
+        string chk = s.substr( bar ,  i - bar+1) ;
+        int left_half = isP(   chk   );
+        if(left_half){
+             str_coll.push_back(chk);
+             f(s ,  n , i+1 , ans , str_coll);
+             str_coll.pop_back();
+        }else{
+            continue; 
+        }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+            vector<string> str_coll;
+    vector<vector<string>> ans;
+        f(s , s.size() ,  0 , ans , str_coll);
+        return ans;
+    }
+};
 ```
-
 
 </details>
 
@@ -1998,11 +2037,53 @@ public:
 
 <details>
 
-
+> The idea is to take a counter `i` that keeps track of how many elements we have in our `ans`, now what we do is when we enter recursion we iterate all possibilities from `1 to n` and pick the element if it has not been already taken which is checked by using masking n bits length number easily, as soon as `i` reaches upto n that is one of the permutations from all possibilities. 
 
 ```cpp
+class Solution {
+public:
+int kk = 0 ;
+    int f (vector<int>& v, int& n, long long int& diff, int i, vector<int>& ans, int& k,  vector<int>& per  ){
+        if(i==n){
+            kk++;
+        if(k == kk){
+             for(int l = 0 ; l < n ; l++) per[l] =ans[l];
+              return 1;
+        }
+           return 0 ;
+        }
+        for(int j = 0 ;  j < n ; j++){
+            long long int chk  ;
+            chk = 1 << v[j];
+            if(chk  & diff ) // if one that means we cna't use that number 
+            {
+            } else{
+            ans.push_back(v[j]); // only possible if 
+            diff |= chk ;// set the jth bit to 1 now
+            int halt = f( v, n , diff, i+1, ans, k, per );
+            if(halt) return 1;
+            ans.pop_back();
+            diff ^= chk; // set the jth bit to 0 now
+            }    
+        }
+        return 0 ;
+    }
+    string getPermutation(int n, int k) {
+        vector<int> v ;
+        vector<int> per(n) ;
+         vector<int> ans ;
+        for(int i = 0  ;  i < n ; i++) v.push_back(i+1);
+       long long int diff = 0 ;
+       int halt =  f( v, n , diff, 0, ans, k, per );
+ std::stringstream ss;
+    for (int i = 0; i < n; ++i) {
+        ss << per[i];
+    }
+    std::string result = ss.str();
+    return result;
+    }
+};
 ```
-
 
 </details>
 
