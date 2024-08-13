@@ -184,7 +184,7 @@ void sortArray(vector<int>& arr, int n) {
         }
         else {
             swap(arr[mid], arr[high]);
-            high--;
+            high--; // we don't move mid pointer since in next iteration we might need to swapped value from high index again back to low (case of 1) 
         }
     }
 }
