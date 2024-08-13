@@ -2087,7 +2087,7 @@ int kk = 0 ;
 
 </details>
 
-### 55. Print all permuation of a string or array
+### 55. Print all permuation of a string or array (distinct-element-(-10to10))
 
 <details>
 
