@@ -1913,9 +1913,10 @@ public:
 
 ### 51. Combination Sum 1 (distinct-integers-array-sums-to-a-target-pick-elements-many-times)
 
+<details>
+	
 > Given an array of distinct integers and a target, you have to return the list of all unique combinations where the chosen numbers sum to target. 
 
-<details>
 
 ```cpp
 class Solution {
