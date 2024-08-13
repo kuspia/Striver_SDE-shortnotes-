@@ -1409,7 +1409,7 @@ public:
 
 > A better way is to try iterating all the pairs in `n^2` time, for the third element which will be -(a[i]+a[j]) use the hash map to check whether it exists or not, please note a very important thing i.e. since `i!=j!=k` therefore you may try using a hash map cleverly which only stores the value b/w `i` to `j` index. Please see the code to get the gist.
 
-```
+```cpp
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& a) {
