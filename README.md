@@ -2091,9 +2091,39 @@ int kk = 0 ;
 
 <details>
 
-
+> similar to K-th permutation Sequence, but here numbers can be from -10 to 10 so instead of using bitmasking we tried using the map to mark or unmark it.
 
 ```cpp
+class Solution {
+public:
+    void f ( vector<int>& cur ,  vector<vector<int>>& ans ,vector<int>& nums, int& n, int id, 
+      map<int,bool>& mp
+     ){
+        if(id==n){ // one of the possible permutations 
+            ans.push_back(cur);
+            return;
+        }
+        for(int i =0; i < n ; i++){
+                if(  ! mp[ nums[i] ]  ) { // only pick nums[i] if it is not marked in our map mp
+                        cur.push_back(nums[i]);
+                        mp[ nums[i] ]  = 1 ; // mark it 
+                          f(cur,ans,nums, n, id+1,mp); // call next recursion with id+1
+                          cur.pop_back(); // pop the last element and then check other possibilities using the above loop
+                          mp[ nums[i] ] = 0 ; // unmark that element since we have removed it from our `cur`
+                }else{
+                }
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<int> cur; // this stores the elements from nums and we push to ans if its size is n
+        vector<vector<int>> ans; // to store final set of all permutation vectors
+        int n = nums.size();
+        map < int , bool > mp ; // we mark from -10 to 10 as per question to know which element has been already taken or not 
+        for(int i = -10 ; i <= 10 ; i++) mp[i] = 0 ;
+        f(cur,ans,nums, n, 0,mp);
+        return ans;
+    }
+};
 ```
 
 
