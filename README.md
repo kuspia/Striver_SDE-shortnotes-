@@ -2594,8 +2594,44 @@ public:
 
 <details>
 
+> The question is very tricky so what we do is I make `nums2` array as my smaller always (not mandatory just to reduce time complexity), now idea is that we can pick `0` to `n2` elements from `nums2` over which we do the BS and rest we pick from `nums1` array denoted by `m1` in our code. Now what happens is we choose m1 as `(n1+n2)/2 - m2` because we want to take half of the elements from both arrays when combined together to locate my median, however, we use even/odd case rules to handle it, especially in my returning situation that u may see in the code. Please note if my `m2` is 3 that means we choose `3` elements marked by `nums2` from index `0` to `2` (inclusive). 
+
+> Remember l1 l2 r1 r2 are chosen and defined with default value in case the index is not found, these default values actually helps you to ignore a particular array if we hit at some index that is out of bound and are useful for cases like: [1,3] [2] 
 
 ```cpp
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+     int n1 = nums1.size();
+     int n2 = nums2.size();
+     if(n2>n1) return findMedianSortedArrays(nums2 , nums1);
+     // do BS on nums2 size 
+     int l ,h, m2, m1 ;
+     //m2 tells how many elements we pick from nums2 and same for m1
+     l = 0;
+     h = n2 ; // i can pick atmost n2 elemetns from nums2
+     int cnt =0 ;
+     while(l<=h){
+            m2 = (l+h)/2;
+            m1 = (n1+n2)/2 - m2; 
+            int l1 ,l2 , r1 , r2 ;
+            l1 = (m1 - 1 >= 0 && m1 - 1 < n1) ? nums1[m1 - 1] : -1000000;
+            l2 = (m2 - 1 >= 0 && m2 - 1 < n2) ? nums2[m2 - 1] : -1000000;
+            r1 = (m1 >= 0 && m1 < n1) ? nums1[m1] : 1000000;
+            r2 = (m2 >= 0 && m2 < n2) ? nums2[m2] : 1000000;
+            if( r2>=l1 && r1 >= l2 ) 
+            {
+                    if  (  (n1+n2) & 1 )  return min (r1 , r2 ) * 1.0;
+                    else return (max ( l1 , l2) + min ( r1 , r2 ) )/2.0;    
+            }
+            if (l1 > r2) 
+            l = m2 + 1;
+            else if (l2 > r1) 
+            h = m2 - 1;
+     }
+return -1.0; //dummy
+    } 
+};
 ```
 
 </details>
@@ -2604,8 +2640,34 @@ public:
 
 <details>
 
+> similar to finding the median of two sorted arrays but here remember as you want to find the kth element we need to fill our left half with (k-1) element and also if the optimal condition is met we can `return min (r1, r2 )`, remember the trick part is: `l` =  `max (k-1 - n1 ,0)` `h` = `min(n2,k-1)`
 
 ```cpp
+class Solution{
+    public:
+    int kthElement(int nums1[], int nums2[], int n1, int n2, int k)
+    {
+     if(n1 < n2 ) return kthElement (  nums2 , nums1 , n2 , n1 , k) ;
+     int l ,h, m2, m1 ;
+     l =  max ( (k-1) - n1 ,0) ;
+     h = min (  n2, (k-1));
+     while(l<=h){
+            m2 = (l+h)/2;
+            m1 = (k-1) - m2; 
+            int l1 ,l2 , r1 , r2 ;
+            l1 = (m1 - 1 >= 0 && m1 - 1 < n1) ? nums1[m1 - 1] : INT_MIN;
+            l2 = (m2 - 1 >= 0 && m2 - 1 < n2) ? nums2[m2 - 1] : INT_MIN;
+            r1 = (m1 >= 0 && m1 < n1) ? nums1[m1] : INT_MAX;
+            r2 = (m2 >= 0 && m2 < n2) ? nums2[m2] : INT_MAX;
+            if( r2>=l1 && r1 >= l2 ) return min (r1 , r2 ) ;
+            if (l1 > r2) 
+            l = m2 + 1;
+            else if (l2 > r1) 
+            h = m2 - 1;
+     }
+     return 1 ; //dummy
+    }
+};
 ```
 
 </details>
