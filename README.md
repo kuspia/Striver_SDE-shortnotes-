@@ -2430,24 +2430,32 @@ public:
 
 class Solution {
 public:
-    bool wordBreakHelper(const string& s, int start, const unordered_set<string>& wordSet, vector<int>& memo) {
-    if (start == s.size()) return true;
-    if (memo[start] != -1) return memo[start];
-    for (int end = start; end < s.size(); ++end) {
-        string substring = s.substr(start, end - start + 1);
-        if (wordSet.find(substring) != wordSet.end()) if (wordBreakHelper(s, end + 1, wordSet, memo)) return memo[start] = true;
+    bool wordBreakHelper(const string& s, int start, const unordered_set<string>& wordSet, vector<int>& memo, vector<string>& result) {
+        if (start == s.size()) return true;
+        if (memo[start] != -1) return memo[start];
+
+        for (int end = start; end < s.size(); ++end) {
+            string substring = s.substr(start, end - start + 1);
+            if (wordSet.find(substring) != wordSet.end()) {
+                result.push_back(substring); // Add the substring to the result
+                if (wordBreakHelper(s, end + 1, wordSet, memo, result)) {
+                    return memo[start] = true;
+                }
+                result.pop_back(); // Backtrack and remove the substring
+            }
+        }
+        return memo[start] = false;
     }
-    return memo[start] = false;
-}
 
-bool wordBreak(const string& s, const vector<string>& wordDict) {
-    unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
-    vector<int> memo(s.size(), -1);
-    return wordBreakHelper(s, 0, wordSet, memo);
-}
+    pair<bool, vector<string>> wordBreak(const string& s, const vector<string>& wordDict) {
+        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+        vector<int> memo(s.size(), -1);
+        vector<string> result;
 
+        bool canBreak = wordBreakHelper(s, 0, wordSet, memo, result);
+        return {canBreak, result};
+    }
 };
-
 
 ```
 
