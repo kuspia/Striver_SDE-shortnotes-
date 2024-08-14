@@ -2465,7 +2465,7 @@ public:
 
 <details>
 
-> Simple suppose you have 64 and u need to find the 3rd root of it, so traverse using BS:
+> Simple suppose you have 64 and you need to find the 3rd root of it, so traverse using BS:
 
 > `l` = 1, `h` = 64, now check for the middle element as raised to power of 3, does it gives u `64` if yes `mid` is ur answer else reduce ur search space accordingly.
 
@@ -2490,8 +2490,24 @@ return -1 ;
 
 <details>
 
+> The matrix is row-wise sorted, that means we can apply BS on every row, secondly: It's important to note that `mid` is a potential median, not an exact one, as it might not exist in our matrix. To tackle this, we employ a clever trick: if mid is equal to the target value, we perform a binary search on the right half as well. By doing this, we ensure that l eventually points to the exact median position if it exists.
 
 ```cpp
+int bs(vector<vector<int>> &mat, int m, int n , int l , int h, int target ){
+        if(l<=h){
+            int mid = (l+h)/2;
+            int lesser_equal = 0 ;
+            for(int i = 0 ; i < m ; i++) // m rows 
+            lesser_equal  += ( upper_bound( mat[i].begin() , mat[i].end()  , mid ) -   mat[i].begin()  );
+            if (lesser_equal <= target)return bs(mat, m, n , mid+1 , h, (m*n)/2 );
+            else return bs(mat, m, n , l , mid-1, (m*n)/2 );   
+        }
+        return l ;
+}
+int median(vector<vector<int>> &matrix, int m, int n) { // m rows and n cols 
+      int ans =  bs(matrix, m, n , 1 , 1000000009, (m*n)/2 );
+      return ans;
+}
 ```
 
 </details>
@@ -2500,18 +2516,76 @@ return -1 ;
 
 <details>
 
+> The idea is to compare mid with left or right wherever equality holds just try to count the remaining elements on that side (exclude pairs) if it turns out to be odd u need to recurse for that half else the other one.
+
+> Key point: The answer will lie b/w l to h such that (h-l+1) is odd.
 
 ```cpp
+class Solution {
+public:
+int singleNonDuplicate(vector<int>& nums) {
+        int l = 0 ;
+        int h = nums.size()-1;
+        int m ;
+        int n = nums.size();
+        while( l <=h) {
+            m = (l+h)/2;
+            if(  m+1 <= n-1 &&  nums[m] ==  nums[m+1] ){
+               if(   ( h- m +1)  & 1  ) l = m+2;
+               else h = m-1; 
+            }
+            else if ( m-1>=0 && nums[m] == nums[m-1]){
+                    if(  (    ( m - l +1 )   &1 ) ) h = m-2;    
+                    else l = m+1;  
+            }
+            else return nums[m];
+        }
+return -1;
+    }
+};
 ```
 
 </details>
 
-### 64. Search element in sorted rotated array
+### 64. Search Element in a Rotated Sorted Array
+
 
 <details>
 
+> Rember that when u find a mid, then if (nums[m] <= nums[h])  -> Right half is sorted, and the pivot is in the left half, and vice-versa
+
+> Now that u know if the right half is sorted then try checking target lies in the right range or not, if yes, that tells that we need to recur for the right half again else the left half. 
 
 ```cpp
+class Solution {
+public:
+    int f(vector<int>& nums, int target, int l, int h) {
+        if (l <= h) {
+            int m = (l + h) / 2;
+            if (nums[m] == target) return m;
+            if (nums[m] <= nums[h]) {
+                // Right half is sorted, and the pivot is in the left half.
+                if (target >= nums[m] && target <= nums[h]) {
+                    return f(nums, target, m+1 , h );
+                } else {
+                    return f(nums, target, l , m-1 );
+                }
+            }
+            if (nums[m] >= nums[l]) {
+                // Left half is sorted, and the pivot is in the right half.
+                if (target >= nums[l] && target <= nums[m]) {
+                    return f(nums, target, l , m-1 );
+                } else {
+                    return f(nums, target, m+1 , h );
+                }
+            }
+        }
+        return -1;
+    }
+    int search(vector<int>& nums, int target) {
+        return f(nums, target, 0, nums.size() - 1);
+    }
+};
 ```
 
 </details>
