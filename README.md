@@ -2465,8 +2465,23 @@ public:
 
 <details>
 
+> Simple suppose you have 64 and u need to find the 3rd root of it, so traverse using BS:
+
+> `l` = 1, `h` = 64, now check for the middle element as raised to power of 3, does it gives u `64` if yes `mid` is ur answer else reduce ur search space accordingly.
 
 ```cpp
+int NthRoot(int n, int m) { // m=64, n=3
+int l = 1 ;
+int h =  m ;
+while(l<=h){
+  int mid = (l+h)/2;
+  if( pow( mid , n ) == m) return mid ;
+  else if(  pow ( mid , n )  > m ) h = mid-1;
+  else l = mid+1 ;
+
+}
+return -1 ;
+}
 ```
 
 </details>
