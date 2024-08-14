@@ -2037,6 +2037,34 @@ void f ( string s, int n , int bar ,  vector<vector<string>>& ans,vector<string>
 
 <details>
 
+> Pattern based (without-recursion): suppose we have sorted numbers from 1 to n, and the factorial of every number stored, if `n` = 4 and `k` = 16, in this case what we do is we fill from left to right, now we can figure out the every number on every index, so when `n` is 4 we know we have 24 combinations, when we fix the 0th index, we are left with 6 combinations on the right hand side(1st to 3rd indices), so we have groups of size 6 for every number choosen on index 0, since k = 14, so we can say we want group 3rd (so [0] = 3), and for next iteration `k` will 4 (so we want 4th number among 6 combinations left out from (1,2,4).  
+
+```cpp
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        vector<int> factorial(n + 1, 1);
+        for (int i = 2; i <= n; ++i) factorial[i] = factorial[i - 1] * i;
+        vector<int> numbers;
+        for (int i = 1; i <= n; ++i) numbers.push_back(i);
+        k--;
+        string result;
+        for (int i = 0; i < n; ++i) {
+            int div = factorial[n - i - 1];
+            int group = k / div;
+            int rem = k % div;
+            result += to_string(numbers[group]);
+            numbers.erase(numbers.begin() + group);
+            k = rem;
+        }
+        return result;
+    }
+};
+```
+
+
+
+
 > The idea is to take a counter `i` that keeps track of how many elements we have in our `ans`, now what we do is when we enter recursion we iterate all possibilities from `1 to n` and pick the element if it has not been already taken which is checked by using masking n bits length number easily, as soon as `i` reaches upto n that is one of the permutations from all possibilities. 
 
 ```cpp
