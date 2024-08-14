@@ -2461,7 +2461,7 @@ public:
 
 </details>
 
-### 61. 
+### 61. The nth root of an integer
 
 <details>
 
@@ -2471,25 +2471,93 @@ public:
 
 </details>
 
+### 62. Matrix median 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 63. Element that appear once while others appears twice
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 64. Search element in sorted rotated array
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 65. Median of 2 sorted array
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 66. Kth element of 2 sorted array
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 67. Allocate minimum number of pages
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 68. Aggresive cows
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 63. Max heap and Min heap Implementation
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 64.
+
+<details>
 
 
+```cpp
+```
 
+</details>
 
-
-   
