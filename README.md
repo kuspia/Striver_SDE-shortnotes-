@@ -2063,7 +2063,7 @@ public:
 ```
 
 
-> The idea is to take a counter `i` that keeps track of how many elements we have in our `ans`, now what we do is when we enter recursion we iterate all possibilities from `1 to n` and pick the element if it has not been already taken which is checked by using masking n bits length number easily, as soon as `i` reaches upto n that is one of the permutations from all possibilities. 
+> The approach involves using a counter `index` to track the number of elements currently in `current`. Within the recursion, iterate through all possible values from `1` to `n`, selecting an element if it hasn't been used yet, which is efficiently checked using a mask with `n` bits. When `index` equals `n`, it means one complete permutation has been found among all possible permutations.
 
 ```cpp
 class Solution {
@@ -2180,6 +2180,8 @@ vector<vector<int>> permute(vector<int>& nums) {
 
 <details>
 
+> To solve this problem, place queens row by row, checking each column in the current row for a valid position. Use a helper function to validate the queen’s placement by checking the column and both diagonals. If placing a queen leads to a valid configuration, recursively attempt to place queens in the next row; if not, backtrack by removing the queen and trying the next column.
+
 ```cpp
 class Solution {
 public:
@@ -2237,6 +2239,8 @@ public:
 ### 57. Sudko Solver
 
 <details>
+
+> Interesting problem, we use two loops to iterate the cells of our board then if we encounter `.` char we try filling it with 1-9 and validate it, if we can fill it clearly we need to fill next empty cell so we call `solve` again, if we can't fill it we return 0 that shows none of them 1-9 is suitable choice for that cell hence it backtrack to previous call and on getting false it makes `board[i][j]` again to '.', then we check for rest of the possibilities.
 
 ```cpp
 class Solution {
@@ -2296,11 +2300,45 @@ public:
 
 <details>
 
-
+> The problem is solved by attempting to color each node with one of the `m` available colors and checking if the entire graph can be colored successfully. The `isValid` function determines if a node `id` can be colored with a specific color `color` without violating constraints. During recursion, all color possibilities are explored for each node. If coloring a node fails with all `m` colors, we backtrack by resetting the color and trying the next configuration.
 
 ```cpp
-```
+class Solution {
+public:
+    bool isValid(vector<vector<int>>& graph, int id, int color, vector<int>& colors) {
+        for (int neighbor : graph[id]) if (colors[neighbor] == color) return false;
+        return true;
+    }
+    bool solve(vector<vector<int>>& graph, int m, int id, vector<int>& colors) {
+        // If all vertices are colored
+        if (id == graph.size()) return true;
+        // Try coloring vertex 'id' with each color
+        for (int color = 0; color < m; color++) {
+            if (isValid(graph, id, color, colors)) {
+                colors[id] = color;
+                if (solve(graph, m, id + 1, colors)) return true;
+                // Backtrack
+                colors[id] = -1;
+            }
+        }
+        return false;
+    }
 
+    bool graphColoring(bool graph[101][101], int m, int n) {
+        vector<vector<int>> adjacencyList(n + 1);
+        vector<int> colors(n, -1);
+        // Convert adjacency matrix to adjacency list
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if (graph[i][j]) {
+                    adjacencyList[i].push_back(j);
+                }
+            }
+        }
+        return solve(adjacencyList, m, 0, colors);
+    }
+};
+```
 
 </details>
 
@@ -2309,9 +2347,74 @@ public:
 
 <details>
 
-
-
 ```cpp
+class Solution {
+public:
+    void findPaths(vector<string>& ans, vector<string>& moves, vector<vector<int>>& grid, int n, int r, int c) {
+        // If we've reached the bottom-right corner of the grid
+        if (r == n - 1 && c == n - 1) {
+            // Convert the list of moves into a single string
+            string path = "";
+            for (const auto& move : moves) {
+                path += move;
+            }
+            // Add the string of moves to the answer list
+            ans.push_back(path);
+            return;
+        }
+
+        // Check if the current cell is blocked or visited
+        if (grid[r][c] == 0) return;
+
+        // Mark the current cell as visited
+        grid[r][c] = 0;
+
+        // Try moving left (if possible)
+        if (c > 0 && grid[r][c - 1] == 1) {
+            moves.push_back("L");
+            findPaths(ans, moves, grid, n, r, c - 1);
+            moves.pop_back(); // Backtrack
+        }
+
+        // Try moving right (if possible)
+        if (c < n - 1 && grid[r][c + 1] == 1) {
+            moves.push_back("R");
+            findPaths(ans, moves, grid, n, r, c + 1);
+            moves.pop_back(); // Backtrack
+        }
+
+        // Try moving up (if possible)
+        if (r > 0 && grid[r - 1][c] == 1) {
+            moves.push_back("U");
+            findPaths(ans, moves, grid, n, r - 1, c);
+            moves.pop_back(); // Backtrack
+        }
+
+        // Try moving down (if possible)
+        if (r < n - 1 && grid[r + 1][c] == 1) {
+            moves.push_back("D");
+            findPaths(ans, moves, grid, n, r + 1, c);
+            moves.pop_back(); // Backtrack
+        }
+
+        // Unmark the current cell as unvisited for other potential paths
+        grid[r][c] = 1;
+    }
+
+    vector<string> findPath(vector<vector<int>>& grid, int n) {
+        vector<string> ans; // List to store possible paths
+        vector<string> moves; // List to store current moves
+        findPaths(ans, moves, grid, n, 0, 0); // Start exploring paths from the top-left corner
+        
+        // If there are valid paths found, return them
+        if (!ans.empty()) {
+            return ans;
+        }
+        // If no valid paths are found, return a list with a single element "-1"
+        return {"-1"};
+    }
+};
+
 ```
 
 
