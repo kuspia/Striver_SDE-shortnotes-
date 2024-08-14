@@ -2063,54 +2063,51 @@ public:
 ```
 
 
-
-
 > The idea is to take a counter `i` that keeps track of how many elements we have in our `ans`, now what we do is when we enter recursion we iterate all possibilities from `1 to n` and pick the element if it has not been already taken which is checked by using masking n bits length number easily, as soon as `i` reaches upto n that is one of the permutations from all possibilities. 
 
 ```cpp
 class Solution {
 public:
-int kk = 0 ;
-    int f (vector<int>& v, int& n, long long int& diff, int i, vector<int>& ans, int& k,  vector<int>& per  ){
-        if(i==n){
-            kk++;
-        if(k == kk){
-             for(int l = 0 ; l < n ; l++) per[l] =ans[l];
-              return 1;
+    int count = 0;
+
+    int findPermutation(vector<int>& v, int n, long long int& bitmask, int index, vector<int>& current, int k, vector<int>& result) {
+        if (index == n) {
+            count++;
+            if (count == k) {
+                result = current;
+                return 1; // Found the k-th permutation
+            }
+            return 0; // Continue searching
         }
-           return 0 ;
+
+        for (int j = 0; j < n; j++) {
+            long long int bit = 1 << v[j];
+            if (bit & bitmask) { // If the bit is set, the number has been used, skip it
+                continue;
+            } else {
+                current.push_back(v[j]);
+                bitmask |= bit; // Mark this number as used
+                if (findPermutation(v, n, bitmask, index + 1, current, k, result)) return 1; // Found the permutation
+                // Backtrack
+                current.pop_back();
+                bitmask ^= bit; // Unmark this number
+            }
         }
-        for(int j = 0 ;  j < n ; j++){
-            long long int chk  ;
-            chk = 1 << v[j];
-            if(chk  & diff ) // if one that means we cna't use that number 
-            {
-            } else{
-            ans.push_back(v[j]); // only possible if 
-            diff |= chk ;// set the jth bit to 1 now
-            int halt = f( v, n , diff, i+1, ans, k, per );
-            if(halt) return 1;
-            ans.pop_back();
-            diff ^= chk; // set the jth bit to 0 now
-            }    
-        }
-        return 0 ;
+        return 0; // Not found
     }
     string getPermutation(int n, int k) {
-        vector<int> v ;
-        vector<int> per(n) ;
-         vector<int> ans ;
-        for(int i = 0  ;  i < n ; i++) v.push_back(i+1);
-       long long int diff = 0 ;
-       int halt =  f( v, n , diff, 0, ans, k, per );
- std::stringstream ss;
-    for (int i = 0; i < n; ++i) {
-        ss << per[i];
-    }
-    std::string result = ss.str();
-    return result;
+        vector<int> v(n);
+        vector<int> result(n);
+        vector<int> current;
+        for (int i = 0; i < n; i++) v[i] = i + 1;
+        long long int bitmask = 0;
+        findPermutation(v, n, bitmask, 0, current, k, result);
+        stringstream ss;
+        for (int i = 0; i < n; ++i) ss << result[i];  
+        return ss.str();
     }
 };
+
 ```
 
 </details>
