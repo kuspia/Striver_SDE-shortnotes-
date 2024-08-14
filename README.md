@@ -2149,6 +2149,7 @@ public:
         return ans;
     }
 };
+```
 
 > swap algo
 
@@ -2179,9 +2180,55 @@ vector<vector<int>> permute(vector<int>& nums) {
 
 <details>
 
-
-
 ```cpp
+class Solution {
+public:
+    // Function to check if placing a queen at position (r, c) is valid
+    bool isValid(vector<vector<string>>& board, int r, int c, int n) {
+        // Check the same column
+        for (int i = 0; i < r; i++)
+            if (board[i][c] == "Q")
+                return false;
+        
+        // Check right upper diagonal
+        for (int i = r - 1, j = c + 1; i >= 0 && j < n; i--, j++)
+            if (board[i][j] == "Q")
+                return false;
+        
+        // Check left upper diagonal
+        for (int i = r - 1, j = c - 1; i >= 0 && j >= 0; i--, j--)
+            if (board[i][j] == "Q")
+                return false;
+
+        return true;
+    }
+
+    // Recursive function to solve the N-Queens problem
+    void solve(vector<vector<string>>& board, vector<vector<string>>& results, int n, int row) {
+        if (row == n) {
+            vector<string> temp;
+            for (const auto& rowVec : board) {
+                temp.push_back(string(rowVec.begin(), rowVec.end()));
+            }
+            results.push_back(temp);
+            return;
+        }
+
+        for (int col = 0; col < n; col++) {
+            if (isValid(board, row, col, n)) {
+                board[row][col] = "Q";
+                solve(board, results, n, row + 1);
+                board[row][col] = "."; // Backtrack
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> board(n, vector<string>(n, "."));
+        vector<vector<string>> results;
+        solve(board, results, n, 0);
+        return results;
+    }
+};
 ```
 
 
@@ -2191,9 +2238,55 @@ vector<vector<int>> permute(vector<int>& nums) {
 
 <details>
 
-
-
 ```cpp
+class Solution {
+public:
+    // Check if placing the number 'val' at position (r, c) is valid
+    bool isValid(vector<vector<char>>& board, int r, int c, int val) {
+        char ch = static_cast<char>(val + '0');
+        // Check the column
+        for (int i = 0; i < 9; i++) {
+            if (board[i][c] == ch) return false;
+        }
+        // Check the row
+        for (int i = 0; i < 9; i++) {
+            if (board[r][i] == ch) return false;
+        }
+        // Check the 3x3 subgrid
+        int startRow = 3 * (r / 3);
+        int startCol = 3 * (c / 3);
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (board[i][j] == ch) return false;
+            }
+        }
+        return true;
+    }
+
+    // Backtracking function to solve the Sudoku puzzle
+    bool solve(vector<vector<char>>& board) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    for (int k = 1; k <= 9; k++) {
+                        if (isValid(board, i, j, k)) {
+                            board[i][j] = static_cast<char>(k + '0');
+                            if (solve(board)) return true;
+                            board[i][j] = '.'; // Backtrack
+                        }
+                    }
+                    return false; // Return false if no number fits
+                }
+            }
+        }
+        return true; // Puzzle solved
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        solve(board); // Call the solve function
+    }
+};
+
 ```
 
 
