@@ -3208,6 +3208,54 @@ public:
 
 
 ```cpp
+class Solution {
+public:
+    bool isValid(std::string s) {
+        std::stack<char> stk;
+        for (char c : s) {
+            if (c == '(' || c == '{' || c == '[') {
+                stk.push(c);
+            } else {
+                if(stk.size() == 0 ) return 0;
+                int f = 0 ;
+                if (c == ')' && stk.top() == '(') {
+                    f=1;
+                    stk.pop();
+                }
+                if (c == '}' && stk.top() == '{') {
+                     stk.pop();
+                f=1;
+                }
+                if (c == ']' && stk.top() == '[') {
+                    f=1;
+                     stk.pop();
+                }
+                if(!f) return 0;
+            }
+        }
+
+        return stk.size() == 0 ? 1 : 0;
+    }
+};
+```
+
+> Bonus question for u, hehe it was very easy right u thought to move on now and see this too, HAHAHA, no easy escapes
+
+```cpp
+void generateParenthesisHelper(int n, int open, int close, string current, vector<string> &result) {
+    if (current.length() == 2 * n) {
+        result.push_back(current);
+        return;
+    }
+    if (open < n) generateParenthesisHelper(n, open + 1, close, current + "(", result);
+    if (close < open)  generateParenthesisHelper(n, open, close + 1, current + ")", result);
+    
+}
+vector<string> generateParenthesis(int n) {
+    vector<string> result;
+    generateParenthesisHelper(n, 0, 0, "", result);
+    return result;
+}
 ```
 
 </details>
@@ -3216,8 +3264,53 @@ public:
 
 <details>
 
+> NGE code: see we try to push the indexes of the elements in my stack, but if the upcoming element is greater than that top of stock that means it is my NGE for the top position index so we store it and we keep on checking it for next top elements of my stack unless `s.size() > 0 &&   arr[s.top()] < arr[i]` else push the element index in your stack.
 
 ```cpp
+class Solution
+{
+    public:
+    vector<long long> nextLargerElement(vector<long long> arr, int n){
+        vector<long long> v( arr.size() , -1 );
+        stack<int >  s ; // stores the indexes
+        for(int i = 0; i < arr.size() ; i++){
+            while(      s.size() > 0 &&   arr[s.top()] < arr[i] ){
+               v[s.top()] = arr[i];
+               s.pop();
+            }
+            s.push(i);
+        }
+        return v;
+    }
+};
+```
+> [Problem](https://leetcode.com/problems/next-greater-element-i/description/) solution:
+
+```cpp
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
+        int n1 = nums1.size() ;
+        int n2 = nums2.size();
+        map < int , int > mp ;
+        for(int i=0 ;  i<= 1e4 ; i++) mp[i] = -1 ;
+        
+        stack <int > s ;
+        for(int i=0 ;  i< n2 ; i++){
+            while(s.size() > 0 && nums2[i] > nums2[s.top()]){
+                mp[nums2[s.top()]] = i;
+                s.pop();
+            }
+            s.push(i);
+        }
+        vector<int> an;
+        for(int i=0 ;  i< n1 ; i++) {
+         if (  mp[  nums1[i]  ] != -1 ) an.push_back(      nums2[mp[nums1[i]]]      );
+         else an.push_back(-1);
+     }
+         return an;
+    }
+};
 ```
 
 </details>
