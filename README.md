@@ -2960,8 +2960,36 @@ public:
 
 <details>
 
+> Again an outstanding problem see here you learn to create a min-heap with pair of `(int, pair of (int, int))` -> `(value_of_array, (array_number, index_of_array))`, see what intuition is, try maintaining the min heap size as k always, and for 0th index preprocess it before the loop, now we say unless pq is not empty we get the top element and pop it and then again we take the next element from that array from which we found the top most minimum value, we can do so because we have advance `pq` min-heap-DS-templating.
+
+> If my top element is this then `{ 4, { 3, 10} }` this tells us that the minimum value as far from all k arrays is 4 and it is from the 3rd array whose current pointer is at location 10 [0 indexing is being followed remember].
+
+> If the condition `if (ka[cur.second.first].size() != cur.second.second + 1)` fails, it means that the current array has been fully iterated over, and no more elements are left to push into the priority queue. When this happens for all `k` arrays, the loop exits, as there are no more elements to process.
 
 ```cpp
+struct Compare {
+    bool operator()(const pair<int, pair<int, int>>& a, const pair<int, pair<int, int>>& b) {
+        return a.first > b.first; // Reverse comparison for min-heap
+    }
+};
+vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
+    priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, Compare> pq; //min-heap DS 
+    // priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>, greater<pair<int, pair<int, int>>>> pq; // this is fine too
+    // Initialize the heap with the first element of each array
+    for(int i = 0; i < k; i++) if (!ka[i].empty()) pq.push({ka[i][0], {i, 0}}); 
+    vector<int> v;
+    while(!pq.empty()) {
+        auto cur = pq.top();
+        pq.pop();
+        v.push_back(cur.first);
+        // If there's another element in the same array, add it to the heap
+        if(ka[cur.second.first].size() != cur.second.second + 1) {
+            pq.push({ka[cur.second.first][cur.second.second + 1], {cur.second.first, cur.second.second + 1}});
+        }
+    }
+    return v;
+}
+
 ```
 
 </details>
