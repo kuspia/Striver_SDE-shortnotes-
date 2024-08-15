@@ -2989,7 +2989,6 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
     }
     return v;
 }
-
 ```
 
 </details>
@@ -2999,13 +2998,28 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
 
 <details>
 
-
 ```cpp
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        map<int,int> mp;
+        priority_queue <  pair<int,int> > pq; //max heap
+        for(int i = -1e4 ; i<= 1e4 ; i++ ) mp[i]=0;
+        for(auto num : nums) mp[num]++;
+        for(int i = -1e4 ; i<= 1e4 ; i++ ) if(mp[i]) pq.push({mp[i],i});
+         vector<int> v;
+         while(k--){
+             v.push_back(pq.top().second);
+             pq.pop();
+         }
+         return v;
+    }
+};
 ```
 
 </details>
 
-### 70.
+### 70. Stack using arrays
 
 <details>
 
@@ -3014,6 +3028,137 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
 ```
 
 </details>
+
+### 71. Queue using arrays 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 72. Stack using a single queue
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 73. Queue using stack 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 74. Check for balanced parenthesis
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 75. NGE Next greater element 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 76. Sort a stack 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 77. NSE Next smaller element 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 78. LRU cache
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 79. LFU cache
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 80. Largest rectangle in the histogram 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 81. Sliding window maximum
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 82. Implement min stack
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 83.
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
 
 
 
