@@ -2674,14 +2674,13 @@ class Solution{
 
 ### 67. Allocate minimum number of pages (return l)
 
+<details>
+
 > Initialize `low` and `high` as shown in code, not always `1` to `1e9`  (always for any BS problem ur search space is to be chosen wisely else u will get WA. Reason, imagine, for this, to get the gist `[12, 13, 14]` `n=3` or `n=1`
 
 > When you find an optimal answer as we need to shrink it so again we look into the left half for that, i.e. suppose my max of min was 72 which is optimal so we still want to reduce so in case of equality try moving towards left side doing so, u end up `low` as your answer.
 
 > Try initializing `required_students` as 1 even before u start else it won't work properly because when u go in the else block where u increment `cnt` it actually counts the next student, not the previous one.
-
-<details>
-
 
 ```cpp
 class Solution 
