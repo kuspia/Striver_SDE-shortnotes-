@@ -2486,7 +2486,7 @@ return -1 ;
 
 </details>
 
-### 62. Matrix median 
+### 62. Matrix median (return l)
 
 <details>
 
@@ -2672,22 +2672,78 @@ class Solution{
 
 </details>
 
-### 67. Allocate minimum number of pages
+### 67. Allocate minimum number of pages (return l)
+
+> Initialize `low` and `high` as shown in code, not always `1` to `1e9`  (always for any BS problem ur search space is to be chosen wisely else u will get WA. Reason, imagine, for this, to get the gist `[12, 13, 14]` `n=3` or `n=1`
+
+> When you find an optimal answer as we need to shrink it so again we look into the left half for that, i.e. suppose my max of min was 72 which is optimal so we still want to reduce so in case of equality try moving towards left side doing so, u end up `low` as your answer.
+
+> Try initializing `required_students` as 1 even before u start else it won't work properly because when u go in the else block where u increment `cnt` it actually counts the next student, not the previous one.
 
 <details>
 
 
 ```cpp
+class Solution 
+{
+public:
+    // Function to find the minimum number of pages.
+    int findPages(int a[], int n, int m) 
+    {
+        if (m > n) return -1;  // More students than books is not possible.
+        int low = *max_element(a, a + n);
+        int high = accumulate(a, a + n, 0);
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int required_students = 1;
+            int current_sum = 0;
+            for (int i = 0; i < n; i++) {
+                if (current_sum + a[i] <= mid) {
+                    current_sum += a[i];
+                } else { // this is for next student (tbh)
+                    required_students++;
+                    current_sum = a[i];
+                }
+            }
+            if (required_students > m) low = mid + 1;
+	    else high = mid - 1;
+        }
+        return low;
+    }
+};
 ```
-
 </details>
 
 ### 68. Aggresive cows
-
 <details>
-
+	
+> This question secretly uses BS and often seems as the problem of recursion where we want to explore all possibilities, so the idea is u assume the distance from `l` to `h` and reduce it by BS, what we check in `n` time, we check can we seriously place at least `k` cows with minimum distance `m` b/w any two cows, if yes we need to update our answer and we go into right half to find more possible distance between two cows however if we fail to do so that means we need to look in left half as we have chosen much more than expected maximum value of the minimum distance between any two cows.  
 
 ```cpp
+int aggressiveCows(vector<int> &stalls, int k) {
+    int l = 1;
+    sort(stalls.begin(), stalls.end());
+    int h = stalls.back() - stalls.front(); // Max possible distance
+    int result = 0;
+    while (l <= h) {
+        int m = l + (h - l) / 2;
+        int cnt = 1;  // Place the first cow in the leftmost stall
+        int prev = stalls[0];
+        for (int i = 1; i < stalls.size(); i++) {
+            if (stalls[i] - prev >= m) {
+                cnt++;
+                prev = stalls[i];
+            }
+        }
+        if (cnt >= k) {
+            result = m;  // Update result and continue searching for larger distances
+            l = m + 1;
+        } else {
+            h = m - 1;
+        }
+    }
+    return result;
+}
 ```
 
 </details>
