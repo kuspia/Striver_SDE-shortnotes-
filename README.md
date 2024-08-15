@@ -2777,7 +2777,6 @@ void heapify(vector<int>& mi, int p) {
         heapify(mi, smallest);
     }
 }
-
 vector<int> minHeap(int n, vector<vector<int>>& q) {
     vector<int> mi ; // min heap DS
     vector<int> ans;
@@ -2794,7 +2793,6 @@ vector<int> minHeap(int n, vector<vector<int>>& q) {
         }
     }
     return ans;
-
 }
 ```
 
@@ -2802,10 +2800,72 @@ vector<int> minHeap(int n, vector<vector<int>>& q) {
 
 ### 65. Kth largest element
 
+
 <details>
+	
+> You can do it with the median of medians, I will post the solution however you can also try doing it with the heap concept of size k, where you need to maintain the size of the heap = k, and when you finish iterating the elements the top is your answer.
 
-
+> **K-th Largest → Min-Heap**: **K-th Smallest → Max-Heap**: Take opposite DS 
+ 
 ```cpp
+class Solution {
+public:
+std::vector<int> help(std::vector<int>& nums) {
+    std::vector<int> result;
+    // Divide the nums into groups of 5
+    for (size_t i = 0; i < nums.size(); i += 5) {
+        size_t groupSize = std::min(static_cast<size_t>(5), nums.size() - i);
+        // Sort the group
+        std::sort(nums.begin() + i, nums.begin() + i + groupSize);
+        // Find the middle element index
+        size_t middleIndex = i + (groupSize - 1) / 2;
+        // Add the middle element to the result
+        result.push_back(nums[middleIndex]);
+    }
+    return result;
+}
+    int mom ( vector<int>& nums, int k ){
+    vector< int > v = help(nums);
+    while(v.size() != 1){
+        v = help(v);
+    }
+    int pvt = v[0];
+    int i = 0 ;
+    int c = 0 ; // in case u encounter a pivot just count it
+    int j = nums.size() -1 ;
+    // partition algo on basis of my pivot element
+    vector< int > temp_nums ( nums.size() ) ;
+
+    for(int k = 0 ; k < nums.size() ; k++){
+        if(nums[k] > pvt){
+            temp_nums[i] = nums[k];
+            i++;
+        }
+       else if(nums[k] < pvt){
+            temp_nums[j] = nums[k];
+            j--;
+        }
+      else  c++;
+    }
+    while(c--){
+        temp_nums[i] = pvt;
+        ++i;
+    }
+    i--; // position of pvt (means it is sorted position of that number, please remember)
+        if (i == k - 1) return pvt;
+        else if (i > k - 1) {
+            vector<int> left_half(temp_nums.begin(), temp_nums.begin() + i);
+            return mom(left_half, k);
+        } else {
+            vector<int> right_half(temp_nums.begin() + i + 1, temp_nums.end());
+            return mom(right_half, k - i - 1);
+        }
+    return -1;
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        return mom ( nums , k ) ;
+    }
+};
 ```
 
 </details>
