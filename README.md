@@ -2751,8 +2751,51 @@ int aggressiveCows(vector<int> &stalls, int k) {
 
 <details>
 
+> The basic idea is heap stores the elements from left to right because of which for `0` indexing for any node `i`, the parent is `(i-1)/2`, and the left and right child is calc as done in the code, so let's talk about insertion which says insert at last then keep on climbing towards the root and swap with the parent if necessary, when you have to delete min key make sure last element should take the place of 0th index and then heapify it by comparing the left/right children recursively from the root node, we initially assume that my smallest child is parent index but swap with smallest child's indices, in case you did the swapping again call heapify function.
 
 ```cpp
+void insert (vector<int>& mi, int val) {
+mi.push_back(val);
+int id = mi.size() -1 ;
+int par = (id-1)/2;
+while( mi[par] > mi[id] ){
+    swap (mi[par] , mi [id]);
+    id = par;
+    par = (id-1)/2;
+}
+}
+void heapify(vector<int>& mi, int p) {
+    int smallest = p; // Initialize the smallest element as the parent
+    int l = 2 * p + 1; // Left child index
+    int r = 2 * p + 2; // Right child index
+    // Check if the left child is smaller than the parent
+    if (l < mi.size() && mi[l] < mi[smallest])   smallest = l;
+    if (r < mi.size() && mi[r] < mi[smallest])  smallest = r;
+    // If the smallest element is not the parent, swap and recursively heapify
+    if (smallest != p) {
+        swap(mi[p], mi[smallest]);
+        heapify(mi, smallest);
+    }
+}
+
+vector<int> minHeap(int n, vector<vector<int>>& q) {
+    vector<int> mi ; // min heap DS
+    vector<int> ans;
+    for(int i=0;i<n;i++){
+        if(q[i][0]==0) // case of insertion 
+        {
+		insert(mi , q[i][1]);
+        }else{
+            ans.push_back(mi[0]); //buiding our answer array
+            // now pop mi[0] and heapify
+            mi[0] = mi[mi.size()-1];
+            mi.pop_back();
+            heapify(mi,0);
+        }
+    }
+    return ans;
+
+}
 ```
 
 </details>
