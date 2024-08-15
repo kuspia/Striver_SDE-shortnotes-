@@ -3320,7 +3320,30 @@ public:
 <details>
 
 
+> Interesting question! The approach involves using two recursive functions, `f` and `f2`. The function `f` is responsible for popping all the elements from the stack, while `f2` handles placing each popped element back in the correct position.
+
+> Here's how it works: Imagine you pop all the elements from the stack using `f`, leaving the stack empty. Then, you start inserting the elements back one by one using `f2`. When inserting an element in `f2`, you check if the stack is empty or if the top element of the stack is less than or equal to the current element (`if (s.size() == 0 || s.top() <= val)`). If this condition is true, you simply push the element back onto the stack. If the condition is false, you pop the top element and make another recursive call to `f2` to compare the current element with the elements below it. The moment the base condition of `f2` is met, the current element will be inserted into its correct position. As you backtrack through `f2`, the elements that were previously popped out are pushed back onto the stack. Throughout this process, the key is to maintain the sorted order of the stack while working inside `f2`.
+
+---
+
 ```cpp
+void f2(stack<int>& s , int val){
+	if (s.size()== 0 || s.top() <= val ) {
+		s.push(val);
+		return;
+	}
+	int val1 = s.top();
+	s.pop();
+	f2(s , val);
+	s.push(val1);
+}
+void f(stack<int>& s){
+if(s.size()==0) return ;
+int val = s.top();
+s.pop();
+f(s);
+f2(s,val);
+}
 ```
 
 </details>
