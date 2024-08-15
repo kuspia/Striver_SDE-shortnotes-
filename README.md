@@ -3474,6 +3474,48 @@ public:
 
 <details>
 
+### Operation: `get`
+
+1. **Check:** Is the key available in the `keyNode` map?
+   - **Yes:**
+     - Retrieve the node associated with the key.
+     - Return the node's value.
+     - Update the frequency of the node:
+       - Remove the node from its current frequency list.
+       - Increase the node's frequency by 1.
+       - Add the node to the front of the list corresponding to its new frequency.
+       - Update the `minFreq` if necessary (i.e., if the list for the current minimum frequency is now empty).
+   - **No:**
+     - Return `-1`, indicating the key is not present in the cache.
+
+### Operation: `put`
+
+1. **Check:** Is the key already present in the cache?
+   - **Yes:**
+     - Retrieve the node associated with the key.
+     - Update the node’s value with the new value.
+     - Update the frequency of the node:
+       - Remove the node from its current frequency list.
+       - Increase the node's frequency by 1.
+       - Add the node to the front of the list corresponding to its new frequency.
+       - Update the `minFreq` if necessary.
+
+   - **No:**
+     - **Check:** Is the cache at its maximum capacity (`curSize == maxSizeCache`)?
+       - **Yes:**
+         - Find the list corresponding to the `minFreq`.
+         - Remove the least recently used (LRU) node from this list (this is the node at the tail's previous position).
+         - Delete this node's entry from `keyNode`.
+         - Decrease the current cache size (`curSize--`).
+       - **No:** No need to remove any nodes; proceed to the next step.
+
+     - **Insert the new node:**
+       - Create a new node with the given `key` and `value` and set its frequency to 1.
+       - Insert this new node at the front of the list corresponding to frequency 1.
+       - Add this new node to the `keyNode` map.
+       - Update the `freqListMap` to include this node in the list for frequency 1.
+       - Set `minFreq` to 1 since a new node with the lowest frequency is added.
+       - Increase the current cache size (`curSize++`).
 
 ```cpp
 struct Node {
