@@ -3352,18 +3352,120 @@ f2(s,val);
 
 <details>
 
-
 ```cpp
+vector<int> Solution::prevSmaller(vector<int> &a) {
+    int n = a.size();
+    reverse(a.begin(), a.end());
+    vector<int> an(a.size(), -1);
+    stack<int> s;
+    for (int i = 0; i < n; i++) {
+        while (!s.empty() && a[i] < a[s.top()]) {
+            an[s.top()] = a[i];
+            s.pop();
+        }
+        s.push(i);
+    }
+    reverse(an.begin(), an.end());
+    return an;
+    
+}
 ```
 
 </details>
 
-### 78. LRU cache
+### 78. LRU cache (least recently used)
 
 <details>
 
+> This is a very interesting problem that involves using a doubly linked list (DLL) and testing your understanding of pointers and memory management. The key idea is to create a head and tail node in the DLL and do further process.
+
+**Operation: `get`**
+- **Check**: Is the key available?
+  - **Yes**: Return the value and move the node to the front.
+  - **No**: Return `null`.
+
+**Operation: `put`**
+- **Check**: Is the key already present?
+  - **Yes**: Update the value and move the node to the front.
+  - **No**:
+    - **Check**: Does the current size allow for a new node?
+      - **Yes**: Insert the new node at the beginning.
+      - **No**: Delete the least recently used (LRU) node, then insert the new node at the beginning.
+
+> <img width="550" alt="Screenshot 2024-08-15 at 19 12 09" src="https://github.com/user-attachments/assets/65be7e49-c1e9-4a4e-80d1-cf4f876867d6">
 
 ```cpp
+class LRUCache {
+public:
+    int cur_size = -2;
+    struct node {
+        int val,key;
+        struct node *prev , *next ;
+    };
+    struct node* create(int key, int val){
+        cur_size++;
+        struct node* temp = new node ();
+        temp->key = key;
+        temp-> val = val ;
+        temp->prev = nullptr;
+        temp->next = nullptr;
+        return temp; 
+    }
+    struct node* insert_front (int key , int val){
+            struct node* temp = create(key, val);
+            struct node* head_next = head->next;
+            head->next = temp;
+            temp->next = head_next;
+            head_next->prev = temp;
+            temp->prev = head;
+            return temp;
+    }
+
+    void del_node(struct node* delit){
+        cur_size--;
+        struct node* temp2 = delit->next;
+        struct node* temp1 = delit->prev;
+        temp1->next = temp2;
+        temp2->prev = temp1;
+        delete delit;
+    }
+    int ma;
+    map <int , struct node*> mp; //key and node address
+    struct node *head, *tail;
+    LRUCache(int capacity) {
+        ma = capacity;
+        head = create (-1,-1);
+        tail = create (-1,-1);
+        head -> next = tail;
+        tail -> prev = head;
+    }
+    int get(int key) {
+        int val = -1;
+        if (mp.find(key) != mp.end()) {
+            struct node* add = mp[key];
+            val = add->val;
+            del_node(add); 
+            struct node* firstnode = insert_front(key ,val);
+            mp[key] = firstnode;
+        }
+        return val;
+    }
+    void put(int key, int value) {
+        if (mp.find(key) != mp.end()) {
+            struct node* add = mp[key];
+            del_node(add);
+            struct node *firstnode = insert_front(key , value);
+            mp[key] = firstnode;
+        }else{
+            if (cur_size == ma) {
+                mp.erase(tail->prev->key);
+                del_node(tail->prev);
+            }    
+            struct node *firstnode = insert_front(key ,value);
+            mp[key] = firstnode;
+        } 
+    }
+};
 ```
 
 </details>
