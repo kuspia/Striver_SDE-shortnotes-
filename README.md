@@ -2913,13 +2913,50 @@ vector<int> Solution::solve(vector<int> &a, vector<int> &b, int c) {
 
 <details>
 
+> <img width="526" alt="Screenshot 2024-08-15 at 14 34 22" src="https://github.com/user-attachments/assets/81039e8b-64f0-44cb-8af5-b3da0d5231c9">
+
+> Very interesting question again that uses two heaps max and min at the same time, so imagine that you have an increasing sequence as shown: `________________________>` now u know the median is located at the center so let's break it `___________>____________>` let's remodify it as shown:
+
+> <img width="104" alt="Screenshot 2024-08-15 at 14 37 17" src="https://github.com/user-attachments/assets/97ba35dc-2eaf-45ca-b8d2-973a71fcec5b">
+
+```
+1 2 3 4 5 6 : 
+maxheap minheap
+3 	4
+2 	5
+1 	6
+```
+
+> So when we process the elements one by one we can try this structure using max heap on the left while min heap on the right, so at this point you have two numbers which we place manually with `if-else` logic and after that when you have further numbers from the stream you can just place it in a desired heap and make sure you `balance` it because we are looking for `median` that's why both structures should have equal or at most a difference of one element.
+
 
 ```cpp
+class MedianFinder {
+public:
+    priority_queue<int> ma; // Max-heap for the lower half
+    priority_queue<int, vector<int>, greater<int>> mi; // Min-heap for the upper half
+    void addNum(int num) {
+        if (ma.empty() || num <= ma.top()) ma.push(num);
+        else mi.push(num);
+        // Balance the heaps if necessary, at most size diff. of unity 
+        if (ma.size() > mi.size() + 1) {
+            mi.push(ma.top());
+            ma.pop();
+        } else if (mi.size() > ma.size()) {
+            ma.push(mi.top());
+            mi.pop();
+        }
+    }
+    double findMedian() {
+        if (ma.size() > mi.size()) return ma.top();
+        else return (ma.top() + mi.top()) / 2.0;
+    }
+};
 ```
 
 </details>
 
-### 68. Merge K sorted arrays
+### 68. Merge K-sorted arrays
 
 <details>
 
