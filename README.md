@@ -2757,7 +2757,7 @@ int aggressiveCows(vector<int> &stalls, int k) {
 
 </details>
 
-### 64.
+### 65. Kth largest element
 
 <details>
 
@@ -2766,4 +2766,68 @@ int aggressiveCows(vector<int> &stalls, int k) {
 ```
 
 </details>
+
+### 66. Maximum sum combination
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 67. Median from Data Stream
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 68. Merge K sorted arrays
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+
+### 69. K most frequent elements
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 70.
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
