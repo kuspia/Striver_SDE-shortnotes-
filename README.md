@@ -3023,8 +3023,33 @@ public:
 
 <details>
 
-
 ```cpp
+class Stack {
+public:
+    int  a[1000000], t , ma;
+    Stack(int c) { // c is maximum size 
+        t=-1;
+        ma = c; // ma-1 will be the max limit up to which `t` can go 
+    }
+    void push(int num) {
+        if(t<ma -1)
+        a[++t] = num;  
+    }
+    int pop() {
+        if(t>=0 && t<ma) return a[t--];
+        return -1;
+    }
+    int top() {
+        if(t>=0 && t<ma) return a[t];
+        return -1;
+    }
+    int isEmpty() {
+        return t == -1 ? 1:0;
+    }
+    int isFull() {
+        return t == ma-1 ? 1:0;
+    }
+};
 ```
 
 </details>
@@ -3032,29 +3057,147 @@ public:
 ### 71. Queue using arrays 
 
 <details>
-
-
+	
 ```cpp
+class Queue {
+	int f, r;
+	vector<int> arr;
+        public:
+	Queue()
+	{
+		f = 0;
+		r = 0;
+		arr.resize(100001);
+	}
+	void enqueue(int e)
+	{
+		arr[r++] =e;
+	}
+	int dequeue()
+	{
+		if(f<r)	return arr[f++];
+		else return -1; 
+	}
+};
 ```
 
 </details>
 
-### 72. Stack using a single queue
+### 72. Implement Stack using a single queue
 
 <details>
 
+> Remember to take the `ip`, and `op` queue and always remember that my push operation will take n cost while the other two are of O(1) cost, why is this algo working which we have written? 
+
+> <img width="458" alt="Screenshot 2024-08-15 at 17 03 59" src="https://github.com/user-attachments/assets/3a0486d7-3f89-42fe-9129-01dbba9dd6ee">
+
+> if in a hurry, skip this and read another way when we just use a single queue
 
 ```cpp
+class MyStack {
+public:
+    queue <int> ip,op;
+    void push(int x) { // n cost operation always 
+        ip.push(x);
+        while(op.size()!=0){
+            int temp = op.front();
+            ip.push(temp);
+            op.pop();
+        }
+        while(ip.size()!=0){
+            int temp = ip.front();
+            op.push(temp);
+            ip.pop();
+        }
+
+    }
+    int pop() {
+        int ans = op.front();
+        op.pop();
+        return ans;
+    }
+    int top() {
+        int ans = op.front();
+        return ans;
+    }
+    bool empty() { return ip.size() + op.size() ? 0 : 1 ; }
+};
+```
+
+> Using a single queue, here we also need to have `n` cost for push operation again, so what we do is push the element in the queue and for op.size()-1 times push then pop in the `op` queue using recursion.
+
+> <img width="640" alt="Screenshot 2024-08-15 at 17 20 17" src="https://github.com/user-attachments/assets/795ee3cd-d831-4330-bbc7-059c71135a1d">
+
+
+```cpp
+class MyStack {
+public:
+    queue <int> op;
+    void f(queue<int>& op, int swap){
+        if(swap==0) return;
+        int temp = op.front();
+        op.push(temp);
+        op.pop();
+        f(op, swap-1);
+    }
+    void push(int x) { // n cost operation always 
+        op.push(x);
+        int swap = op.size()-1;
+        f(op,swap);
+    }
+    int pop() {
+        int ans = op.front();
+        op.pop();
+        return ans;
+    }
+    int top() {
+        int ans = op.front();
+        return ans;
+    }
+    bool empty() { return op.size() ? 0 : 1 ; }
+};
 ```
 
 </details>
 
-### 73. Queue using stack 
+### 73. Implement Queue using stack 
 
 <details>
 
+> Use two stack `ip`/`op`, make push operation `O(1)` and push always in `ip` stack while for `top()` and `pop()` operations always remember if op.size() == 0 transfer content of ip -> op and then you can enjoy the pop() and top() operation cost as O(1) unless op.size() == 0 again, the only pain that happens is O(n) cost when u transfer ip->op
+
+> <img width="675" alt="Screenshot 2024-08-15 at 17 27 51" src="https://github.com/user-attachments/assets/91c42d66-3e0a-44e1-9e26-646301538514">
 
 ```cpp
+class MyQueue {
+public:
+    stack<int> ip,op;
+    void push(int x) { //let's make push as O(1), best way we did 1 cost operation as of now yoyo 
+        ip.push(x);
+    }
+        int pop() { 
+        if(op.size()==0) {
+            while(ip.size()!=0){
+                op.push(ip.top());
+                ip.pop();
+            }
+        }
+        int ans = op.top();
+        op.pop();
+        return ans;
+    }
+    int peek() {
+        if(op.size()==0) {
+            while(ip.size()!=0){
+                op.push(ip.top());
+                ip.pop();
+            }
+        }
+        int ans = op.top();
+        return ans;
+    }
+    bool empty() {  return ip.size() + op.size() ? 0 : 1 ;   }
+};
 ```
 
 </details>
