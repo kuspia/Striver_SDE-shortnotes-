@@ -2870,12 +2870,41 @@ std::vector<int> help(std::vector<int>& nums) {
 
 </details>
 
-### 66. Maximum sum combination
+### 66. Maximum sum combination (two-array-n-size-c-max-sum-combinations)
 
 <details>
 
+> Very interesting problem and a tough one, `c` is at most `n`, now listen we sort and iterate both arrays from back we push the last elements sum and their indexes in the set (we need to maintain the unique indexes pairs as sometimes there might be duplications while you are applying the algorithm), now key point to observe is that if my `(x,y)` is the biggest pair the next biggest pair will be `(x-1,y)` or `(x,y-1)` you might observe it very easily (use maths, assume the varibales as say, `a1`, `a2`, `a3` and `b1`, `b2`, `b3`, then apply conditions) but when you enter the loop next time we need to pick that pair which was greater among (x,y-1) or (x-1,y), so we maintain max-heap `pq` because the top element has maximum sum pair every time, please notice the next two possible max sum pairs can be generated from the maximum sum pair which can be found at top of the `pq` at any point of the time.
 
 ```cpp
+vector<int> Solution::solve(vector<int> &a, vector<int> &b, int c) {
+        int n = a.size();
+        sort(a.begin(), a.end());
+        sort(b.begin(), b.end());
+        priority_queue<pair<int, pair<int, int>>> pq; //max-heap (sum, (i, j))
+        set<pair<int, int>> s;
+	//take the last pair from both arrays 
+        pq.push(make_pair(a[n - 1] + b[n - 1], make_pair(n - 1, n - 1)));
+        s.insert({n - 1, n - 1});
+        vector<int> ans;
+        while (c > 0) {
+            pair<int, int> cur = pq.top().second;
+            int x = cur.first;
+            int y = cur.second;
+            ans.push_back(pq.top().first);
+            pq.pop();
+            c--;
+            if (y - 1 >= 0 && s.find({x, y - 1}) == s.end()) {
+                s.insert({x, y - 1});
+                pq.push(make_pair(a[x] + b[y - 1], make_pair(x, y - 1)));
+            }
+            if (x - 1 >= 0 && s.find({x - 1, y}) == s.end()) {
+                s.insert({x - 1, y});
+                pq.push(make_pair(a[x - 1] + b[y], make_pair(x - 1, y)));
+            }
+        }
+        return ans;
+}
 ```
 
 </details>
