@@ -2996,9 +2996,10 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
 
 ### 69. K most frequent elements
 
+<details>
+
 > Since the elements are distinct, we maintain a map `mp` where each element is paired with its frequency (`element, count`). We then push these pairs into a max heap (priority queue). Once the map is populated, we pop from the max heap `K` times to retrieve the `K` most frequent elements.
 
-<details>
 
 ```cpp
 class Solution {
@@ -3897,8 +3898,32 @@ return ans;
 
 <details>
 
+> Push all candidates into the stack. While the stack size is greater than or equal to 2, pick the top 2 elements. Depending on the condition, either one of them will be pushed back, or both will be removed (this is a clear observation). Finally, if you're left with one candidate, cross-check their potential candidate property once more before returning. If the stack is empty, return none.
+
+> <img width="927" alt="Screenshot 2024-08-16 at 15 11 43" src="https://github.com/user-attachments/assets/4c6ad999-a11a-4314-8c30-5368ee17e4da">
 
 ```cpp
+int findCelebrity(int n) {
+stack<int> s ;
+	 for(int i=0;i<n;i++) s.push(i);
+	 while(s.size() >= 2 ) {
+		 int a = s.top();
+		 s.pop();
+		 int b = s.top();
+		 s.pop();
+		 if(  knows(a,b) && !knows(b,a) ) s.push(b); 
+		 if(  knows(b,a) && !knows(a,b) ) s.push(a); 
+	 }
+	if (s.size() == 1) {
+        int potentialCelebrity = s.top();
+        s.pop();
+        for (int i = 0; i < n; i++) {
+            if (i != potentialCelebrity && (knows(potentialCelebrity, i) || !knows(i, potentialCelebrity))) return -1;  
+        }
+        return potentialCelebrity;  
+    }
+    return -1;  
+}
 ```
 
 </details>
