@@ -3749,7 +3749,7 @@ public:
 
 </details>
 
-### 83.
+### 83. Rotten oranges 
 
 <details>
 
@@ -3759,17 +3759,443 @@ public:
 
 </details>
 
+### 84. Stock span problem 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 85. Maximum of minimum in every window size 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 86. Celebrity Problem
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 87. Reverse words in a string 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 88. Longest palindrome in a string 
+
+<details>
 
 
+```cpp
+```
+
+</details>
+
+### 89. Roman number to integer and vice-versa
+
+<details>
 
 
+```cpp
+```
 
+</details>
+
+### 90. Implement ATOI/STRSTR
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 91. Longest common prefix
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 92. Rabin Karp 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 93. Z function  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 94. KMP algo/LSP(pi) array
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 95. Minimum characters to be inserted in front to make it palindromic
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 96. Anagrams
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 97. Count and say
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 98. Compare Version numbers   
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 99. Inorder 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 100. Preorder 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 101. Postorder
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 102. Morris Inorder 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 103. Morris Preorder 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 104. Left view of BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 105. Bottom view of BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 106. Top view of BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 107. Preorder Postorder Inorder in single Traversal 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 108. Vertical Order Traversal
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 109. Root to Node Path in BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 110. Max width of BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 111. Level order traversal in spiral form 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 112. Height of BT 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 113. Diameter of BT 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 114. BT is Height balanced or not 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 115. LCA in BT  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 116.  Check if the two trees are identical or not 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 117. Zig-Zag Traversal of BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 118. Boundary Traversal of BT  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 119. Maximum path sum  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 120. BT from Inorder and Preorder  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 121. BT from Inorder and Postorder  
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 122. Symmetric BT 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 123. Flatten BT to LL 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 124. Check if BT is the mirror of itself or not 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 125. Check for children sum property
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 126. Populate next right pointers of  tree 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 127. Search given key in BST
+
+<details>
+
+
+```cpp
+```
+
+</details>
 
