@@ -3844,12 +3844,51 @@ public:
 
 </details>
 
-### 85. Maximum of minimum in every window size 
+### 85. Maximum of minimum in every window size (hard)
 
 <details>
 
+> A tricky question: maintain the index of NSE for both the left and right directions for any index `i`. Note that by default, we store the `n` index for the right array and `-1` for the left array in case an NSE doesn't exist. Next, calculate `num[i] = abs(l[i] - r[i]) - 1`, which indicates that `h[i]` is the minimum in a window size less than or equal to `num[i]`. However, we must ensure that for window size `num[i]`, we pick the max `h[i]`, which is actually stored in `ans[num[i] - 1]` (with `-1` for 0 indexing). Finally, iterate through the `ans[]` array from the back and update it if a better optimal max answer exists.
+
+> <img width="810" alt="Screenshot 2024-08-16 at 14 49 43" src="https://github.com/user-attachments/assets/58607bc5-d3b8-40c9-8138-e1cd696611dc">
+
 
 ```cpp
+vector<int> maxMinWindow(vector<int> h, int n) {
+        vector<int> r(n,n);
+         vector<int> l(n,-1);
+         vector<int> ans(n, INT_MIN);
+          vector<int> num(n);
+         stack<int> s;
+         for(int i=0;i<n;i++){
+             while(s.size() > 0 && h[s.top()] > h[i] ){
+            r[s.top()] = i;
+            s.pop();
+             }
+            s.push(i);
+         }
+         while(s.size()!=0) s.pop();
+         for(int i=n-1;i>=0;i--){
+             while(s.size() > 0 && h[s.top()] > h[i] ){
+            l[s.top()] = i;
+            s.pop();
+             }
+            s.push(i);
+         }
+         for(int i=0;i<n;i++){
+             num[i] =   abs( l[i]-r[i] )-1;
+             ans[  num[i] -1  ] =    max (h[i] ,     ans[  num[i] -1  ] ) ;
+         }
+         int ma = ans[n-1];
+         for(int i=n-2;i>=0;i--){
+             if(ans[i]==INT_MIN)   ans[i] =ma;
+             else {
+             if (ans[i] < ma) ans[i] = ma;
+             else ma = ans[i];
+             }
+         }
+return ans;
+}
 ```
 
 </details>
