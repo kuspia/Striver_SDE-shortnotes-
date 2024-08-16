@@ -3557,8 +3557,6 @@ struct List {
         size--; 
     }
     
-    
-    
 };
 class LFUCache {
     map<int, Node*> keyNode; 
@@ -3629,13 +3627,6 @@ public:
         }
     }
 };
-
-/**
- * Your LFUCache object will be instantiated and called as such:
- * LFUCache* obj = new LFUCache(capacity);
- * int param_1 = obj->get(key);
- * obj->put(key,value);
- */
 ```
 
 </details>
@@ -3644,8 +3635,42 @@ public:
 
 <details>
 
+> We start by standing at the `i`th bar of the histogram and look both to the left and right to find the indices of the nearest smaller elements (NSE) on either side. We store these indices in arrays `l[]` (for the left side) and `r[]` (for the right side). Since the nearest smaller element can't contribute to the maximum area, we adjust the right array by decrementing the index of the NSE. Similarly, for the left array, we iterate from `n-1` to `0` and increment the NSE index, as it won't be part of the area either. 
+
+> When considering the `i`th position, we always include it in our potential maximum area calculation and try to extend the area as much as possible in both directions. If we encounter `-1` in the left or right arrays, we take the boundaries of the bar graph, which are the `0` and `n-1` indices, respectively.
 
 ```cpp
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& h) {
+        int n = h.size();
+        vector<int> r(n,-1);
+         vector<int> l(n,-1);
+          stack<int> s;
+         for(int i=0;i<n;i++){
+             while(s.size() > 0 && h[s.top()] > h[i] ){
+            r[s.top()] = i-1;
+            s.pop();
+             }
+            s.push(i);
+         }
+         while(s.size()!=0) s.pop();
+         for(int i=n-1;i>=0;i--){
+             while(s.size() > 0 && h[s.top()] > h[i] ){
+            l[s.top()] = i+1;
+            s.pop();
+             }
+            s.push(i);
+         }
+    int ans = INT_MIN;
+    for(int i=0;i<n;i++){
+    int l_id = (l[i] == -1) ? 0 : l[i];
+    int r_id = (r[i] == -1) ? n - 1 : r[i];
+        ans = max ( ans , (  h[i]*(r_id - l_id+1)  )   );
+    }
+    return ans ;
+    }
+};
 ```
 
 </details>
@@ -3654,8 +3679,29 @@ public:
 
 <details>
 
+> The approach is to use a deque to store the indexes of elements in decreasing order. As we slide the window across the array, we ensure two things: first, we remove any elements from the deque that are outside the current window's size; second, we check the back of the deque and remove any indexes whose corresponding values are smaller than the incoming element, as they can't contribute to the maximum value in the current window. To simulate the process, think of it as similar to what we do when finding the Next Greater Element (NGE).
 
 ```cpp
+class Solution {
+public:
+    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<int> dq;  
+        vector<int> v;   
+        for(int i = 0; i < nums.size(); i++) {
+            // Remove elements from the front of the deque that are out of the current window range
+            while (dq.size() > 0 && (i - dq.front()) >= k) dq.pop_front();
+            // Remove elements from the back of the deque that are smaller than the current element
+            while (dq.size() > 0 && nums[i] > nums[dq.back()]) dq.pop_back();
+            dq.push_back(i);
+            // If the current index 'i' has reached or exceeded the window size 'k - 1'
+            // (meaning the window is fully formed), add the maximum element in the current window
+            // (which is the front element of the deque) to the result vector 'v'
+            if (i >= k - 1)
+                v.push_back(nums[dq.front()]);
+        }
+        return v;  // Return the vector containing maximum values for each sliding window
+    }
+};
 ```
 
 </details>
@@ -3664,8 +3710,41 @@ public:
 
 <details>
 
+> M1. You can approach this by pushing elements into the stack as usual. The operations are straightforward and use O(2N) space, where the first value is the actual element, and the second value represents the minimum so far. We maintain this second value to efficiently support the `getMin()` function.
+
+> M2. Consider a stack with values 9, 10, 11, 12<-top. Currently, the minimum value is 9. If we encounter an element smaller than 9, that element becomes the new minimum. Let's say the current minimum (`m1`) is 9 and the new minimum (`m2`) is 3. We store a special value at the top of the stack: `2*m2 - m1`. This value ensures that we can safely retrieve the previous minimum (`m1`). Additionally, `2*m2 - m1` will always be less than `m2`, indicating a breakpoint and signaling that it's time to revert to the previous minimum (`m1`). Here's the proof: `m2 < m1` implies `m2 - m1 < 0`, and thus `2*m2 - m1 < m2`.
 
 ```cpp
+class MinStack {
+public:
+    MinStack() { }
+    stack<long long int> s;
+    long long int mi ;
+    void push(long long int val) {
+        if(s.size()==0) {
+            s.push(val);
+            mi=val;
+            return;
+        }
+        if(mi <= val){
+            s.push(val);
+        }else{
+            s.push(2*val-mi);
+            mi=val;
+        }
+    }
+    void pop() {
+        if(  mi > s.top() )  mi = 2*mi-s.top();
+        s.pop();
+    }
+    long long int top() {
+            if(   mi <= s.top())  return s.top();
+            return mi;
+    }
+    long long int getMin() {
+          return mi;      
+    }
+};
 ```
 
 </details>
