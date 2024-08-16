@@ -2996,6 +2996,8 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
 
 ### 69. K most frequent elements
 
+> Since the elements are distinct, we maintain a map `mp` where each element is paired with its frequency (`element, count`). We then push these pairs into a max heap (priority queue). Once the map is populated, we pop from the max heap `K` times to retrieve the `K` most frequent elements.
+
 <details>
 
 ```cpp
