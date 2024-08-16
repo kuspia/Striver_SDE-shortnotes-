@@ -3755,8 +3755,47 @@ public:
 
 <details>
 
+> You can solve this problem using a multi-source BFS approach. Start by placing all the initially rotten oranges with a timestamp of 0 in a queue. Then, use the BFS technique to explore all four possible directions from each rotten orange. If you encounter a fresh orange, mark it as rotten and insert it into the queue with a timestamp incremented by 1 from the parent rotten orange. Keep track of the maximum timestamp encountered during the process. At the end, ensure that all oranges have been rotten, before even returning the max timestamp.
+
+> Please learn how we travel in 4 directions using `dx` and `dy`
 
 ```cpp
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        int m = grid.size();
+        int n = grid[0].size();
+        queue<pair<pair<int,int>, int>> q;
+        for(int i = 0 ; i<grid.size() ; i++){
+            for(int j=0;j<grid[0].size() ; j++){
+                if(grid[i][j]==2){
+                    q.push( {   { i,j} , 0  } );
+                }
+            }
+        }
+    vector<int> dx = {0, 0, -1, 1};  // Corresponding to up, down, left, right
+    vector<int> dy = {-1, 1, 0, 0};  // Corresponding to up, down, left, right
+    int ma = INT_MIN;
+    while(q.size()!=0){
+        auto temp =  q.front();
+        q.pop();
+        int x = temp.first.first;
+        int y = temp.first.second;
+        int t = temp.second;
+        ma = max(ma , t);
+        for(int k=0;k<4;k++){
+            int nx = x +dx[k];
+            int ny = y + dy[k];
+            if (   nx>=0 && nx<m && ny>=0 && ny<n && grid[nx][ny] == 1     ){
+                  grid[nx][ny] = 2; //make it rotten 
+                  q.push( {   { nx, ny } , t+1  } );
+            } 
+        } 
+    }
+   for(int i = 0 ; i<grid.size() ; i++) for(int j=0;j<grid[0].size() ; j++) if(grid[i][j]==1) return -1;      
+   return ma == INT_MIN ? 0 : ma ;
+    }
+};
 ```
 
 </details>
