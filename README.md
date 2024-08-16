@@ -3637,7 +3637,7 @@ public:
 
 <details>
 
-> We start by standing at the `i`th bar of the histogram and look both to the left and right to find the indices of the nearest smaller elements (NSE) on either side. We store these indices in arrays `l[]` (for the left side) and `r[]` (for the right side). Since the nearest smaller element can't contribute to the maximum area, we adjust the right array by decrementing the index of the NSE. Similarly, for the left array, we iterate from `n-1` to `0` and increment the NSE index, as it won't be part of the area either. 
+> We start by standing at the `i`th bar of the histogram and look both to the left and right to find the indices of the nearest smaller elements (NSE) on either side. We store these indices in arrays `l[]` (for the left side) and `r[]` (for the right side). Since the next smaller element can't contribute to the maximum area, we adjust the right array by decrementing the index of the NSE. Similarly, for the left array, we iterate from `n-1` to `0` and increment the NSE index, as it won't be part of the area either. 
 
 > When considering the `i`th position, we always include it in our potential maximum area calculation and try to extend the area as much as possible in both directions. If we encounter `-1` in the left or right arrays, we take the boundaries of the bar graph, which are the `0` and `n-1` indices, respectively.
 
@@ -3804,8 +3804,42 @@ public:
 
 <details>
 
+> Hint: (NGE pattern when you stand at some index named `id`) maximum consecutive days for which stock price was less than or equal to my current day. Dry run with [100 80 60 70 60 75 85] ans: [1 1 1 2 1 4 6]
+
+> This is a somewhat tricky problem. The approach involves maintaining a `vector<int> v`, where you use an `id` to iterate through the upcoming prices. At any point, `v[id]` needs to be calculated. If the upcoming price is less than the price at the top of the stack, you simply push the `(price, id)` pair onto the stack. However, if the upcoming price is higher than the price on top of the stack, we follow the NGE pattern. Since the stack maintains pairs with their respective `id`, this allows you to add the span of days to your `v[id]`. You continue this process until the condition is no longer met. Ultimately, `v[id]` will store the exact answer. This approach resembles dynamic programming because each state `v[i]` represents the span of days to its left.
+
+> [video](https://www.youtube.com/watch?v=eay-zoSRkVc&t=714s)
 
 ```cpp
+class StockSpanner {
+public:
+    int id  ;
+    vector < int > v ;
+    StockSpanner() {
+        id = -1;
+        v = vector<int>(10000, 1);
+    }
+    stack< pair <int,int> > s ;
+    
+    int next(int p) {
+        id++;
+        if(s.size()==0){
+            s.push( {p , id});
+            return 1;
+        }
+        if( p  < s.top().first ){
+            s.push( { p, id } );
+            return 1;
+        }else{
+            while( s.size()>0 && s.top().first <= p){
+                v[id]+= v[s.top().second]; //DP
+                s.pop();
+            }
+            s.push( { p, id } );
+            return v[id];
+        }
+    }
+};
 ```
 
 </details>
