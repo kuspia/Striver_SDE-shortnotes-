@@ -4724,13 +4724,46 @@ vector <string> allRootToLeaf(BinaryTreeNode<int> * r) {
 
 <details>
 
-> First, draw a full binary tree and index it from the root (0 indexing), continuing this process up to some height. To determine the maximum width, use the logic `maxi = max(maxi, id2 - id1 + 1)`, where `id1` and `id2` are the extreme indices assigned to each level. 
-
-> Initially, push the root node and calculate the width of level 0. Then, to find the width of level 1, pop the root node and push its left and right children into a temporary queue (`tmp`), which is then copied to the original queue. Note that null nodes are not pushed, but the formula for finding the index numbers accounts for any null nodes in between. This process is repeated until the last level.
+> Initially, push the root node and calculate the width of level 0. Then, to find the width of level 1, pop the root node and push its left and right children into a temporary queue (`tmp`), which is then copied to the original queue. Note that null nodes are not pushed. This process is repeated until the last level.
 
 > To avoid integer overflow, use `long long int` data type. Additionally, reassign index values for every level, focusing solely on the width. This reassignment is handled when copying `tmp` to the original queue `q`.
 
+> We are doing level order traversal, tbh, but a little bit in a modified way.
+
 ```cpp
+class Solution {
+public:
+    int widthOfBinaryTree(TreeNode* r) {
+        long long int maxi = 0; // Use long long int for the maximum width
+        queue<pair<TreeNode*, long long int>> q;
+        q.push({ r , 0 });
+        while (!q.empty()) {
+            long long int id1 = q.front().second;
+            long long int id2 = q.back().second;
+            maxi = max(maxi, id2 - id1 + 1);
+            queue<pair<TreeNode*, long long int>> tmp;
+            long long int cur_size = q.size();
+            
+            for (long long int i = 0; i < cur_size; i++) {
+                pair<TreeNode*, long long int> cur = q.front();
+                if (cur.first->left)  tmp.push({cur.first->left, 2 * cur.second + 1});
+                if (cur.first->right) tmp.push({cur.first->right, 2 * cur.second + 2});
+                q.pop();
+            }
+            
+            if (!tmp.empty()) { // normalize it to avoid INT overflow
+                long long int mini = tmp.front().second;
+                while (!tmp.empty()) {
+                    q.push({tmp.front().first, tmp.front().second - mini});
+                    tmp.pop();
+                }
+            }
+        }
+
+        return static_cast<int>(maxi); // Convert back to int before returning
+    }
+};
+
 ```
 
 </details>
