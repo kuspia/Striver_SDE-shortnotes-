@@ -3999,8 +3999,8 @@ string result(string s)
     
     //If not empty string then add to the result(Last word is added)
     if (temp!="") {
-        if (ans!="") ans = temp + " " + ans;
-        else ans = temp;
+        if (ans!="") ans = temp + " " + ans; 
+        else ans = temp; // case when whole string is just a one word 
     }
     
     return ans;    
@@ -4009,12 +4009,43 @@ string result(string s)
 
 </details>
 
-### 88. Longest palindrome in a string 
+### 88. Longest palindrome in a string (LPS)
 
 <details>
 
+> The idea is quite straightforward: we use an upper diagonal matrix `dp[][]`, where `i` and `j` represent a substring at any given point. Notice how this time I am iterating through my `dp` table with the `j` pointer followed by `i`. This is because, to fill `dp[i][j]`, we need `dp[i+1][j-1]` to be calculated beforehand, which can be achieved by looping in this order. The intuition is clear: if `"nitin"` is a palindrome, then `"_nitin_"` will also be a palindrome if `s[i] == s[j]`. In the end, we search for `1` in our `dp` table and select the maximum length substring.
+
+> <img width="396" alt="Screenshot 2024-08-17 at 13 33 37" src="https://github.com/user-attachments/assets/022a738c-8ee6-4526-951b-88418c93cffb">
+
 
 ```cpp
+class Solution {
+public:
+    string longestPalindrome(string s) {    
+        int n = s.size();
+        vector<  vector<int> > v ( n , vector<int> ( n ,  0) );
+       for (int i = 0; i < n; i++) v[i][i] = 1;
+       for(int j=0;j<n;j++){
+             for(int i=0;i<n;i++){
+                 if (i >= j)  continue;
+                 else if (s[i] == s[j] && ( j - i <= 2 || v[i + 1][j - 1])) v[i][j] = 1; 
+            }
+        }
+    int r = -1 ;
+    int c = -1;
+    int ma = INT_MIN;
+    for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (v[i][j] && abs(i - j) + 1 > ma) {
+                    r = i;
+                    c = j;
+                    ma = abs(i - j) + 1;
+                }
+        }
+     }
+return s.substr( r , c-r+1);
+}
+};
 ```
 
 </details>
