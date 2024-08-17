@@ -4054,18 +4054,65 @@ return s.substr( r , c-r+1);
 
 <details>
 
+> The idea is to iterate from the end of the string towards the beginning, setting up `prevValue` and `result` variables. As you move through each position, if the current value is greater than or equal to the `prevValue` value, it's safe to add the Roman numeral's integer value to the result. Otherwise, subtract the current value from the result. Try this with examples like "III" and "IV" to quickly understand the concept.
 
 ```cpp
+class Solution {
+public:
+    int romanToInt(string s) {
+        unordered_map<char, int> romanValues = {
+            {'I', 1}, {'V', 5}, {'X', 10},
+            {'L', 50}, {'C', 100}, {'D', 500},
+            {'M', 1000}
+        };
+        int result = 0;
+        int prevValue = 0;
+        for (int i = s.length() - 1; i >= 0; i--) {
+            int currentValue = romanValues[s[i]];
+            if (currentValue >= prevValue) result += currentValue;
+             else result -= currentValue;
+            prevValue = currentValue;
+        }
+        
+        return result;
+    }
+};
 ```
 
 </details>
 
-### 90. Implement ATOI/STRSTR
+### 90. Implement ATOI/STRSTR (string-to-integer)
 
 <details>
 
 
 ```cpp
+class Solution {
+public:
+    int myAtoi(string s) {
+        int i = 0;
+        int n = s.length();
+        long long result = 0;  // Use long long to handle potential overflow
+        int sign = 1;
+        // Step 1: Read and ignore leading whitespace
+        while (i < n && s[i] == ' ') i++;
+        // Step 2: Check for '+' or '-'
+        if (i < n && (s[i] == '+' || s[i] == '-')) {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+        // Step 3: Read and convert digits
+        while (i < n && isdigit(s[i])) {
+            result = result * 10 + (s[i] - '0');
+            // Step 4: Check for overflow and clamp if necessary
+            if (result * sign < INT_MIN) return INT_MIN;
+            if (result * sign > INT_MAX) return INT_MAX;
+            i++;
+        }
+        // Step 5: Return the integer as the final result
+        return static_cast<int>(result * sign);
+    }
+};
 ```
 
 </details>
@@ -4074,8 +4121,34 @@ return s.substr( r , c-r+1);
 
 <details>
 
+> Try finding the shortest string, and then apply binary search over its length to check whether the prefix created with it matches exactly with all the other strings.
 
 ```cpp
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty()) return ""; 
+        string shortestStr = strs[0];
+        for (const string& str : strs) if (str.length() < shortestStr.length()) shortestStr = str;
+        // Binary search approach to find the longest common prefix.
+        int left = 0;
+        int right = shortestStr.length() - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            string prefix = shortestStr.substr(0, mid + 1);
+            bool isCommonPrefix = true;
+            for (const string& str : strs) {
+                if (str.substr(0, mid + 1) != prefix) {
+                    isCommonPrefix = false;
+                    break;
+                }
+            }
+            if (isCommonPrefix) left = mid + 1; // Move to the right half.
+ 	    else right = mid - 1; // Move to the left half.
+        }
+        return shortestStr.substr(0, left);
+    }
+};
 ```
 
 </details>
@@ -4084,8 +4157,90 @@ return s.substr( r , c-r+1);
 
 <details>
 
+> Rabin-Karp works by first calculating the hash of the pattern, then iterating through the text string to find if the pattern's hash appears at any index `i` to `j`, where `j - i + 1 = pattern.size()`. If a match in the hash is found, we double-check by iterating from `i` to `j` and comparing each character in the substring with the pattern. The hash is calculated using:
+
+> `char_code * pow(base, expo)`, where `base` is generally the total number of characters, and `expo` ranges from `0, 1, 2,...` up to `pattern.size() - 1`, moving from right to left.
+
+> We introduce a modular exponentiation function to avoid integer overflow. As we iterate through the text string, we cleverly calculate the hash of each substring of length `pattern.size()` using the previous hash value, which reduces the time complexity to linear, `O(n)`.
 
 ```cpp
+long long int mod = 1000000000 + 7;
+long long int mod_pow(long long int base, int exponent) {
+    long long int result = 1;
+    while (exponent > 0) {
+        if (exponent % 2 == 1) result = (result * base) % mod;
+        base = (base * base) % mod;
+        exponent /= 2;
+    }
+    return result;
+}
+vector<int> stringMatch(string t, string p) {
+    vector<int> v;
+    long long int hash = 0;
+    int base = 26;
+    int id = 0;
+    for (int i = p.size() - 1; i >= 0; i--) {
+        int x = p[i] - 'a';
+        hash = (hash + (x * mod_pow(base, id))) % mod;
+        id++;
+    }
+    id = 0;
+    if (p.size() <= t.size()) {
+        id = 0;
+        long long int hash1 = 0;
+        for (int i = p.size() - 1; i >= 0; i--) {
+            int x = t[i] - 'a';
+            hash1 = (hash1 + (x * mod_pow(base, id))) % mod;
+            id++;
+        }
+        id = 0;
+
+        while (id <= t.size() - p.size()) {
+            if (id != 0) {
+                hash1 = (hash1 * base) % mod;
+                hash1 = (hash1 - ((t[id - 1] - 'a') * mod_pow(base, p.size()))) % mod;
+                hash1 = (hash1 + ((t[id + p.size() - 1] - 'a') * mod_pow(base, 0))) % mod;
+                if (hash1 < 0) {
+                    hash1 = (hash1 + mod) % mod; // Ensure the result is positive
+                }
+            }
+            if (hash1 == hash) {
+                bool match = true;
+                for (int i = 0; i < p.size(); i++) {
+                    if (t[id + i] != p[i]) {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) v.push_back(id + 1);
+            }
+            id++;
+        }
+    } else {
+        return {};
+    }
+    return v;
+}
+```
+
+> Note that this question is essentially an implementation or an extended form of the above Rabin-Karp case. Here, we return the first index where the hash matches and use simple math to determine the minimum number of times you should repeat string `a` so that string `b` becomes a substring of it. If it is impossible for `b` to be a substring of `a` after repeating it, return `-1`. We try repeating string `a` at least twice or until the size of `t` is `<= 2 * p.size()`.
+
+```cpp
+int repeatedStringMatch(string a, string b) {
+        string t = "";
+        string p = "";
+        // a repeat and we need to search for b 
+        p = b ;
+        while(   t.size() <= 2*p.size()    ) t+= a ; 
+        t+=a;
+        int id = stringMatch(t , p ) ;
+        if(id == - 1) return -1 ;
+        id = id + p.size(); //pointing to the ending of the pattern match in the text string, since it helps you to know in which repeated region of string `a` u are currently pointing to
+        if( id % a.size() == 0 ) return id/a.size() ;
+        else return id/a.size() +1 ;
+    }
+};
 ```
 
 </details>
