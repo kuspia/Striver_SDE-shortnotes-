@@ -4298,9 +4298,31 @@ bool isAnagram(string s1, string s2) {
 ### 97. Count and say
 
 <details>
+	
+> <img width="159" alt="Screenshot 2024-08-17 at 16 59 41" src="https://github.com/user-attachments/assets/7219dd37-854d-4a35-ae23-fbd207c8437b">
 
 
 ```cpp
+class Solution {
+public:
+    string countAndSay(int n) {
+        if (n <= 0) return ""; 
+        string result = "1";
+        for (int i = 1; i < n; i++) {
+            string next;
+            int count = 1;
+            for (int j = 0; j < result.length(); j++) {
+                if (j + 1 < result.length() && result[j] == result[j + 1]) count++;
+                else {
+                    next += to_string(count) + result[j];
+                    count = 1;
+                }
+            }
+            result = next;
+        }
+        return result;
+    }
+};
 ```
 
 </details>
@@ -4309,8 +4331,34 @@ bool isAnagram(string s1, string s2) {
 
 <details>
 
+> Please see the use of the `getline` function
 
 ```cpp
+class Solution {
+private:
+    vector<int> splitVersion(string version) {
+        vector<int> result;
+        stringstream ss(version);
+        string part;
+        while (getline(ss, part, '.')) result.push_back(stoi(part));
+        return result;
+    }
+};
+public:
+    int compareVersion(string version1, string version2) {
+        // Split the version strings by the dot ('.') character
+        vector<int> v1 = splitVersion(version1);
+        vector<int> v2 = splitVersion(version2);
+        int n = max(v1.size(), v2.size());
+        for (int i = 0; i < n; i++) {
+            int part1 = (i < v1.size()) ? v1[i] : 0;
+            int part2 = (i < v2.size()) ? v2[i] : 0;
+            if (part1 < part2) return -1;
+            else if (part1 > part2) return 1;
+            
+        }
+        return 0;
+    }
 ```
 
 </details>
