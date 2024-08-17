@@ -3932,8 +3932,79 @@ stack<int> s ;
 
 <details>
 
+> Observe how stringstream is effectively used to remove spaces and extract words from a sentence, regardless of any trailing or leading spaces, no matter how many times they appear. The rest of the code is straightforward.
 
 ```cpp
+class Solution {
+public:
+    string reverseWords(string s) {
+    stringstream iss(s), oss;
+    bool firstWord = true;
+    string word;
+    while (iss >> word) {
+        if (!firstWord) {
+            oss << ' ';
+        }
+        oss << word;
+        firstWord = false;
+    }
+   s= oss.str(); // whatever we did till here, was to show the functionality of stringstream 
+
+        vector<string> v;
+        string t = "";
+        int f= 1;
+        for(int i=0;i<s.size();i++){
+            if(s[i]==' '){
+                v.push_back(t);
+                t="";
+            }else{
+                t+=s[i];
+            }
+        }
+         v.push_back(t);
+
+        reverse(v.begin(),v.end());
+        string an ="";
+        for(string s: v){
+            an+=s;
+            an+=" ";
+        }
+        an = an.substr(0 , an.size()-1);
+        return an;
+
+    }
+};
+```
+
+> The above solution uses an extra space `O(n)`, a better way is to iterate from the left and keep on breaking the words, and cleverly adding it in this fashion: `ans = temp + " " + ans;`, where `temp` is my current word which we are breaking from L -> R traversal.
+
+```cpp
+string result(string s)
+{
+    int left = 0;
+    int right = s.length()-1;
+    string temp="";
+    string ans="";
+    while (left <= right) {
+        char ch= s[left];
+        if (ch != ' ') {
+            temp += ch;
+        } else if (ch == ' ') {
+            if (ans!="") ans = temp + " " + ans; // case when first-word was already appended in the last 
+            else ans = temp;
+            temp = "";
+        }
+        left++;
+    }
+    
+    //If not empty string then add to the result(Last word is added)
+    if (temp!="") {
+        if (ans!="") ans = temp + " " + ans;
+        else ans = temp;
+    }
+    
+    return ans;    
+}
 ```
 
 </details>
