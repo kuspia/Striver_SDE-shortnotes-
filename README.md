@@ -4168,9 +4168,10 @@ long long int mod = 1000000000 + 7;
 long long int mod_pow(long long int base, int exponent) {
     long long int result = 1;
     while (exponent > 0) {
-        if (exponent % 2 == 1) result = (result * base) % mod;
+        if (exponent & 1) // equivalent to (exponent % 2 == 1)
+            result = (result * base) % mod;
         base = (base * base) % mod;
-        exponent /= 2;
+        exponent >>= 1; // equivalent to (exponent /= 2)
     }
     return result;
 }
