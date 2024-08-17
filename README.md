@@ -4453,6 +4453,20 @@ public:
 
 
 ```cpp
+class Solution {
+public:
+    void f (TreeNode* r,  vector<int>& v){
+        if(!r) return;
+        f(r->left, v);
+        v.push_back(r->val);
+        f(r->right, v);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+         vector<int> v;
+         f(root, v);
+         return v;
+    }
+};
 ```
 
 </details>
@@ -4461,8 +4475,22 @@ public:
 
 <details>
 
-
 ```cpp
+class Solution {
+public:
+    void preorderHelper(TreeNode* r, vector<int>& v) {
+        if (!r) return;
+        v.push_back(r->val);    // Visit the root node
+        preorderHelper(r->left, v);  // Traverse left subtree
+        preorderHelper(r->right, v); // Traverse right subtree
+    }
+    
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> v;
+        preorderHelper(root, v);
+        return v;
+    }
+};
 ```
 
 </details>
@@ -4471,8 +4499,22 @@ public:
 
 <details>
 
-
 ```cpp
+class Solution {
+public:
+    void postorderHelper(TreeNode* r, vector<int>& v) {
+        if (!r) return;
+        postorderHelper(r->left, v);  // Traverse left subtree
+        postorderHelper(r->right, v); // Traverse right subtree
+        v.push_back(r->val);    // Visit the root node
+    }
+    
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> v;
+        postorderHelper(root, v);
+        return v;
+    }
+};
 ```
 
 </details>
@@ -4481,6 +4523,11 @@ public:
 
 <details>
 
+> The intuition here stems from the fact that since recursion or a stack isn't allowed, there must be a way to return to the current root node. Imagine yourself at a node with a left and right subtree. For pre/inorder traversal, you know that the traversal follows a left-to-right fashion. Consider a tree with nodes like 1, 2, 3, n, 4, 5, n, n, n, n, n, 6 (refer to a tree diagram for clarity). When you're at node 1, there must be a thread that connects node 6 back to node 1. Similarly, when you're at node 2, a thread must connect node 4 back to node 6.
+
+> These threads help us revisit a node and allow us to move to the other half of the tree. This is achieved by checking if the last node in the subtree points back to the current node. A simple observation is that if the current node doesn't have a left subtree, you can just push the value and move to the right subtree.
+
+> The logic for preorder and inorder traversals is nearly identical, differing by just a single line of code. However, postorder traversal is a bit different but still uses similar code and ultimately prints the result in reverse order.
 
 ```cpp
 ```
@@ -4501,8 +4548,21 @@ public:
 
 <details>
 
+> The intuition is to simply traverse the tree left and then right. Now, imagine the tree as having levels: lvl0, lvl1, and so on. Clearly, when you enter the recursion for the first time using DFS with a unique `lvl` value, the `r` node always reflects the leftmost value of that level, which can be seen from the left side.
 
 ```cpp
+void f(Node* r, std::vector<int>& l, int lvl){
+    if (!r) return;
+    if (l.size() == lvl) l.push_back(r->data);
+    f(r->left, l, lvl + 1);
+    f(r->right, l, lvl + 1);
+}
+
+vector<int> leftView(Node* r) {
+    std::vector<int> l;
+    f(r, l, 0);
+    return l;
+}
 ```
 
 </details>
@@ -4511,8 +4571,29 @@ public:
 
 <details>
 
+> Refer Q.106
+
+> The condition `else if (hd[dist].second <= depth)` ensures that if two nodes are at the same horizontal distance, the node that is at a greater depth (i.e., the node appearing later in the level-order traversal) will be stored. This is because when two nodes are at the same level but different subtrees (left and right), the right subtree node is processed after the left subtree node, so the right subtree node will overwrite the left subtree node. Thus, the node that appears at the bottom level at each horizontal distance will be retained.
 
 ```cpp
+class Solution {
+public:
+    void f(Node *r, map<int, pair<int, int>>& hd, int dist, int depth) {
+        if (!r) return;
+        if (hd.find(dist) == hd.end())  hd[dist] = {r->data, depth};
+        else if (hd[dist].second <= depth) hd[dist] = {r->data, depth}; 
+        f(r->left, hd, dist - 1, depth + 1);
+        f(r->right, hd, dist + 1, depth + 1); 
+    }
+
+    vector<int> bottomView(Node *r) {
+        map<int, pair<int, int>> hd; // horizontal distance
+        f(r, hd, 0, 0);
+        vector<int> an;
+        for (auto it = hd.begin(); it != hd.end(); ++it) an.push_back(it->second.first);
+        return an;
+    }
+};
 ```
 
 </details>
@@ -4521,8 +4602,27 @@ public:
 
 <details>
 
+> There are two tricks involved. First, when performing DFS, you must ensure that if two or more nodes lie on the same horizontal distance (HD) from the root node, the one closest to the root should take the position. If both are at the same depth, the leftmost node should get the place. This is ensured by using the depth variable and calling the recursion for the left node first, followed by the right node.
 
 ```cpp
+class Solution {
+public:
+    void f(Node *r, map<int, pair<int, int>>& hd, int dist, int depth) {
+        if (!r) return;
+        if (hd.find(dist) == hd.end())  hd[dist] = {r->data, depth};
+        else if (hd[dist].second > depth) hd[dist] = {r->data, depth};
+        f(r->left, hd, dist - 1, depth + 1);
+        f(r->right, hd, dist + 1, depth + 1); 
+    }
+
+    vector<int> topView(Node *r) {
+        map<int, pair<int, int>> hd; // horizontal distance
+        f(r, hd, 0, 0);
+        vector<int> an;
+        for (auto it = hd.begin(); it != hd.end(); ++it)    an.push_back(it->second.first);
+        return an;
+    }
+};
 ```
 
 </details>
@@ -4531,8 +4631,26 @@ public:
 
 <details>
 
-
 ```cpp
+void f (TreeNode* r,  vector<int>& in , vector<int>& pre , vector<int>& post ){
+        if(!r) return;
+        pre.push_back(r->data);
+        f(r->left, in,pre,post);
+        in.push_back(r->data);
+        f(r->right, in,pre,post);
+        post.push_back(r->data);
+    }
+vector<vector<int>> getTreeTraversal(TreeNode *r){
+    vector<vector<int>> an ;
+    vector<int> in ;
+    vector<int> pre ;
+    vector<int> post ;
+    f(r,in,pre,post);
+    an.push_back(in);
+        an.push_back(pre);
+            an.push_back(post);
+            return an;
+}
 ```
 
 </details>
@@ -4541,18 +4659,63 @@ public:
 
 <details>
 
+> The concept is straightforward: use an appropriate data structure, `map<int, vector<pair<int, int>>> hd`, where the key represents the horizontal distance (HD) either to the left or right, and each node's value is stored along with its depth. This allows for sorting later when we need to create the column vector for a particular horizontal distance.
 
 ```cpp
+class Solution {
+public:
+    void f(TreeNode *r, map<int, vector<pair<int, int>>>& hd, int dist, int depth) {
+        if (!r) return;
+        hd[dist].push_back({depth, r->val}); // Store depth along with the node value
+        f(r->left, hd, dist - 1, depth + 1);
+        f(r->right, hd, dist + 1, depth + 1); 
+    }
+    vector<vector<int>> verticalTraversal(TreeNode *r) {
+        map<int, vector<pair<int, int>>> hd; 
+        f(r, hd, 0, 0);
+        vector<vector<int>> an;
+        for (auto& outer_pair : hd) {
+            vector<pair<int, int>>& nodes = outer_pair.second;
+            sort(nodes.begin(), nodes.end()); // Sort nodes by depth
+            vector<int> column;
+            for (auto& node : nodes) 
+                column.push_back(node.second); // Add the node values to the column
+            an.push_back(column);
+        }
+        return an;
+    }
+};
 ```
 
 </details>
 
-### 109. Root to Node Path in BT
+### 109. Root to all Leaf Paths in BT
 
 <details>
 
+> The intuition is based on identifying whether a node is a leaf. If it is a leaf, consider `cur` in your answer. To determine whether a node is a leaf or not, you follow the steps shown below.
 
 ```cpp
+bool f (BinaryTreeNode<int> *r , vector <string>& an , vector<int>& cur ){
+     if (!r) return 0;
+     cur.push_back(r->data);
+     bool  lft  = f(r->left , an,cur); // lft tells whether current node have left child or not 
+     bool  rght = f(r->right, an, cur); // rght tells whether current node have right child or not
+        if( !lft && !rght){ // current node is a leaf node
+            string temp = "";
+            for(auto el : cur) temp = temp +  to_string(el) + " ";
+            an.push_back(temp);
+    }
+     cur.pop_back();
+     return 1; // not a leaf node
+}
+
+vector <string> allRootToLeaf(BinaryTreeNode<int> * r) {
+   vector <string> an ;
+   vector<int> cur ;
+   bool chk = f(r,an,cur); //chk is dummy 
+   return an; 
+}
 ```
 
 </details>
@@ -4561,6 +4724,11 @@ public:
 
 <details>
 
+> First, draw a full binary tree and index it from the root (0 indexing), continuing this process up to some height. To determine the maximum width, use the logic `maxi = max(maxi, id2 - id1 + 1)`, where `id1` and `id2` are the extreme indices assigned to each level. 
+
+> Initially, push the root node and calculate the width of level 0. Then, to find the width of level 1, pop the root node and push its left and right children into a temporary queue (`tmp`), which is then copied to the original queue. Note that null nodes are not pushed, but the formula for finding the index numbers accounts for any null nodes in between. This process is repeated until the last level.
+
+> To avoid integer overflow, use `long long int` data type. Additionally, reassign index values for every level, focusing solely on the width. This reassignment is handled when copying `tmp` to the original queue `q`.
 
 ```cpp
 ```
