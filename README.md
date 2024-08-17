@@ -4273,6 +4273,24 @@ int repeatedStringMatch(string a, string b) {
 
 
 ```cpp
+bool isAnagram(string s1, string s2) {
+    if (s1.length() != s2.length()) {
+        return false;
+    }
+    vector<int> freq(26, 0);
+    for (char c : s1) {
+        freq[c - 'a']++;
+    }
+    for (char c : s2) {
+        freq[c - 'a']--;
+    }
+    for (int count : freq) {
+        if (count != 0) {
+            return false;
+        }
+    }
+    return true;
+}
 ```
 
 </details>
