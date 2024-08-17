@@ -4177,7 +4177,7 @@ long long int mod_pow(long long int base, int exponent) {
 }
 vector<int> stringMatch(string t, string p) {
     vector<int> v;
-    long long int hash = 0;
+    long long int hash = 0; // used to store for pattern 
     int base = 26;
     int id = 0;
     for (int i = p.size() - 1; i >= 0; i--) {
@@ -4188,56 +4188,47 @@ vector<int> stringMatch(string t, string p) {
     id = 0;
     if (p.size() <= t.size()) {
         id = 0;
-        long long int hash1 = 0;
+        long long int hash1 = 0; //used to store the first window hash in text, and then we cleverly roll the next window hash  
         for (int i = p.size() - 1; i >= 0; i--) {
             int x = t[i] - 'a';
             hash1 = (hash1 + (x * mod_pow(base, id))) % mod;
             id++;
         }
         id = 0;
-
         while (id <= t.size() - p.size()) {
-            if (id != 0) {
+            if (id != 0) { // because for id = 0 we have already calculated the hash value in `hash1`
                 hash1 = (hash1 * base) % mod;
                 hash1 = (hash1 - ((t[id - 1] - 'a') * mod_pow(base, p.size()))) % mod;
                 hash1 = (hash1 + ((t[id + p.size() - 1] - 'a') * mod_pow(base, 0))) % mod;
-                if (hash1 < 0) {
-                    hash1 = (hash1 + mod) % mod; // Ensure the result is positive
-                }
+                if (hash1 < 0) hash1 = (hash1 + mod) % mod; // Ensure the result is positive   
             }
             if (hash1 == hash) {
                 bool match = true;
-                for (int i = 0; i < p.size(); i++) {
-                    if (t[id + i] != p[i]) {
-                        match = false;
-                        break;
-                    }
+                for (int i = 0; i < p.size(); i++) { // still we can't fully trust on hash so we need to check every character one by one
+                    if (t[id + i] != p[i]) {match = false;break;}
                 }
-
                 if (match) v.push_back(id + 1);
             }
             id++;
         }
-    } else {
-        return {};
-    }
+    } else return {}; //pattern is greater than text given
     return v;
 }
 ```
 
-> Note that this question is essentially an implementation or an extended form of the above Rabin-Karp case. Here, we return the first index where the hash matches and use simple math to determine the minimum number of times you should repeat string `a` so that string `b` becomes a substring of it. If it is impossible for `b` to be a substring of `a` after repeating it, return `-1`. We try repeating string `a` at least twice or until the size of `t` is `<= 2 * p.size()`.
+> Note that this question is essentially an implementation or an extended form of the above Rabin-Karp case. Here, we return the first index where the hash matches and use simple math to determine the minimum number of times you should repeat string `a` so that string `b` becomes a substring of it. If it is impossible for `b` to be a substring of `a` after repeating it, return `-1`. We try repeating string `a` at least twice but before that repeat it until the size of `t` is `<= p.size()`.
 
 ```cpp
 int repeatedStringMatch(string a, string b) {
         string t = "";
         string p = "";
-        // a repeat and we need to search for b 
+        // a (repeat) and we need to search for b in a 
         p = b ;
         while(   t.size() <= 2*p.size()    ) t+= a ; 
-        t+=a;
+        t+=a; // to get why we need to think that there can be matches at the junction point
         int id = stringMatch(t , p ) ;
         if(id == - 1) return -1 ;
-        id = id + p.size(); //pointing to the ending of the pattern match in the text string, since it helps you to know in which repeated region of string `a` u are currently pointing to
+        id = id + p.size(); //pointing to the end of the pattern match in the text string, since it helps you to know in which repeated region of string `a` you are currently pointing to
         if( id % a.size() == 0 ) return id/a.size() ;
         else return id/a.size() +1 ;
     }
