@@ -4290,8 +4290,45 @@ vector<int> z_function(string s) {
 
 <details>
 
+> The value of `pi[i]` represents the length of the longest proper prefix which is also a suffix. We initialize `pi[0] = 0` and start filling the array from index 1. To determine `pi[i]`, we use the value of `pi[i-1]`, which gives the exact previous index of the string that needs to be compared with the `i`th index.
+
+```
+Let's clear it: 
+i :         0   1   2    3   4    5   6   7   8
+s[i]:       a   a   b    a   a    b   a   a   a
+p[i]:       0   1   0    1   2
+```
+
+> Intuition 1: Imagine you want to fill `p[5]`. First, store `p[4]` in `j`, which is 2. This value tells us that we have a proper prefix of length 2, which is also a suffix. Naturally, the next character to compare will be at index 2, so we check if `s[2] == s[5]`. If they match, increment `j` and store it in `pi[5]`. The same logic applies for filling `pi[6]` and `pi[7]`.
+
+```
+i :         0   1   2    3   4    5   6   7   8
+s[i]:       a   a   b    a   a    b   a   a   a
+p[i]:       0   1   0    1   2    3   4   5
+```
+
+> Intuition 2: If `s[i] != s[j]`, for example, `s[8] != s[5]`, we backtrack to index 5. At index 5, we know it was calculated using index 4, where `pi[4]` is 2. This tells us to compare `s[8]` with `s[2]`. If they are not equal, we continue backtracking to index 2. Index 2 was determined using index 1, where `pi[1]` is 1, indicating a longest proper prefix-suffix (LPS) of length 1. Now, compare `s[8]` with `s[1]`. If `s[1] == s[8]`, then we increment the value at that index by 1.
+
+```
+i :         0   1   2    3   4    5   6   7   8
+s[i]:       a   a   b    a   a    b   a   a   a
+p[i]:       0   1   0    1   2    3   4   5   2
+```
 
 ```cpp
+vector<int> prefix_function(string s) {
+    int n = (int)s.length();
+    vector<int> pi(n);
+    for (int i = 1; i < n; i++) {
+        int j = pi[i-1];
+        while (j > 0 && s[i] != s[j])
+            j = pi[j-1];
+        if (s[i] == s[j])
+            j++;
+        pi[i] = j;
+    }
+    return pi;
+}
 ```
 
 </details>
@@ -4300,8 +4337,16 @@ vector<int> z_function(string s) {
 
 <details>
 
+> Refer Q.94, then use that function to solve this 
 
 ```cpp
+int Solution::solve(string A) {
+    string combined = A + "#" + string(A.rbegin(), A.rend()); // Concatenate A and its reverse with a unique separator "#"
+    vector<int> pi = prefix_function(combined); // Calculate the prefix function for the combined string
+    int maxPalindromicLength = pi.back(); // The length of the longest palindromic suffix
+    // The minimum characters needed to make A palindromic is (A.length() - maxPalindromicLength)
+    return A.length() - maxPalindromicLength;
+}
 ```
 
 </details>
