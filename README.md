@@ -4241,8 +4241,47 @@ int repeatedStringMatch(string a, string b) {
 
 <details>
 
+> <img width="637" alt="Screenshot 2024-08-17 at 17 08 19" src="https://github.com/user-attachments/assets/55b6321a-1171-42a4-b3a8-6ea1df923e1f">
+
+> `"aabxaabxcaabxaabxaay"` dry run it, and understand the intuition yourself
+
+> <img width="677" alt="Screenshot 2024-08-17 at 18 34 33" src="https://github.com/user-attachments/assets/284841ef-cb37-48d6-9d68-cde6953fe3c7">
+
 
 ```cpp
+vector<int> z_function(string s) {
+    int n = s.size();
+    vector<int> z(n, 0);
+    int l = 0, r = 0;
+    for(int i = 1; i < n; i++) {
+        if(i < r) z[i] = min(r - i, z[i - l]); // a high optimization done here to use stored answer and do a good skipping part, intuition is that if z[id] = x means we have a length of substring x at index id which exactly matches with substring starting at index =0, now if we are in a situation when my current index is `i` which is lesser than r that means we can take minimum of `r-i` that shows how many chars we have towards right = [i,r) or `z[i-l]` which is my previously stored answer, we can use it because instead of comparing the substring from index = `i` char by char with index = 0, we can use it because for index `i-l` we have done the same thing previously so just use it that's what DP is all about.
+
+        while(i + z[i] < n && s[z[i]] == s[i + z[i]])  z[i]++; // It compares the upcoming characters of my string starting with index `0` and `i`, please notice we update z[i] that help us to quickly jump over the indices of my both substring one starting from index 0 while other starting from index i.
+
+        if(i + z[i] > r) { // we try to reset the l to r box size
+            l = i;
+            r = i + z[i];
+        }
+    }
+    return z;
+}
+```
+
+> use case, find string `needle` in `haystack`: O(n) cost
+
+```cpp
+ int strStr(string haystack, string needle) {
+        if (needle.empty()) return 0;
+        string concat = needle + "#" + haystack;
+        vector<int> z_values = z_function(concat);
+        int needle_length = needle.length();
+        for (int i = needle_length + 1; i < concat.length(); i++) {
+            if (z_values[i] == needle_length) {
+                return i - needle_length - 1;
+            }
+        }
+        return -1; // Needle not found in haystack
+    }
 ```
 
 </details>
