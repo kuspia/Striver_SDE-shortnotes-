@@ -5270,3 +5270,240 @@ bool isParentSum(Node *root){
 
 </details>
 
+### 128. Construct BST from keys 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 129. Construct BST from preorder 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 130. BT is BST or not 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 131. LCA in BST
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 132. Inorder predecessor and successor of given key in BST 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 133. Floor in BST
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 134. Ceil in BST
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 135. Kth smallest element in BST 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 136.  Kth largest element in BST 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 137. Pair with given sum in BST 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 138. BST iterator 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 139. Size of largest BST in BT
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 140. Serialize And Deserialize a Binary Tree
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 141. BT to DLL
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 142. The median in the stream of running integers
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 143. Kth largest element in a stream 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 144. Distinct numbers in windows 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 145. Kth largest element in the unsorted array
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 146. Flood fill Algorithm 
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 147. Clone a graph (hard)
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 148. DFS
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 149. BFS
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+### 150. Detect Cycle in an Undirected Graph (using BFS)
+
+<details>
+
+
+```cpp
+```
+
+</details>
+
+
+
+
+
+
+
+
