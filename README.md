@@ -5171,10 +5171,9 @@ if (n1->val != n2-> val) return 0;
 
 <details>
 
-> The question is tricky, so what we do is iterate through the tree. If we encounter a `null`, nothing happens. In the case of a leaf node, it is returned to the previous recursion call. Observe these two scenarios in the code:
+> The question is very tricky, so what we do is iterate through the tree. If we encounter a `null`, nothing happens. In the case of a leaf node, it is returned to the previous recursion call. The only way is to do a dry-run and get the gist of how it works.
 
-1. When we arrive at a point where `l` is non-null, it is necessary to set `l->left` to `NULL` and connect it to the current `n` node.
-2. For the current `n` node, if the right node is non-null, and `l` is null, this means we can skip it because the right node already adheres to the LL property described in the question. However, if `l` is non-null, you should connect the `r` node to the end of my flattened tree. This connection is done using a while loop until it points to the last node of the current tree.
+> <img width="600" alt="Screenshot 2024-08-18 at 18 53 58" src="https://github.com/user-attachments/assets/8a86ade8-554a-4955-b974-7d3197542d4b">
 
 ```cpp
 class Solution {
@@ -5182,17 +5181,17 @@ public:
     TreeNode* f(TreeNode* n){
     if(!n) return NULL;
     TreeNode* l = f(n->left);
-        TreeNode* t = n->right;
+        TreeNode* t = n->right; // we store the right subtree in a `t` variable (which we will process recursively and flatten)
         if(l){
             n->right = l;
             n->left = NULL;
         }
-        TreeNode* r = f(t);
+        TreeNode* r = f(t); // At this point for the nth node right sub-tree is well flattened which we need to connect at l->right->right ...... last node 
         if(r && l)  {       
 	while (l->right)  l = l->right;
 	l->right = r;
 	}
-        return n; 
+        return n; // return nth node address to the guy whosoever called it 
     }
     void flatten(TreeNode* r) {
         TreeNode* pass = f(r);
