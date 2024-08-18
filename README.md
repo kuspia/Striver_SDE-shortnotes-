@@ -5572,7 +5572,7 @@ int res = 0, an;
 
 > Follow up: If the BST is modified often (i.e., we can do insert and delete operations) then?
 
-> When we have elements greater than the top of `pq` inserted/deleted we don't care, but in case of smaller remove the top and push the next smaller element, However, if someone smaller than the top is deleted we need to call `f` again to recreate our `pq`.
+> When we have elements greater than the top of `pq` inserted/deleted we don't care, but in case smaller elements come up, remove the top and push the next smaller element, However, if someone smaller than the top is deleted we need to call `f` again to recreate our `pq`.
 
 ```cpp
 class Solution {
@@ -5598,7 +5598,31 @@ public:
 
 <details>
 
+> The idea is to return `N-k+1` smallest node, so we rephrased the problem to which we have already solved. Refer Q.135
+
 ```cpp
+class Solution {
+public:
+int res = 0, an;
+int N = 0;
+    void cnt (Node* r){
+        if(!r) return;
+        N++;
+        cnt(r->left);
+        cnt(r->right);
+    }
+    void f(Node* n, int k){
+        if(!n) return ;
+        f(n->left,k);
+        if (++res == k) an = n->data;
+        f(n->right,k);
+    }
+    int kthLargest(Node *root, int k) {
+        cnt(root);
+        f(root , N-k+1);
+        return an;
+    }
+};
 ```
 
 </details>
