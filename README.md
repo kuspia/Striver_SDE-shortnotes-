@@ -5349,7 +5349,8 @@ public:
 
 > This approach is a bit more complex. Observe that `pre[0]` splits the preorder array into two halves: the left half contains elements smaller than `pre[0]`, and the right half contains elements greater than `pre[0]`. All elements smaller than `pre[0]` after it forms the left subtree JFYI. This observation is helpful, but not directly used in the solution. 
 
-> Consider passing the root node with an upper bound of infinity. For inserting a node into the left subtree, its value should be less than the root node’s value. If you cannot insert it on the left side, then it should be inserted into the right subtree only if its value is greater than the root node’s value.
+> <img width="583" alt="Screenshot 2024-08-18 at 20 36 26" src="https://github.com/user-attachments/assets/b32cefee-03f7-42d4-9bae-40adf2c1a1d8">
+
 
 ```cpp
 class Solution {
