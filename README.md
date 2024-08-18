@@ -4960,7 +4960,7 @@ public:
 
 <details>
 
-> Refer Q.
+> Refer [Q.111](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#111-level-order-traversal-l-r)
 
 ```cpp
 class Solution {
@@ -5004,7 +5004,43 @@ public:
 <details>
 
 
+> [Anticlockwise-Iteration] The idea is to start by storing the root node in the answer and then combine it with the vectors for the left subtree, leaf nodes, and right subtree. Finding leaf nodes is straightforward, but for the left and right vectors, it's important to observe that backtracking is not necessary!
+
+> Please refer to the code to understand the approach. Note that the `right` vector must be inserted in reverse order, and the conditional checks are carefully designed to ensure that everything is inserted correctly without errors.
+
 ```cpp
+int f_leaf(TreeNode<int> *r, vector<int>& leaf, int lvl){
+    if (!r) return 0;
+    int left_side =  f_leaf(r->left, leaf, lvl + 1);
+    int right_side = f_leaf(r->right, leaf, lvl + 1);
+    if(!left_side && !right_side)  leaf.push_back(r->data);
+    return 1;
+}
+void f_left(TreeNode<int> *r, vector<int>& left){
+    while( r && (r->left != NULL || r->right != NULL) ){ // can never be a leaf node 
+        left.push_back(r->data);
+        r = r->left ? r->left : r->right ;
+    }
+}
+void f_right(TreeNode<int> *r, vector<int>& right){ // can never be a leaf node 
+    while( r && (r->right != NULL || r->left != NULL) ){
+        right.push_back(r->data);
+        r = r->right ? r->right : r->left ;
+    }
+}
+vector<int> traverseBoundary(TreeNode<int> *r)
+{
+	if(!r)  return {};
+	vector<int> leaf , left, right, answer ;
+	answer.push_back(r->data); 
+	int pass = f_leaf(r, leaf, 0);
+	f_left(r->left, left);
+	f_right(r->right, right);
+	answer.insert(answer.end(), left.begin(), left.end());
+	answer.insert(answer.end(), leaf.begin(), leaf.end());
+	answer.insert(answer.end(), right.rbegin(), right.rend());
+	return answer ; 
+}
 ```
 
 </details>
@@ -5013,8 +5049,30 @@ public:
 
 <details>
 
+> This is a very tricky problem. The idea is to return the maximum of the left and right subtree sums plus the current node's value. This approach ensures that each recursion call receives the best possible sum from its subtrees. 
+
+> At any point, we also maintain a `max_sum` to keep track of the overall maximum sum encountered. The key trick is to reset the sum to `0` if either the left or right subtree sum is less than `0`, as including a negative sum would reduce the total sum of the path.
 
 ```cpp
+class Solution {
+public:
+    int ma = INT_MIN;
+    int f(TreeNode* n)
+        {
+        if(!n) return 0; 
+        int l = f(n->left);
+        int r = f(n->right);
+        int v = n->val;
+        if(l<0) l = 0 ; 
+        if(r<0) r = 0; 
+        ma = max(ma, v+l+r);
+        return max(l,r) + v;
+        }
+    int maxPathSum(TreeNode* root) {
+        int pass = f(root);
+        return ma==INT_MIN ? 0:ma;  
+    }
+};
 ```
 
 </details>
@@ -5033,8 +5091,34 @@ public:
 
 <details>
 
+> The idea is to maintain four pointers: `start` and `end` for both the `postorder` and `inorder` vectors, and a map to find the index of any `postorder` element in the `inorder` vector. This helps split the tree into left and right subtrees. Let: `inorder: 9 3 15 20 7` and `postorder: 9 15 7 20 3`
+
+> The root of the tree is `3`, which is at position `2` in the `inorder` vector. This tells us that `9` forms the left subtree, and `15 20 7` forms the right subtree.
+
+> For the right subtree: `inorder: 15 20 7` and `postorder: 15 7 20`
+  
+> `if (postStart > postEnd || inStart > inEnd)` indicates that the recursion should return `null` for that subtree.
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(vector<int>& in, vector<int>& post, map<int, int>& mp, int postStart, int postEnd, int inStart, int inEnd) {
+        if (postStart > postEnd || inStart > inEnd)  return nullptr;
+        int rootValue = post[postEnd];
+        TreeNode* root = new TreeNode(rootValue);
+        int rootIndexInInorder = mp[rootValue];
+        int numRightNodes = inEnd - rootIndexInInorder;
+root->left = f(in, post, mp, postStart, postEnd - numRightNodes - 1, inStart, rootIndexInInorder - 1);
+root->right = f(in, post, mp, postEnd - numRightNodes, postEnd - 1, rootIndexInInorder + 1, inEnd);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& in, vector<int>& post) {
+        map<int, int> mp;
+        int n = in.size();
+        for (int i = 0; i < n; i++) mp[in[i]] = i;
+        return f(in, post, mp, 0, n - 1, 0, n - 1);
+    }
+};
 ```
 
 </details>
