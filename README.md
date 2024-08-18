@@ -4768,12 +4768,41 @@ public:
 
 </details>
 
-### 111. Level order traversal in spiral form 
+### 111. Level order traversal (L->R)
 
 <details>
 
+> Refer Q.110
 
 ```cpp
+class Solution {
+public:
+   vector<vector<int>> levelOrder  (TreeNode* r) {
+        if(!r) return {};
+        queue<TreeNode*> q;
+        q.push(r);
+        vector<vector<int>> an;
+        while (!q.empty()) {
+            queue<TreeNode*> tmp;
+            long long int cur_size = q.size();
+            vector<int> v;
+            for (long long int i = 0; i < cur_size; i++) {
+                v.push_back(q.front()->val);
+                if(q.front()->left) tmp.push(q.front()->left);
+                if(q.front()->right) tmp.push(q.front()->right);
+                q.pop();
+            }
+            an.push_back(v);
+            if (!tmp.empty()) {               
+                while (!tmp.empty()) {
+                    q.push(tmp.front());
+                    tmp.pop();
+                }
+            }
+        }
+        return an;
+    }
+};
 ```
 
 </details>
@@ -4782,8 +4811,40 @@ public:
 
 <details>
 
+> An easy way to maintain the height of the current node from the root is to update the depth whenever you enter the recursion. Ensure you always store the maximum possible depth in the `dep` variable using `dep = max(dep, ht)`.
 
 ```cpp
+class Solution {
+public:
+     int dep = INT_MIN;
+     void f (TreeNode* r, int ht){
+         if(!r) return ;
+         dep = max(dep , ht);
+         f(r->left, ht+1);
+         f(r->right, ht+1);
+
+     }
+    int maxDepth(TreeNode* r) {
+        f(r, 1);
+        return dep==INT_MIN?0:dep;
+    }
+};
+```
+> To find the height of the tree, we calculate the height of the left and right subtrees and return `1 + max(left_ht, right_ht)`. This approach ensures that when the recursion backtracks to the previous node, it receives the maximum height of both subtrees. The `+1` is added to account for the current node itself, which contributes `+1` height to either the left or right subtree.
+
+```cpp
+class Solution {
+public:
+    int f (TreeNode* r){
+        if(!r) return 0;
+        int left_ht = f(r->left);
+        int rght_ht = f(r->right);
+        return 1 + max(left_ht , rght_ht);
+    }
+    int maxDepth(TreeNode* r) {
+       return f(r); 
+    }
+};
 ```
 
 </details>
@@ -4792,8 +4853,26 @@ public:
 
 <details>
 
+> Length of the longest path between any two nodes in a tree
+
+> Now, we maintain a `dia` parameter that holds the maximum possible diameter of the tree at any node. You might wonder why there is no `+1` in the `dia` calculation. The reason is that, for a path like `a - b - c - d`, if `b` is the node we're considering with left height `1` and right height `2`, we store `1 + 2` instead of `1 + 2 + 1`. This is because the path length is counted by the number of edges (i.e., `-`), not by the number of nodes.
 
 ```cpp
+class Solution {
+public:
+    int dia = INT_MIN;
+    int f (TreeNode* r){
+        if(!r) return 0;
+        int left_ht = f(r->left);
+        int rght_ht = f(r->right);
+        dia = max(dia, left_ht+rght_ht);
+        return 1 + max(left_ht, rght_ht);
+    }
+    int diameterOfBinaryTree(TreeNode* r) {
+        int pass = f(r);
+        return dia; 
+    }
+};
 ```
 
 </details>
@@ -4802,8 +4881,25 @@ public:
 
 <details>
 
+> At any point, if you notice that the height difference between the left and right subtrees is greater than 1, the tree is not balanced. However, we still return `1 + max(left_ht, right_ht)` because we need to provide the height of the binary tree to the previous node when backtracking. This ensures that height calculations can be correctly propagated up the tree. 🌴
 
 ```cpp
+class Solution {
+public:
+    bool flag = 1;
+    int f (TreeNode* r){
+        if(!r) return 0;
+        int left_ht = f(r->left);
+        int rght_ht = f(r->right);
+        if(abs(left_ht-rght_ht) >1) flag = 0;
+        if(left_ht>rght_ht)  return 1 + left_ht;
+        else   return 1 + rght_ht;
+    }
+     bool isBalanced(TreeNode* r) {
+       int pass = f(r); 
+       return flag; 
+    }
+};
 ```
 
 </details>
@@ -4812,8 +4908,28 @@ public:
 
 <details>
 
+> One approach is to store the path from the root node to nodes `p` and `q`, and then iterate through both paths to find the first mismatch. The node before this mismatch is the Lowest Common Ancestor (LCA). However, finding the path requires O(N) time complexity and O(N) extra space, which can be cumbersome. 
+
+> To avoid extra space complexity, use DFS to find the LCA. During traversal, propagate the node address as you backtrack. The intuition is to continue traversing left and right. If you reach a node where either left or right is null, return the non-null node. If both are null, return any. While iterating, if you encounter a node whose address matches either `p` or `q`, return that node. If a node has both left and right children non-null, return the current node's address as it is the LCA.
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(TreeNode* r, TreeNode* p, TreeNode* q){
+       if(!r) return NULL;
+       if(r == p) return p ;
+       if(r == q) return q ;
+       TreeNode* left  =  f(r->left, p, q );
+       TreeNode* right =  f(r->right,p ,q );
+       if (left != NULL && right != NULL ) return r ;
+       if(left == NULL) return right;
+       if(right == NULL) return left; 
+       return NULL ;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* r, TreeNode* p, TreeNode* q) {
+        return f(r,p,q);
+    }
+};
 ```
 
 </details>
@@ -4824,6 +4940,18 @@ public:
 
 
 ```cpp
+class Solution {
+public:
+    bool f(TreeNode* p, TreeNode* q){
+        if(!p) if(!q) return 1; else return 0;
+        if(!q) return 0;
+        if(p->val!=q->val) return 0;
+        return f(p->left , q->left) && f(p->right, q-> right);
+    }
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        return f(p ,q);
+    }
+};
 ```
 
 </details>
@@ -4832,8 +4960,41 @@ public:
 
 <details>
 
+> Refer Q.
 
 ```cpp
+class Solution {
+public:
+   vector<vector<int>> zigzagLevelOrder (TreeNode* r) {
+        if(!r) return {};
+        queue<TreeNode*> q;
+        q.push(r);
+        vector<vector<int>> an;
+        bool f = 0 ;
+        while (!q.empty()) {
+            queue<TreeNode*> tmp;
+            long long int cur_size = q.size();
+            vector<int> v;   
+            f = !f;
+            for (long long int i = 0; i < cur_size; i++) {
+                v.push_back(q.front()->val);
+                if(q.front()->left) tmp.push(q.front()->left);
+                if(q.front()->right) tmp.push(q.front()->right); 
+                q.pop();
+            }
+            if(!f) reverse(v.begin(), v.end());
+            an.push_back(v);   
+            if (!tmp.empty()) {               
+                while (!tmp.empty()) {
+                    q.push(tmp.front());
+                    tmp.pop();
+                }
+            }
+        }
+        
+        return an;
+    }
+};
 ```
 
 </details>
