@@ -5250,42 +5250,122 @@ bool isParentSum(Node *root){
 
 </details>
 
-### 126. Populate next right pointers of  tree 
+### 126. Populate next right pointers of the tree 
 
 <details>
 
+> <img width="542" alt="Screenshot 2024-08-18 at 19 13 25" src="https://github.com/user-attachments/assets/ba3340b2-06f8-4626-9f70-4a84432ffb02">
 
 ```cpp
+class Solution {
+public:
+   Node* connect  (Node* r) {
+        if(!r) return r;
+        queue<Node*> q;
+        q.push(r);
+        while (!q.empty()) {
+            queue<Node*> tmp;
+            Node* prev = q.front();
+            if(q.front()->left)tmp.push(q.front()->left);
+            if(q.front()->right)tmp.push(q.front()->right);
+            q.pop();
+            long long int cur_size = q.size();
+            for (long long int i = 0; i < cur_size; i++) {
+               prev->next = q.front();
+            if(q.front()->left)tmp.push(q.front()->left);
+            if(q.front()->right)tmp.push(q.front()->right);
+               prev = q.front();
+               q.pop();
+            }
+            prev->next = NULL;
+            if (!tmp.empty()) {               
+                while (!tmp.empty()) {
+                    q.push(tmp.front());
+                    tmp.pop();
+                }
+            }
+        }
+        return r;
+    }
+};
 ```
 
 </details>
 
-### 127. Search given key in BST
+### 127. Search the given key in BST
 
 <details>
 
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(TreeNode* r, int val){
+        if(!r) return NULL;
+        if(r->val == val) return r;
+        if(r->val<val) return f( r->right , val);
+        if(r->val>val) return f( r->left , val);
+        return NULL; //dummy
+    }
+    TreeNode* searchBST(TreeNode* r, int val) {
+        return f (r, val);
+    }
+};
 ```
 
 </details>
 
-### 128. Construct BST from keys 
+### 128. Construct BST from inorder traversal  
 
 <details>
 
+> The concept is to create a balanced Binary Search Tree (BST) from a sorted array, which represents an inorder traversal of the BST. You can start the process in various ways, such as selecting any index as the root node and then recursively building the left and right subtrees. However, my approach is to always choose the middle index of the current range `[l, r]` as the root. This strategy ensures that the tree remains balanced.
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f (vector<int>& n, int l , int h ){
+        if(l>h) return NULL;
+        int m = (l+h)/2;
+        TreeNode* r = new TreeNode (n[m] ) ;
+        r->left =  f ( n, l , m-1 );
+        r->right = f ( n, m+1 , h );
+        return r ;
+    }
+
+    TreeNode* sortedArrayToBST(vector<int>& n) {
+        return f ( n, 0, n.size() -1 );
+    }
+};
 ```
 
 </details>
 
-### 129. Construct BST from preorder 
+### 129. Construct BST from preorder traversal
 
 <details>
 
+> To build a Binary Search Tree (BST) from a preorder traversal, you can start by sorting the `pre` vector. By doing this, you effectively get the inorder traversal of the BST. Refer Q.128
+
+> This approach is a bit more complex. Observe that `pre[0]` splits the preorder array into two halves: the left half contains elements smaller than `pre[0]`, and the right half contains elements greater than `pre[0]`. All elements smaller than `pre[0]` after it forms the left subtree JFYI. This observation is helpful, but not directly used in the solution. 
+
+> Consider passing the root node with an upper bound of infinity. For inserting a node into the left subtree, its value should be less than the root node’s value. If you cannot insert it on the left side, then it should be inserted into the right subtree only if its value is greater than the root node’s value.
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(vector<int>& pre, long long int ub, int& i){
+        if( i == pre.size() || pre[i] > ub  ) return NULL;
+        TreeNode* r = new TreeNode( pre[i++] );
+        r-> left =  f(pre ,  r->val,i );
+        r-> right = f(pre ,  ub ,i);
+        return r;
+    }
+    TreeNode* bstFromPreorder(vector<int>& pre) {
+    int i = 0 ;
+    return f(pre, 1e18, i );
+    }
+};
 ```
 
 </details>
@@ -5294,8 +5374,20 @@ bool isParentSum(Node *root){
 
 <details>
 
+> What you need to do is maintain a range `[l, r]` for each node, where the value of the node should fall within this range. Start by initializing the range for the root node to `-1e18` to `1e18`. As you move to the left child, update the right bound of the range to the current node’s value. Conversely, when moving to the right child, update the left bound of the range to the current node’s value. With this approach, you can easily solve the problem.
 
 ```cpp
+bool f ( TreeNode* rt , long long int l , long long int r ){
+    if(!rt) return 1 ;
+    if( rt->val <= l || rt->val >= r) return 0;
+    return f(rt->left , l , rt->val) && f(rt->right, rt->val , r );
+}
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+    return f ( root, -1e18, 1e18);    
+    }
+};
 ```
 
 </details>
@@ -5304,18 +5396,64 @@ bool isParentSum(Node *root){
 
 <details>
 
+> Refer [Q.115](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main?tab=readme-ov-file#115-lca-in-bt)
+
+> Assuming `p < q`, the idea is to check if both `p` and `q` are smaller than the current node's value; if so, move to the left subtree. If both are greater, move to the right subtree. If the current node’s value falls between `p` and `q`, it is the LCA, as it is the node that creates the paths to `p` and `q`. Additionally, if the current node is either `p` or `q`, directly return that node, since it is an ancestor of the other.
+
+> `p` --- `r` --- `q` 
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(TreeNode* r, TreeNode* p, TreeNode* q){
+      if(p->val < r->val  && q->val > r->val) return r; // lca
+      if(p == r || q == r ) return r ; // ancestor of the other
+      if(p->val < r->val  && q->val < r->val) return f(r->left , p , q);
+      else return f(r->right , p , q);
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* r, TreeNode* p, TreeNode* q) {
+        if(p->val < q->val)
+        return f(r,p,q);
+        else
+        return f(r,q,p);
+    }
+};
 ```
 
 </details>
 
-### 132. Inorder predecessor and successor of given key in BST 
+### 132. Inorder predecessor and successor of the given key in BST 
 
 <details>
 
+> To find the predecessor of a given key in a Binary Search Tree (BST), you can perform an inorder traversal to obtain a sorted list of all keys. Then, locate the index of the key in this list. The predecessor will be the key at the index immediately before it, while the successor will be at the index immediately after it.
+
+> The time complexity of this approach is `O(H)`, but it can degrade to `O(N)` if the tree is skewed. However, in the case of a balanced BST (like an AVL tree), it's essential to understand this method as it ensures better performance. The idea is to search for the given key and, in each step, decide whether to move left or right. For finding the predecessor, if the current node’s key is less than the target value, update the predecessor. Interestingly, if the current node’s key is equal to the target value, you should still explore the left branch to potentially find a closer immediate predecessor.
 
 ```cpp
+class Solution
+{
+    public:
+    Node* ans_suc = NULL;
+    Node* ans_pre = NULL;
+    void f1(Node* r, int val){
+        if(!r) return;   
+        if(r->key<val) {ans_pre = r;f1( r->right , val);}
+        if(r->key>=val) {f1( r->left , val);}
+    }
+    void f2(Node* r, int val){
+        if(!r) return;
+        if(r->key <= val) f2( r->right , val);
+        if(r->key > val ) { ans_suc = r; f2(r->left, val);} 
+    }
+    void findPreSuc(Node* r, Node*& pre, Node*& suc, int key)
+    {
+        f1(r,key);
+        pre = ans_pre;
+        f2(r,key);
+        suc = ans_suc;
+    }
+};
 ```
 
 </details>
