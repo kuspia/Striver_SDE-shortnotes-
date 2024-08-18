@@ -5463,8 +5463,32 @@ class Solution
 
 <details>
 
+> Refer Q.132
 
 ```cpp
+#include <bits/stdc++.h> 
+TreeNode<int>* ans_pre = nullptr;
+void f1(TreeNode<int>* r, int val) {
+    if (!r) return;
+    if (r->val == val) {
+        ans_pre = r;
+        return;
+    }
+    else if (r->val < val) {
+        ans_pre = r;
+        f1(r->right, val);
+    }
+    else f1(r->left, val);
+}
+int floorInBST(TreeNode<int>* root, int X) {
+    ans_pre = nullptr;
+    f1(root, X);
+    if (ans_pre) {
+        return ans_pre->val;
+    } else {
+        return -1;
+    }
+}
 ```
 
 </details>
@@ -5472,9 +5496,33 @@ class Solution
 ### 134. Ceil in BST
 
 <details>
-
+	
+> Refer Q.132
 
 ```cpp
+#include <bits/stdc++.h> 
+TreeNode<int>* ans_suc = nullptr;
+void f1(TreeNode<int>* r, int val) {
+    if (!r) return;
+    if (r->val == val) {
+        ans_suc = r;
+        return;
+    }
+    else if (r->val < val) {
+        ans_suc = r;
+        f1(r->right, val);
+    }
+    else f1(r->left, val);
+}
+int floorInBST(TreeNode<int>* root, int X) {
+    ans_suc = nullptr;
+    f1(root, X);
+    if (ans_suc) {
+        return ans_suc->val;
+    } else {
+        return -1;
+    }
+}
 ```
 
 </details>
@@ -5483,8 +5531,65 @@ class Solution
 
 <details>
 
+> So what we do is, we do inorder traversal, and simply get kth element 
 
 ```cpp
+class Solution {
+public:
+    void f(TreeNode* n, int k, vector<int>& res){
+        if(!n) return;
+        f(n->left,k,res);
+        if(res.size() == k) return;
+        res.push_back(n->val);
+        f(n->right,k,res);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        vector<int> res;
+        f(root , k, res );
+        return res[res.size()-1];
+    }
+};
+```
+
+> Let's optimize the space to O(1), Note here we don't consider recursion stack space, or use Morris traversal to avoid recursion stack space.
+
+```cpp
+class Solution {
+public:
+int res = 0, an;
+    void f(TreeNode* n, int k){
+        if(!n) return ;
+        f(n->left,k);
+        if (++res == k) an = n->val;
+        f(n->right,k);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        f(root , k );
+        return an;
+    }
+};
+```
+
+> Follow up: If the BST is modified often (i.e., we can do insert and delete operations) then?
+
+> When we have elements greater than the top of `pq` inserted/deleted we don't care, but in case of smaller remove the top and push the next smaller element, However, if someone smaller than the top is deleted we need to call `f` again to recreate our `pq`.
+
+```cpp
+class Solution {
+public:
+    void f(TreeNode* n, int k, priority_queue<int>& pq){
+        if(!n) return ;
+        f(n->left,k,pq);
+        if(pq.size() < k ) pq.push(n->val);
+        if(pq.size() == k) return;
+        f(n->right,k,pq);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        priority_queue<int> pq; // max-heap 
+        f(root , k ,pq);
+        return pq.top();
+    }
+};
 ```
 
 </details>
@@ -5492,7 +5597,6 @@ class Solution
 ### 136.  Kth largest element in BST 
 
 <details>
-
 
 ```cpp
 ```
