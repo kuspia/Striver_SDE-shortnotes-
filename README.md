@@ -5171,8 +5171,33 @@ if (n1->val != n2-> val) return 0;
 
 <details>
 
+> The question is tricky, so what we do is iterate through the tree. If we encounter a `null`, nothing happens. In the case of a leaf node, it is returned to the previous recursion call. Observe these two scenarios in the code:
+
+1. When we arrive at a point where `l` is non-null, it is necessary to set `l->left` to `NULL` and connect it to the current `n` node.
+2. For the current `n` node, if the right node is non-null, and `l` is null, this means we can skip it because the right node already adheres to the LL property described in the question. However, if `l` is non-null, you should connect the `r` node to the end of my flattened tree. This connection is done using a while loop until it points to the last node of the current tree.
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(TreeNode* n){
+    if(!n) return NULL;
+    TreeNode* l = f(n->left);
+        TreeNode* t = n->right;
+        if(l){
+            n->right = l;
+            n->left = NULL;
+        }
+        TreeNode* r = f(t);
+        if(r && l)  {       
+	while (l->right)  l = l->right;
+	l->right = r;
+	}
+        return n; 
+    }
+    void flatten(TreeNode* r) {
+        TreeNode* pass = f(r);
+    }
+};
 ```
 
 </details>
