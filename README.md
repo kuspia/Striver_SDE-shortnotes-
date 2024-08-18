@@ -5081,8 +5081,29 @@ public:
 
 <details>
 
+> Refer Q.121
 
 ```cpp
+class Solution {
+public:
+    TreeNode* f(vector<int>& in, vector<int>& pre, map<int, int>& mp, int preStart, int preEnd, int inStart, int inEnd) {
+        if (preStart > preEnd || inStart > inEnd)  return NULL;
+        int rootValue = pre[preStart];
+        TreeNode* root = new TreeNode(rootValue);
+        int rootIndexInInorder = mp[rootValue];
+        int numRightNodes = inEnd - rootIndexInInorder;
+        int numLeftNodes = rootIndexInInorder - inStart;
+root->left = f(in, pre, mp, preStart+1, preStart + numLeftNodes, inStart, rootIndexInInorder - 1);
+root->right = f(in, pre, mp, preEnd - numRightNodes + 1, preEnd, rootIndexInInorder + 1, inEnd);
+    return root;
+    }
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+        map<int, int> mp;
+        int n = in.size();
+        for (int i = 0; i < n; i++) mp[in[i]] = i;
+        return f(in, pre, mp, 0, n - 1, 0, n - 1);
+    }
+};
 ```
 
 </details>
@@ -5127,8 +5148,21 @@ root->right = f(in, post, mp, postEnd - numRightNodes, postEnd - 1, rootIndexInI
 
 <details>
 
+> Assume that your tree is symmetric. Take two iterators that traverse the tree in opposite directions. If the tree is symmetric over the central mirror axis, you will observe that each recursive call will iterate over nodes with the same value. However, if you encounter a mismatch—such as one iterator reaching `NULL` while the other is still non-null, or if the values at the nodes pointed to by the iterators differ—return 0.
 
 ```cpp
+class Solution {
+public:
+    bool f(TreeNode* n1, TreeNode* n2){
+  if(!n1 && !n2) return 1;;
+ if(!n1 || !n2) return 0;
+if (n1->val != n2-> val) return 0;
+       return f(n1->left , n2->right) && f(n1->right,n2->left);
+     }
+    bool isSymmetric(TreeNode* root) {
+    return f(root,root);   
+    }
+};
 ```
 
 </details>
@@ -5143,12 +5177,28 @@ root->right = f(in, post, mp, postEnd - numRightNodes, postEnd - 1, rootIndexInI
 
 </details>
 
-### 124. Check if BT is the mirror of itself or not 
+### 124. Convert a binary tree into its mirror tree.
 
 <details>
 
+> Before doing this once check out [Q.116](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#116--check-if-the-two-trees-are-identical-or-not) and [Q.122](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main#122-symmetric-bt)
 
 ```cpp
+class Solution {
+  public:
+    // Function to convert a binary tree into its mirror tree.
+   Node* f(Node* n){
+       if(!n) return NULL;
+    Node* l = f(n->left);
+    Node* r = f(n->right);
+    n->left =r;
+    n->right=l;
+    return n;
+   }
+    void mirror(Node* n) {
+        Node* pass = f(n);
+    }
+};
 ```
 
 </details>
@@ -5157,8 +5207,21 @@ root->right = f(in, post, mp, postEnd - numRightNodes, postEnd - 1, rootIndexInI
 
 <details>
 
+>Observe that if at any point `n` is `null`, it indicates a null node, so you should return 1. For any leaf node, the value will always be 1, which is ensured by the conditional check `if(val2 != 0 ...)`. This check is specifically designed to handle cases where `val2` is non-zero, ensuring that the function correctly identifies and processes leaf nodes. The condition is written this way to ensure that non-null and valid leaf nodes are properly accounted for in the function's logic.
 
 ```cpp
+bool f (Node* n){
+    if(!n) return 1;
+    int val = n-> data;
+    int val2=0;
+    if(n->left) val2+= n->left->data;
+    if(n->right) val2+= n->right->data;
+    if(val2!=0 && val2!=val) return 0;
+    return f(n->left) && f(n->right);
+    }
+bool isParentSum(Node *root){
+    return f(root);
+}
 ```
 
 </details>
