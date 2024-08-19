@@ -5627,12 +5627,77 @@ int N = 0;
 
 </details>
 
-### 137. Pair with given sum in BST 
+### 137. Pair with the given sum in BST 
 
 <details>
 
+> M1. To find a pair with a target sum in a Binary Search Tree (BST) using the `O(H)` space, you can leverage the properties of inorder traversal. First, perform an inorder traversal to obtain a sorted array of the BST's values. Then, use a two-pointer approach to find the target sum in this sorted array efficiently.
+
+> Refer to Q.138 then read this, For the BSTIterator approach, maintain two iterators: one for ascending order and one for descending order. This allows you to efficiently find the target sum pair by using two pointers approach appropriately. Special cases include handling nodes with only one child and ensuring that you only call the `next()` function when necessary. Additionally, it’s crucial to check that the iterators are not pointing to the same node to avoid invalid comparisons.
 
 ```cpp
+class BSTIterator { // L r R
+public:
+    stack<TreeNode*> s;
+    BSTIterator(TreeNode* root) {
+        TreeNode* r = root; 
+        while(r) {
+            s.push(r);
+            r = r->left;
+        }
+    }
+    void next() {
+        TreeNode* r = s.top();
+        s.pop();
+        TreeNode* right = r->right;
+        while( right  ){
+            s.push(right);
+            right = right->left;
+        }
+    }
+    bool hasNext() {
+      return s.size() ? 1 : 0 ;
+    }
+};
+
+class BSTIterator1 { // R r L 
+public:
+    stack<TreeNode*> s;
+    BSTIterator1(TreeNode* root) {
+        TreeNode* r = root; 
+        while(r) {
+            s.push(r);
+            r = r->right;
+        }
+    }
+    void next() {
+        TreeNode* r = s.top();
+        s.pop();
+        TreeNode* left = r->left;
+        while(  left  ){
+            s.push(left);
+            left = left->right;
+        }
+    }
+    bool hasNext() {
+      return s.size() ? 1 : 0 ;
+    }
+};
+
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        if(!root->right && !root->left) return 0; // just one element is present in it 
+        BSTIterator* obj = new BSTIterator(root);
+        BSTIterator1* obj1 = new BSTIterator1(root);
+        while(obj->hasNext() && obj1->hasNext() && obj->s.top() != obj1->s.top() ){
+            if(obj->s.top()->val + obj1->s.top()->val > k) obj1->next();
+            else if(obj->s.top()->val + obj1->s.top()->val < k) obj->next();
+            else return 1;
+        }
+        return 0;
+    }
+};
 ```
 
 </details>
@@ -5641,18 +5706,110 @@ int N = 0;
 
 <details>
 
+> The approach is based on simulating the inorder traversal of a BST using a stack. By pushing all left nodes onto the stack during the initialization, we set up the stack to reflect the inorder sequence. When `next()` is called, the top element of the stack represents the next node in the inorder traversal. After retrieving this node, we pop it and then push all left nodes of its right subtree onto the stack. This maintains the inorder property `[LrR]`, ensuring that each call to `next()` returns the nodes in the correct order.
 
 ```cpp
+class BSTIterator {
+public:
+    stack<TreeNode*> s;
+    BSTIterator(TreeNode* root) {
+        TreeNode* r = root; 
+        while(r) {
+            s.push(r);
+            r = r->left;
+        }
+    }
+    int next() {
+        TreeNode* r = s.top();
+        s.pop();
+        TreeNode* right = r->right;
+        while(  right  ){
+            s.push(right);
+            right = right->left;
+        }
+        return r-> val ;
+    }
+    
+    bool hasNext() {
+      return s.size() ? 1 : 0 ;
+    }
+};
+
 ```
 
 </details>
 
-### 139. Size of largest BST in BT
+### 139. Size of largest BST in BT 
 
 <details>
 
+> Maintain four variables for each node, as specified in the struct. It’s important to note that if no node is considered, the `max_sum` will always be non-negative, so we initialize it to 0 (the minimum possible value). When processing a node whose left and right subtrees have been fully evaluated, we use the information from both subtrees to determine if the current node forms a valid BST. If it is a valid BST, we update the `max_sum`. Additionally, we need to pass the minimum and maximum values of the current subtree to the previous recursion call.
+
+> Let's try solving the sum of the largest BST in BT first
+
+> <img width="593" alt="Screenshot 2024-08-19 at 12 14 56" src="https://github.com/user-attachments/assets/db6a7c16-3924-4d1c-9a67-e80d56f4f3a6">
+
+> For null node: `(1, 0, ∞, -∞)` and For leaf node: `(1, node->val, node->val, node->val)`
 
 ```cpp
+class Solution {
+public:
+    int maxSumBST(TreeNode* root) {
+        int maxSum = 0;
+        struct Result_dummy = isBST(root, maxSum);
+        return maxSum;
+    }
+private:
+    struct Result {
+        bool isBST;
+        int sum;
+        int min_val;
+        int max_val;
+    };
+    Result isBST(TreeNode* node, int& maxSum) {
+        if (!node) return {true, 0, INT_MAX, INT_MIN};
+        Result left = isBST(node->left, maxSum);
+        Result right = isBST(node->right, maxSum);
+        int sum = node->val + left.sum + right.sum;
+        bool isbst = left.isBST && right.isBST && node->val > left.max_val && node->val < right.min_val;
+        if (isbst) maxSum = max(maxSum, sum);
+        return {isbst, sum, min(node->val, min (left.min_val , right.min_val ) ), max(node->val , max (left.max_val , right.max_val)  ) };
+	// notice every node is not a BST so, we have to return in this fashion 
+    }
+};
+```
+
+> Actual question
+
+```cpp
+class Solution {
+public:
+    int largestBst(Node* root) {
+        int maxCnt = 0;
+        isBST(root, maxCnt);
+        return maxCnt;
+    }
+
+private:
+    struct Result {
+        bool isBST;
+        int min_val;
+        int max_val;
+        int cnt;
+    };
+    Result isBST(Node* node, int& maxCnt) {
+        if (!node) return {true, INT_MAX, INT_MIN, 0};
+        Result left = isBST(node->left, maxCnt);
+        Result right = isBST(node->right, maxCnt);
+	int cnt = left.cnt + right.cnt + 1;
+        bool isbst = left.isBST && right.isBST && node->data > left.max_val && node->data < right.min_val;
+        if (isbst) maxCnt = max(maxCnt, cnt);
+        return {
+            isbst, min(node->data, min(left.min_val, right.min_val)), max(node->data, max(left.max_val, right.max_val)), cnt
+        };
+    }
+};
+
 ```
 
 </details>
