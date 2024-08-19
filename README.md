@@ -6086,12 +6086,38 @@ private:
 
 </details>
 
-### 151. Clone a graph (hard)
+### 151. Clone a graph 
 
 <details>
 
+> To solve this problem, perform a Depth-First Search (DFS) traversal. During the traversal, when you backtrack from a neighbor of the current node `n`, ensure you add this neighbor to the `cur` node's list of neighbors in the cloned graph.
+
+> A key point to note is handling already visited nodes. When you encounter a node that has already been visited, you should add the corresponding cloned node to `cur->neighbors` using the following approach: `cur->neighbors.push_back(vis[n->neighbors[i]].second)`. Here, `vis` is a map where each entry contains a pair; the second value of this pair is the cloned node. This ensures that you correctly link cloned nodes and avoid re-creating them.
 
 ```cpp
+Node* f(Node* n,  map<Node* , pair < bool  , Node*> >& vis){
+if(!n) return NULL;
+Node* cur = new Node ();
+cur->val = n->val ;
+vis[n] = {1,cur};
+
+for (int i = 0 ; i < n->neighbors.size() ; i++){
+if(vis[n->neighbors[i]].first != 1)
+{
+Node* temp = f(n->neighbors[i], vis);
+cur->neighbors.push_back(temp);
+}
+else cur->neighbors.push_back(  vis[n->neighbors[i]].second  ); 
+}
+return cur ;
+}
+class Solution {
+public:
+    Node* cloneGraph(Node* node) {
+    map<Node* , pair < bool  , Node*> > vis; // `[old_graph_node] : [ ( 1, new_graph_node) ]`
+    return f(node, vis);    
+    }
+};
 ```
 
 </details>
@@ -6102,6 +6128,11 @@ private:
 
 
 ```cpp
+function dfs(node, visited = new Set()) {
+    if (!node || visited.has(node)) return;
+    visited.add(node);
+    node.neighbors.forEach(neighbor => dfs(neighbor, visited));
+}
 ```
 
 </details>
@@ -6112,6 +6143,19 @@ private:
 
 
 ```cpp
+function bfs(start) {
+    let queue = [start];
+    let visited = new Set([start]);
+    while (queue.length) {
+        let node = queue.shift();
+        node.neighbors.forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push(neighbor);
+            }
+        });
+    }
+}
 ```
 
 </details>
@@ -6120,8 +6164,35 @@ private:
 
 <details>
 
+> The idea is straightforward: use BFS to traverse the graph. When a node is dequeued, mark it as visited. Then, for each adjacent node, if it hasn’t been visited, mark it as visited, set its parent to the current node, and enqueue it. If the adjacent node is already visited, ensure it isn’t the parent of the current node. This approach helps in keeping track of the tree structure and avoiding cycles in the traversal.
 
 ```cpp
+class Solution {
+  public:
+    bool isCycle(int v, vector<int> g[]) {
+    vector<bool> vis(v,0);
+    vector<int> par(v,-1);
+      for(int i=0;i<v;i++){
+          if(!vis[i]){
+              queue<int> q ;
+              q.push(i);
+              while(q.size()){
+                  int st = q.front();
+                  q.pop();
+                  vis[st]=1;
+          for(int i=0; i<g[st].size(); i++){
+            if(  !vis[g[st][i]]  ){
+               q.push(g[st][i]);
+               par[g[st][i]] = st;
+            }
+           else if( g[st][i] != par[st] ) return 1;
+         }
+        }
+        }
+      }
+      return 0;
+    }
+};
 ```
 
 </details>
