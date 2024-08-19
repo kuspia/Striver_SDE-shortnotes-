@@ -6164,7 +6164,7 @@ function bfs(start) {
 
 <details>
 
-> The idea is straightforward: use BFS to traverse the graph. When a node is dequeued, mark it as visited. Then, for each adjacent node, if it hasn’t been visited, mark it as visited, set its parent to the current node, and enqueue it. If the adjacent node is already visited, ensure it isn’t the parent of the current node. This approach helps in keeping track of the tree structure and avoiding cycles in the traversal.
+> The idea is straightforward: use BFS to traverse the graph. When a node is dequeued, mark it as visited. Then, for each adjacent node, if it hasn’t been visited, mark it as visited, set its parent to the current node, and enqueue it. If the adjacent node is already visited, ensure it isn’t the parent of the current node, to return `1`
 
 ```cpp
 class Solution {
@@ -6197,7 +6197,311 @@ class Solution {
 
 </details>
 
+### 155. Detect Cycle in an Undirected Graph (using DFS)
 
+<details>
+
+> The idea is very simple just do DFS and if you find an adjacent node that is already visited and it is not the parent of my adjacent node clearly you met with some cycle.
+
+```cpp
+class Solution {
+  public:
+    bool f(int st, int par, int& v, vector<int> g[], vector<bool>& vis){
+        vis[st]=1;
+        for(int i=0; i<g[st].size(); i++){
+            if(  !vis[g[st][i]]  ) if( f( g[st][i], st, v, g, vis) ) return 1;
+            else if(g[st][i]!=par) return 1;  
+        }
+        return 0;
+        
+    }
+    bool isCycle(int v, vector<int> g[]) {
+    vector<bool> vis(v,0);
+      for(int i=0;i<v;i++){
+          if(!vis[i])
+          if( f( i, -1, v, g, vis) ) return 1;
+      }
+      return 0;
+    }
+};
+```
+
+</details>
+
+### 156. Detect Cycle in a directed Graph (using DFS)
+
+<details>
+
+> Easy, just use DFS to check for cycles in a directed graph. Remember two things: first, mark nodes in the current path using an `inPath[]` vector with a `+` sign (assume). Second, maintain a `visited[]` vector for nodes that have been fully processed. When you backtrack from a node, make sure to remove the `+` sign from that node in the `inPath[]` vector.
+
+```cpp
+class Solution {
+public:
+bool f(int st,int& v,vector<vector<int>>& g,vector<bool>& inpath,vector<bool>& vis){
+        inpath[st]=1;
+        vis[st]=1;
+        for(int i=0; i<g[st].size(); i++){
+            if (!vis[g[st][i]] && f(g[st][i], v, g, inpath, vis) ) return true;
+            else if ( inpath[g[st][i]] ) return 1;   
+        }
+        inpath[st]=0;
+        return 0; 
+}
+  bool canFinish(int v, vector<vector<int>>& gg) {
+     vector<vector<int>> g(v);
+    for(int i=0; i<gg.size();i++) g[gg[i][1]].push_back(gg[i][0]); 
+    vector<bool> inpath(v,0);
+    vector<bool> vis(v,0);
+      for(int i=0;i<v;i++) if (!vis[i] && f(i, v, g, inpath, vis)) return 0;
+      return 1;
+    }
+};
+```
+
+</details>
+
+### 157. Detect Cycle in a directed Graph (using BFS)
+
+<details>
+
+> Recall how we performed BFS for topological sorting. Topological sort is only possible if the graph is a Directed Acyclic Graph (DAG). Therefore, if you can successfully produce a topological sort for all vertices, it indicates that the graph has no cycles. If topological sorting is not possible, it means the graph contains cycles.
+
+```cpp
+class Solution
+{
+  public:
+  vector<int> an;
+ bool canFinish(int v, vector<vector<int>>& gg) {
+    vector<vector<int>> g(v);
+    for(int i=0; i<gg.size();i++) g[gg[i][1]].push_back(gg[i][0]); 
+      vector<int> indg(v, 0);
+      for (int i = 0; i < v; i++) for (int j = 0; j < g[i].size(); j++) indg[g[i][j]]++;
+      queue<int> q;
+      for (int i = 0; i < v; i++) if(!indg[i]) q.push(i);
+      while(q.size()){
+          int cur = q.front(); 
+          q.pop();
+          an.push_back(cur);
+          for (int j = 0; j < g[cur].size(); j++) {
+              indg[g[cur][j]]--;
+              if(!indg[ g[cur][j] ]) q.push(g[cur][j]);
+          }
+          
+      }
+     return an.size()==v ? 1 : 0;
+  }
+};
+```
+
+</details>
+
+### 158. Topological sort BFS
+
+<details>
+
+> A modified BFS for topological sorting involves calculating the in-degree of each vertex and initially enqueuing vertices with an in-degree of 0. As you process each vertex by dequeuing it, decrease the in-degree of its adjacent vertices since you have effectively removed the vertex from the graph. If an adjacent vertex's in-degree drops to 0, enqueue it. This process continues until all vertices are processed, which helps determine if a valid topological sort is possible.
+
+```cpp
+class Solution
+{
+public:
+    vector<int> an;
+	vector<int> topoSort(int v, vector<int> g[]) 
+	{
+	    vector<int> indg(v, 0);
+	    for (int i = 0; i < v; i++) for (int j = 0; j < g[i].size(); j++) indg[g[i][j]]++;
+	    queue<int> q;
+	    for (int i = 0; i < v; i++) if(!indg[i]) q.push(i);
+	    while(q.size()){
+	        int cur = q.front(); 
+	        q.pop();
+	        an.push_back(cur);
+	        for (int j = 0; j < g[cur].size(); j++) {
+	            indg[g[cur][j]]--;
+	            if(!indg[ g[cur][j] ]) q.push(g[cur][j]);
+	        }
+	        
+	    }
+	   return an;
+	}
+};
+```
+
+</details>
+
+### 159. Topological sort DFS
+
+<details>
+
+```cpp
+class Solution {
+public:
+    vector<int> an;
+    void f(int v, vector<int> g[], vector<bool> &visited) {
+        visited[v] = true;
+        for (int u : g[v])   if (!visited[u])   f(u, g, visited);
+        an.push_back(v);  
+    }
+    vector<int> topoSort(int V, vector<int> g[]) {
+        vector<bool> visited(V, false);
+        for (int i = 0; i < V; i++)  if (!visited[i]) f(i, g, visited);
+        reverse(an.begin(), an.end());
+        return an;
+    }
+};
+```
+
+</details>
+
+### 160. Number of Distinct islands
+
+<details>
+
+```cpp
+class Solution {
+  private:
+    void dfs(int row, int col, vector < vector < int >> & vis,
+      vector < vector < int >> & grid, vector < pair < int, int >> & vec, int row0, 
+      int col0) {
+
+      vis[row][col] = 1;
+      vec.push_back({
+        row - row0,
+        col - col0
+      });
+      int n = grid.size();
+      int m = grid[0].size();
+
+      // delta row and delta column
+      int delrow[] = {-1, 0, +1, 0}; 
+      int delcol[] = {0, -1, 0, +1}; 
+
+      // traverse all 4 neighbours
+      for (int i = 0; i < 4; i++) {
+        int nrow = row + delrow[i];
+        int ncol = col + delcol[i];
+        // check for valid unvisited land neighbour coordinates 
+        if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
+          !vis[nrow][ncol] && grid[nrow][ncol] == 1) {
+          dfs(nrow, ncol, vis, grid, vec, row0, col0);
+        }
+      }
+    }
+  public:
+    int countDistinctIslands(vector < vector < int >> & grid) {
+      int n = grid.size();
+      int m = grid[0].size();
+      vector < vector < int >> vis(n, vector < int > (m, 0));
+      set < vector < pair < int, int >>> st;
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {  
+          if (!vis[i][j] && grid[i][j] == 1) {
+            vector < pair < int, int >> vec;
+            dfs(i, j, vis, grid, vec, i, j);
+            st.insert(vec);
+          }
+        }
+      }
+      return st.size();
+    }
+};
+```
+
+</details>
+
+### 161. Bipartite check BFS
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 162. Bipartite check DFS
+
+<details>
+
+```cpp
+```
+
+
+</details>
+
+### 163. Strongly Connected Components - Kosaraju's Algorithm
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 164. Print Shortest Path - Dijkstra’s Algorithm
+
+
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 165. Print Shortest Path - Dijkstra’s Algorithm
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 166. Bellman Ford Algorithm
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 167. Floyd Warshall Algorithm
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 168. Prim's Algorithm - Minimum Spanning Tree
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 169. Kruskal's Algorithm - Minimum Spanning Tree
+
+<details>
+
+```cpp
+```
+
+</details>
+
+### 170. 
+
+
+<details>
+
+```cpp
+```
+
+</details>
 
 
 
