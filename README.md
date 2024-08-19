@@ -6406,6 +6406,7 @@ class Solution {
     }
 };
 ```
+> If somebody asks you to find out the total number of islands, instead of a set use multiset DS.
 
 </details>
 
@@ -6413,7 +6414,38 @@ class Solution {
 
 <details>
 
+> In BFS, traverse the graph while ensuring that for any node with a color of `-1`, you start a BFS to color the graph. This approach works even for disconnected graphs. For a connected graph, if you color a node with `0`, its adjacent nodes should be colored `1`. If an adjacent node is already colored and its color matches the parent node's color, the graph is not bipartite. 
+
+> Since there are only two colors, once a node is colored, it should not be recolored. This guarantees that BFS can solve the problem efficiently. Without this constraint, a recursive approach would be needed to test all possible colorings for each node.
+
 ```cpp
+class Solution {
+public:
+    bool isBipartite(vector<vector<int>>& g) {
+        int n = g.size();
+        vector<int> col (n,-1);
+        queue<int> q;
+        for(int i=0; i<n; i++){
+            if(col[i] == -1){
+                q.push(i);
+                col[i] = 0;
+                while(q.size()){
+                    int cur = q.front();
+                    int cur_col = col[cur];
+                    q.pop();
+                    for(int i=0; i<g[cur].size(); i++){
+                        if( col[g[cur][i]] == cur_col ) return 0;
+                        if(col[g[cur][i]] == -1){
+                            col[g[cur][i]] = !cur_col;
+                            q.push(g[cur][i]);
+                        }
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+};
 ```
 
 </details>
@@ -6422,7 +6454,34 @@ class Solution {
 
 <details>
 
+> Initialize a `color` array with `-1` for each node, indicating that no node has been colored yet. When you start a DFS from a node with color `-1`, it signifies the beginning of a new connected component in the graph. Color this node with one color (e.g., `0`), and then recursively color its neighbors with the inverted color (e.g., `1`). If you encounter a neighbor that is already colored with the same color as the current node, it indicates a conflict, meaning the graph cannot be bipartite.
+
 ```cpp
+class Solution {
+public:
+    bool f(vector<vector<int>>& g, vector<int>& col, int cur_col, int id){
+       for ( int i = 0;i<g[id].size(); i++){
+           if( col[g[id][i]] == cur_col) return 1;
+           if( col[g[id][i]] == -1) {
+               col[g[id][i]] = !cur_col;
+               if ( f(g,col,!cur_col,g[id][i]) ) return 1;
+           }
+       }
+       return 0;
+    }
+    bool isBipartite(vector<vector<int>>& g) {
+        int n = g.size();
+        vector<int> col (n,-1);
+        for(int i = 0; i< n; i++){
+            if(col[i]==-1){
+                col[i]=0;
+                int halt = f(g , col, 0, i);
+                if(halt) return 0;
+            }
+        }
+        return 1;
+    }
+};
 ```
 
 
