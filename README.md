@@ -5864,9 +5864,42 @@ private:
 ### 145. BT to DLL
 
 <details>
+	
+> <img width="420" alt="Screenshot 2024-08-19 at 17 34 05" src="https://github.com/user-attachments/assets/75c2b79d-0bbc-49ce-8820-00543b668ac3">
 
+
+Consider a subtree `s1` with its extreme nodes as `[l1, r1]` and a current node `n`. Also, consider a right subtree `s2` with its extreme nodes as `[l2, r2]`. To correctly flatten and connect these subtrees, we need to link them as follows: `l1 ... r1 -> n <- l2 ... r2`. When you need to return from a recursion call, you should return the extreme nodes `[l1, r2]`. 
 
 ```cpp
+class Solution
+{
+public:
+    // Helper function to convert a subtree to a doubly linked list
+    pair<Node*, Node*> convertToDLL(Node* n) {
+        if (!n) return {NULL, NULL};
+        pair<Node*, Node*> leftDLL = convertToDLL(n->left);
+        pair<Node*, Node*> rightDLL = convertToDLL(n->right);
+        // Connect the current node to its left and right subtrees
+        if (leftDLL.second) {
+            leftDLL.second->right = n;
+            n->left = leftDLL.second;
+        }
+        if (rightDLL.first) {
+            rightDLL.first->left = n;
+            n->right = rightDLL.first;
+        }
+        // Update the extreme left and right nodes for this subtree
+        Node* leftmost = leftDLL.first ? leftDLL.first : n;
+        Node* rightmost = rightDLL.second ? rightDLL.second : n;
+        return {leftmost, rightmost};
+    }
+    Node * bToDLL(Node *root)
+    {
+        if (!root) return NULL;
+        pair<Node*, Node*> result = convertToDLL(root);
+        return result.first; // Return the head of the doubly linked list
+    }
+};
 ```
 
 </details>
@@ -5875,8 +5908,30 @@ private:
 
 <details>
 
+> Refer [Q.72](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main?tab=readme-ov-file#72-median-from-data-stream)
 
 ```cpp
+class MedianFinder {
+public:
+    priority_queue<int> ma; // Max-heap for the lower half
+    priority_queue<int, vector<int>, greater<int>> mi; // Min-heap for the upper half
+    void addNum(int num) {
+        if (ma.empty() || num <= ma.top()) ma.push(num);
+        else mi.push(num);
+        // Balance the heaps if necessary, at most size diff. of unity 
+        if (ma.size() > mi.size() + 1) {
+            mi.push(ma.top());
+            ma.pop();
+        } else if (mi.size() > ma.size()) {
+            ma.push(mi.top());
+            mi.pop();
+        }
+    }
+    double findMedian() {
+        if (ma.size() > mi.size()) return ma.top();
+        else return (ma.top() + mi.top()) / 2.0;
+    }
+};
 ```
 
 </details>
@@ -5914,8 +5969,27 @@ private:
 
 <details>
 
+> This is an insightful problem that may lead to the use of a set to track distinct elements, but using a set alone can be problematic. When an element, say `A[i - B]`, is removed from the current window, simply erasing it from the set doesn't guarantee that the element is no longer present in the window. This is because the element might still be within the current window or have duplicates. Therefore, maintaining an additional count for each element is necessary. 
+
+> In this approach, the `key` in the map represents the element itself, while the value in the map keeps track of the count of each element within the window. If `windowMap[removedElement]` equals `1`, it indicates that the element is no longer present in the current window of size `B`, and thus, it can be safely removed from the map.
 
 ```cpp
+vector<int> Solution::dNums(vector<int> &A, int B) {
+    vector<int> result;
+    unordered_map<int, int> windowMap;
+    for (int i = 0; i < B; ++i) windowMap[A[i]]++;
+    result.push_back(windowMap.size());  // Add the count of distinct elements in the initial window.
+    // Slide the window and update the map for each new position.
+    for (int i = B; i < A.size(); ++i) {
+        int removedElement = A[i - B];  // Element going out of the window.
+        if (windowMap[removedElement] == 1) windowMap.erase(removedElement);  // Remove it from the map if it's the last occurrence.
+        else windowMap[removedElement]--;  // Decrement the count of occurrences.
+        windowMap[A[i]]++;  // Add the new element to the map.
+        result.push_back(windowMap.size());  // Add the count of distinct elements in the current window.
+    }
+    return result;
+}
+
 ```
 
 </details>
