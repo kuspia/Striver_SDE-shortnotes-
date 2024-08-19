@@ -676,7 +676,7 @@ int reversePairs(vector<int>& a) {
 
 > BF ways are like sort and then do BS, or maybe use hashing etc.
 
-> Refer 4 sum 
+> Refer Q.20
 
 ```cpp
 ```
@@ -4337,7 +4337,7 @@ vector<int> prefix_function(string s) {
 
 <details>
 
-> Refer Q.94, then use that function to solve this 
+> Refer Q.98, then use that function to solve this 
 
 ```cpp
 int Solution::solve(string A) {
@@ -4571,7 +4571,7 @@ vector<int> leftView(Node* r) {
 
 <details>
 
-> Refer Q.106
+> Refer Q.110
 
 > The condition `else if (hd[dist].second <= depth)` ensures that if two nodes are at the same horizontal distance, the node that is at a greater depth (i.e., the node appearing later in the level-order traversal) will be stored. This is because when two nodes are at the same level but different subtrees (left and right), the right subtree node is processed after the left subtree node, so the right subtree node will overwrite the left subtree node. Thus, the node that appears at the bottom level at each horizontal distance will be retained.
 
@@ -4772,7 +4772,7 @@ public:
 
 <details>
 
-> Refer Q.110
+> Refer Q.114
 
 ```cpp
 class Solution {
@@ -4960,7 +4960,7 @@ public:
 
 <details>
 
-> Refer [Q.111](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#111-level-order-traversal-l-r)
+> Refer [Q.115](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#115-level-order-traversal-l-r)
 
 ```cpp
 class Solution {
@@ -5081,7 +5081,7 @@ public:
 
 <details>
 
-> Refer Q.121
+> Refer Q.125
 
 ```cpp
 class Solution {
@@ -5345,7 +5345,7 @@ public:
 
 <details>
 
-> To build a Binary Search Tree (BST) from a preorder traversal, you can start by sorting the `pre` vector. By doing this, you effectively get the inorder traversal of the BST. Refer Q.128
+> To build a Binary Search Tree (BST) from a preorder traversal, you can start by sorting the `pre` vector. By doing this, you effectively get the inorder traversal of the BST. Refer Q.132
 
 > This approach is a bit more complex. Observe that `pre[0]` splits the preorder array into two halves: the left half contains elements smaller than `pre[0]`, and the right half contains elements greater than `pre[0]`. All elements smaller than `pre[0]` after it forms the left subtree JFYI. This observation is helpful, but not directly used in the solution. 
 
@@ -5397,7 +5397,7 @@ public:
 
 <details>
 
-> Refer [Q.115](https://github.com/kuspia/Striver_SDE-shortnotes-/tree/main?tab=readme-ov-file#115-lca-in-bt)
+> Refer [Q.119](https://github.com/kuspia/Striver_SDE-shortnotes-/blob/main/README.md#119-lca-in-bt)
 
 > Assuming `p < q`, the idea is to check if both `p` and `q` are smaller than the current node's value; if so, move to the left subtree. If both are greater, move to the right subtree. If the current node’s value falls between `p` and `q`, it is the LCA, as it is the node that creates the paths to `p` and `q`. Additionally, if the current node is either `p` or `q`, directly return that node, since it is an ancestor of the other.
 
@@ -5463,7 +5463,7 @@ class Solution
 
 <details>
 
-> Refer Q.132
+> Refer Q.136
 
 ```cpp
 #include <bits/stdc++.h> 
@@ -5497,7 +5497,7 @@ int floorInBST(TreeNode<int>* root, int X) {
 
 <details>
 	
-> Refer Q.132
+> Refer Q.136
 
 ```cpp
 #include <bits/stdc++.h> 
@@ -5598,7 +5598,7 @@ public:
 
 <details>
 
-> The idea is to return `N-k+1` smallest node, so we rephrased the problem to which we have already solved. Refer Q.135
+> The idea is to return `N-k+1` smallest node, so we rephrased the problem to which we have already solved. Refer Q.139
 
 ```cpp
 class Solution {
@@ -5633,7 +5633,7 @@ int N = 0;
 
 > M1. To find a pair with a target sum in a Binary Search Tree (BST) using the `O(H)` space, you can leverage the properties of inorder traversal. First, perform an inorder traversal to obtain a sorted array of the BST's values. Then, use a two-pointer approach to find the target sum in this sorted array efficiently.
 
-> Refer to Q.138 then read this, For the BSTIterator approach, maintain two iterators: one for ascending order and one for descending order. This allows you to efficiently find the target sum pair by using two pointers approach appropriately. Special cases include handling nodes with only one child and ensuring that you only call the `next()` function when necessary. Additionally, it’s crucial to check that the iterators are not pointing to the same node to avoid invalid comparisons.
+> Refer to Q.142 then read this, For the BSTIterator approach, maintain two iterators: one for ascending order and one for descending order. This allows you to efficiently find the target sum pair by using two pointers approach appropriately. Special cases include handling nodes with only one child and ensuring that you only call the `next()` function when necessary. Additionally, it’s crucial to check that the iterators are not pointing to the same node to avoid invalid comparisons.
 
 ```cpp
 class BSTIterator { // L r R
