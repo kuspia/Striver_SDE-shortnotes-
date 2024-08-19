@@ -2747,7 +2747,7 @@ int aggressiveCows(vector<int> &stalls, int k) {
 
 </details>
 
-### 63. Max heap and Min heap Implementation
+### 69. Max heap and Min heap Implementation
 
 <details>
 
@@ -2798,7 +2798,7 @@ vector<int> minHeap(int n, vector<vector<int>>& q) {
 
 </details>
 
-### 65. Kth largest element
+### 70. Kth largest element
 
 
 <details>
@@ -2870,7 +2870,7 @@ std::vector<int> help(std::vector<int>& nums) {
 
 </details>
 
-### 66. Maximum sum combination (two-array-n-size-c-max-sum-combinations)
+### 71. Maximum sum combination (two-array-n-size-c-max-sum-combinations)
 
 <details>
 
@@ -2909,7 +2909,7 @@ vector<int> Solution::solve(vector<int> &a, vector<int> &b, int c) {
 
 </details>
 
-### 67. Median from Data Stream
+### 72. Median from Data Stream
 
 <details>
 
@@ -2956,7 +2956,7 @@ public:
 
 </details>
 
-### 68. Merge K-sorted arrays
+### 73. Merge K-sorted arrays
 
 <details>
 
@@ -2994,7 +2994,7 @@ vector<int> mergeKSortedArrays(vector<vector<int>>& ka, int k) {
 </details>
 
 
-### 69. K most frequent elements
+### 74. K most frequent elements
 
 <details>
 
@@ -3022,7 +3022,7 @@ public:
 
 </details>
 
-### 70. Stack using arrays
+### 75. Stack using arrays
 
 <details>
 
@@ -3057,7 +3057,7 @@ public:
 
 </details>
 
-### 71. Queue using arrays 
+### 76. Queue using arrays 
 
 <details>
 	
@@ -3086,7 +3086,7 @@ class Queue {
 
 </details>
 
-### 72. Implement Stack using a single queue
+### 77. Implement Stack using a single queue
 
 <details>
 
@@ -3163,7 +3163,7 @@ public:
 
 </details>
 
-### 73. Implement Queue using stack 
+### 78. Implement Queue using stack 
 
 <details>
 
@@ -3205,7 +3205,7 @@ public:
 
 </details>
 
-### 74. Check for balanced parenthesis
+### 79. Check for balanced parenthesis
 
 <details>
 
@@ -3263,7 +3263,7 @@ vector<string> generateParenthesis(int n) {
 
 </details>
 
-### 75. NGE Next greater element 
+### 80. NGE Next greater element 
 
 <details>
 
@@ -3318,7 +3318,7 @@ public:
 
 </details>
 
-### 76. Sort a stack 
+### 81. Sort a stack 
 
 <details>
 
@@ -3351,7 +3351,7 @@ f2(s,val);
 
 </details>
 
-### 77. NSE Next smaller element 
+### 82. NSE Next smaller element 
 
 <details>
 
@@ -3376,7 +3376,7 @@ vector<int> Solution::prevSmaller(vector<int> &a) {
 
 </details>
 
-### 78. LRU cache (least recently used)
+### 83. LRU cache (least recently used)
 
 <details>
 
@@ -3473,7 +3473,7 @@ public:
 
 </details>
 
-### 79. LFU cache
+### 84. LFU cache
 
 <details>
 
@@ -3634,7 +3634,7 @@ public:
 
 </details>
 
-### 80. Largest rectangle in the histogram 
+### 85. Largest rectangle in the histogram 
 
 <details>
 
@@ -3678,7 +3678,7 @@ public:
 
 </details>
 
-### 81. Sliding window maximum
+### 86. Sliding window maximum
 
 <details>
 
@@ -3709,7 +3709,7 @@ public:
 
 </details>
 
-### 82. Implement min stack
+### 87. Implement min stack
 
 <details>
 
@@ -3752,7 +3752,7 @@ public:
 
 </details>
 
-### 83. Rotten oranges 
+### 88. Rotten oranges 
 
 <details>
 
@@ -3801,7 +3801,7 @@ public:
 
 </details>
 
-### 84. Stock span problem 
+### 89. Stock span problem 
 
 <details>
 
@@ -3845,7 +3845,7 @@ public:
 
 </details>
 
-### 85. Maximum of minimum in every window size (hard)
+### 90. Maximum of minimum in every window size (hard)
 
 <details>
 
@@ -3894,7 +3894,7 @@ return ans;
 
 </details>
 
-### 86. Celebrity Problem
+### 91. Celebrity Problem
 
 <details>
 
@@ -3928,7 +3928,7 @@ stack<int> s ;
 
 </details>
 
-### 87. Reverse words in a string 
+### 92. Reverse words in a string 
 
 <details>
 
@@ -4009,7 +4009,7 @@ string result(string s)
 
 </details>
 
-### 88. Longest palindrome in a string (LPS)
+### 93. Longest palindrome in a string (LPS)
 
 <details>
 
@@ -4050,7 +4050,7 @@ return s.substr( r , c-r+1);
 
 </details>
 
-### 89. Roman number to integer and vice-versa
+### 94. Roman number to integer and vice-versa
 
 <details>
 
@@ -4081,7 +4081,7 @@ public:
 
 </details>
 
-### 90. Implement ATOI/STRSTR (string-to-integer)
+### 94. Implement ATOI/STRSTR (string-to-integer)
 
 <details>
 
@@ -4117,7 +4117,7 @@ public:
 
 </details>
 
-### 91. Longest common prefix
+### 95. Longest common prefix
 
 <details>
 
@@ -4153,7 +4153,7 @@ public:
 
 </details>
 
-### 92. Rabin Karp 
+### 96. Rabin Karp 
 
 <details>
 
@@ -4237,7 +4237,7 @@ int repeatedStringMatch(string a, string b) {
 
 </details>
 
-### 93. Z function  
+### 97. Z function  
 
 <details>
 
@@ -4286,7 +4286,7 @@ vector<int> z_function(string s) {
 
 </details>
 
-### 94. KMP algo/LSP(pi) array
+### 98. KMP algo/LSP(pi) array
 
 <details>
 
@@ -4333,7 +4333,7 @@ vector<int> prefix_function(string s) {
 
 </details>
 
-### 95. Minimum characters to be inserted in front to make it palindromic
+### 99. Minimum characters to be inserted in front to make it palindromic
 
 <details>
 
@@ -4351,7 +4351,7 @@ int Solution::solve(string A) {
 
 </details>
 
-### 96. Anagrams
+### 100. Anagrams
 
 <details>
 
@@ -4379,7 +4379,7 @@ bool isAnagram(string s1, string s2) {
 
 </details>
 
-### 97. Count and say
+### 101. Count and say
 
 <details>
 	
@@ -4411,7 +4411,7 @@ public:
 
 </details>
 
-### 98. Compare Version numbers   
+### 102. Compare Version numbers   
 
 <details>
 
@@ -4447,7 +4447,7 @@ public:
 
 </details>
 
-### 99. Inorder 
+### 103. Inorder 
 
 <details>
 
@@ -4471,7 +4471,7 @@ public:
 
 </details>
 
-### 100. Preorder 
+### 104. Preorder 
 
 <details>
 
@@ -4495,7 +4495,7 @@ public:
 
 </details>
 
-### 101. Postorder
+### 105. Postorder
 
 <details>
 
@@ -4519,7 +4519,7 @@ public:
 
 </details>
 
-### 102. Morris Inorder 
+### 106. Morris Inorder 
 
 <details>
 
@@ -4534,7 +4534,7 @@ public:
 
 </details>
 
-### 103. Morris Preorder 
+### 107. Morris Preorder 
 
 <details>
 
@@ -4544,7 +4544,7 @@ public:
 
 </details>
 
-### 104. Left view of BT
+### 108. Left view of BT
 
 <details>
 
@@ -4567,7 +4567,7 @@ vector<int> leftView(Node* r) {
 
 </details>
 
-### 105. Bottom view of BT
+### 109. Bottom view of BT
 
 <details>
 
@@ -4598,7 +4598,7 @@ public:
 
 </details>
 
-### 106. Top view of BT
+### 110. Top view of BT
 
 <details>
 
@@ -4627,7 +4627,7 @@ public:
 
 </details>
 
-### 107. Preorder Postorder Inorder in single Traversal 
+### 111. Preorder Postorder Inorder in single Traversal 
 
 <details>
 
@@ -4655,7 +4655,7 @@ vector<vector<int>> getTreeTraversal(TreeNode *r){
 
 </details>
 
-### 108. Vertical Order Traversal
+### 112. Vertical Order Traversal
 
 <details>
 
@@ -4689,7 +4689,7 @@ public:
 
 </details>
 
-### 109. Root to all Leaf Paths in BT
+### 113. Root to all Leaf Paths in BT
 
 <details>
 
@@ -4720,7 +4720,7 @@ vector <string> allRootToLeaf(BinaryTreeNode<int> * r) {
 
 </details>
 
-### 110. Max width of BT
+### 114. Max width of BT
 
 <details>
 
@@ -4768,7 +4768,7 @@ public:
 
 </details>
 
-### 111. Level order traversal (L->R)
+### 115. Level order traversal (L->R)
 
 <details>
 
@@ -4807,7 +4807,7 @@ public:
 
 </details>
 
-### 112. Height of BT 
+### 116. Height of BT 
 
 <details>
 
@@ -4849,7 +4849,7 @@ public:
 
 </details>
 
-### 113. Diameter of BT 
+### 117. Diameter of BT 
 
 <details>
 
@@ -4877,7 +4877,7 @@ public:
 
 </details>
 
-### 114. BT is Height balanced or not 
+### 118. BT is Height balanced or not 
 
 <details>
 
@@ -4904,7 +4904,7 @@ public:
 
 </details>
 
-### 115. LCA in BT  
+### 119. LCA in BT  
 
 <details>
 
@@ -4934,7 +4934,7 @@ public:
 
 </details>
 
-### 116.  Check if the two trees are identical or not 
+### 120.  Check if the two trees are identical or not 
 
 <details>
 
@@ -4956,7 +4956,7 @@ public:
 
 </details>
 
-### 117. Zig-Zag Traversal of BT
+### 121. Zig-Zag Traversal of BT
 
 <details>
 
@@ -4999,7 +4999,7 @@ public:
 
 </details>
 
-### 118. Boundary Traversal of BT  
+### 122. Boundary Traversal of BT  
 
 <details>
 
@@ -5045,7 +5045,7 @@ vector<int> traverseBoundary(TreeNode<int> *r)
 
 </details>
 
-### 119. Maximum path sum  
+### 123. Maximum path sum  
 
 <details>
 
@@ -5077,7 +5077,7 @@ public:
 
 </details>
 
-### 120. BT from Inorder and Preorder  
+### 124. BT from Inorder and Preorder  
 
 <details>
 
@@ -5108,7 +5108,7 @@ root->right = f(in, pre, mp, preEnd - numRightNodes + 1, preEnd, rootIndexInInor
 
 </details>
 
-### 121. BT from Inorder and Postorder  
+### 125. BT from Inorder and Postorder  
 
 <details>
 
@@ -5144,7 +5144,7 @@ root->right = f(in, post, mp, postEnd - numRightNodes, postEnd - 1, rootIndexInI
 
 </details>
 
-### 122. Symmetric BT 
+### 126. Symmetric BT 
 
 <details>
 
@@ -5167,7 +5167,7 @@ if (n1->val != n2-> val) return 0;
 
 </details>
 
-### 123. Flatten BT to LL 
+### 127. Flatten BT to LL 
 
 <details>
 
@@ -5201,7 +5201,7 @@ public:
 
 </details>
 
-### 124. Convert a binary tree into its mirror tree.
+### 128. Convert a binary tree into its mirror tree.
 
 <details>
 
@@ -5227,7 +5227,7 @@ class Solution {
 
 </details>
 
-### 125. Check for children sum property
+### 129. Check for children sum property
 
 <details>
 
@@ -5250,7 +5250,7 @@ bool isParentSum(Node *root){
 
 </details>
 
-### 126. Populate next right pointers of the tree 
+### 130. Populate next right pointers of the tree 
 
 <details>
 
@@ -5292,7 +5292,7 @@ public:
 
 </details>
 
-### 127. Search the given key in BST
+### 131. Search the given key in BST
 
 <details>
 
@@ -5315,7 +5315,7 @@ public:
 
 </details>
 
-### 128. Construct BST from inorder traversal  
+### 132. Construct BST from inorder traversal  
 
 <details>
 
@@ -5341,7 +5341,7 @@ public:
 
 </details>
 
-### 129. Construct BST from preorder traversal
+### 133. Construct BST from preorder traversal
 
 <details>
 
@@ -5371,7 +5371,7 @@ public:
 
 </details>
 
-### 130. BT is BST or not 
+### 134. BT is BST or not 
 
 <details>
 
@@ -5393,7 +5393,7 @@ public:
 
 </details>
 
-### 131. LCA in BST
+### 135. LCA in BST
 
 <details>
 
@@ -5423,7 +5423,7 @@ public:
 
 </details>
 
-### 132. Inorder predecessor and successor of the given key in BST 
+### 136. Inorder predecessor and successor of the given key in BST 
 
 <details>
 
@@ -5459,7 +5459,7 @@ class Solution
 
 </details>
 
-### 133. Floor in BST
+### 137. Floor in BST
 
 <details>
 
@@ -5493,7 +5493,7 @@ int floorInBST(TreeNode<int>* root, int X) {
 
 </details>
 
-### 134. Ceil in BST
+### 138. Ceil in BST
 
 <details>
 	
@@ -5527,7 +5527,7 @@ int floorInBST(TreeNode<int>* root, int X) {
 
 </details>
 
-### 135. Kth smallest element in BST 
+### 139. Kth smallest element in BST 
 
 <details>
 
@@ -5594,7 +5594,7 @@ public:
 
 </details>
 
-### 136.  Kth largest element in BST 
+### 140.  Kth largest element in BST 
 
 <details>
 
@@ -5627,7 +5627,7 @@ int N = 0;
 
 </details>
 
-### 137. Pair with the given sum in BST 
+### 141. Pair with the given sum in BST 
 
 <details>
 
@@ -5702,7 +5702,7 @@ public:
 
 </details>
 
-### 138. BST iterator 
+### 142. BST iterator 
 
 <details>
 
@@ -5739,7 +5739,7 @@ public:
 
 </details>
 
-### 139. Size of largest BST in BT 
+### 143. Size of largest BST in BT 
 
 <details>
 
@@ -5814,7 +5814,7 @@ private:
 
 </details>
 
-### 140. Serialize And Deserialize a Binary Tree
+### 144. Serialize And Deserialize a Binary Tree
 
 <details>
 
@@ -5861,7 +5861,7 @@ private:
 
 </details>
 
-### 141. BT to DLL
+### 145. BT to DLL
 
 <details>
 
@@ -5871,7 +5871,7 @@ private:
 
 </details>
 
-### 142. The median in the stream of running integers
+### 146. The median in the stream of running integers
 
 <details>
 
@@ -5881,7 +5881,36 @@ private:
 
 </details>
 
-### 143. Kth largest element in a stream 
+### 147. Kth largest element in a stream 
+
+<details>
+
+
+```cpp
+class KthLargest {
+public:
+    KthLargest(int k, vector<int>& nums) { // first we will have nums array over which new integers will come up
+        this->k = k;
+        for (int num : nums) int dummy = add(num);  
+    }
+    int add(int val) {
+        if (pq.size() < k) pq.push(val);
+        else if (val > pq.top()) { 
+            pq.pop();
+            pq.push(val);
+        }
+        return pq.top();
+    }
+    
+private:
+    int k;
+    priority_queue<int, vector<int>, greater<int>> pq;
+};
+```
+
+</details>
+
+### 148. Distinct numbers in windows 
 
 <details>
 
@@ -5891,7 +5920,99 @@ private:
 
 </details>
 
-### 144. Distinct numbers in windows 
+### 149. Kth largest element in the unsorted array
+
+<details>
+
+> Kth largest => min-heap DS (memory tip)
+
+```cpp
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue <int , vector<int> , greater<int> > pq;
+        for(auto i : nums ){
+            if(pq.size() < k) pq.push(i);
+            else{
+                if( pq.top() < i ){
+                    pq.pop();
+                    pq.push(i);
+
+                }
+            } 
+        }
+        return pq.top();
+    }
+};
+```
+
+</details>
+
+### 150. Flood fill Algorithm 
+
+<details>
+
+> BFS easy
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int rows = image.size();
+        int cols = image[0].size();
+        int originalColor = image[sr][sc];   
+        if (originalColor == color) return image;
+        queue<pair<int, int>> q;
+        q.push({sr, sc});
+        vector<int> dx = {-1, 1, 0, 0};
+        vector<int> dy = {0, 0, -1, 1};
+        while (!q.empty()) {
+            pair<int, int> current = q.front();
+            q.pop();
+            int x = current.first;
+            int y = current.second;
+            image[x][y] = color;
+            for (int i = 0; i < 4; i++) {
+                int newX = x + dx[i];
+                int newY = y + dy[i];
+                if (newX >= 0 && newX < rows && newY >= 0 && newY < cols && image[newX][newY] == originalColor) q.push({newX, newY}); 
+            }
+        }
+        return image;
+    }
+};
+```
+
+> DFS
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+        int originalColor = image[sr][sc];
+        if (originalColor != newColor) dfs(image, sr, sc, originalColor, newColor);
+        return image;
+    }
+
+private:
+    vector<int> dx = {-1, 1, 0, 0};
+    vector<int> dy = {0, 0, -1, 1};
+    void dfs(vector<vector<int>>& image, int x, int y, int originalColor, int newColor) {
+        image[x][y] = newColor; // Change the color
+        for (int i = 0; i < 4; i++) {
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+            if (newX >= 0 && newX < image.size() && newY >= 0 && newY < image[0].size() && image[newX][newY] == originalColor) {
+                dfs(image, newX, newY, originalColor, newColor);
+            }
+        }
+    }
+};
+```
+
+</details>
+
+### 151. Clone a graph (hard)
 
 <details>
 
@@ -5901,7 +6022,7 @@ private:
 
 </details>
 
-### 145. Kth largest element in the unsorted array
+### 152. DFS
 
 <details>
 
@@ -5911,7 +6032,7 @@ private:
 
 </details>
 
-### 146. Flood fill Algorithm 
+### 153. BFS
 
 <details>
 
@@ -5921,37 +6042,7 @@ private:
 
 </details>
 
-### 147. Clone a graph (hard)
-
-<details>
-
-
-```cpp
-```
-
-</details>
-
-### 148. DFS
-
-<details>
-
-
-```cpp
-```
-
-</details>
-
-### 149. BFS
-
-<details>
-
-
-```cpp
-```
-
-</details>
-
-### 150. Detect Cycle in an Undirected Graph (using BFS)
+### 154. Detect Cycle in an Undirected Graph (using BFS)
 
 <details>
 
