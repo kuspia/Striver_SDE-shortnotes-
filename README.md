@@ -5818,8 +5818,45 @@ private:
 
 <details>
 
+> Preorder traversal (easy)
 
 ```cpp
+class Codec {
+public:
+    string serialize(TreeNode* root) {
+        stringstream ss;
+        serializeHelper(root, ss);
+        return ss.str();
+    }
+    TreeNode* deserialize(string data) {
+        stringstream ss(data);
+        return deserializeHelper(ss);
+    }
+
+private:
+    void serializeHelper(TreeNode* root, stringstream& ss) {
+        if (root == nullptr) {
+            ss << "# "; 
+            return;
+        }
+        ss << root->val << " ";
+        serializeHelper(root->left, ss);
+        serializeHelper(root->right, ss);
+    }
+
+    TreeNode* deserializeHelper(stringstream& ss) {
+        string val;
+        ss >> val;
+        if (val == "#") {
+            return nullptr;
+        }
+        TreeNode* node = new TreeNode(stoi(val));
+        node->left = deserializeHelper(ss);
+        node->right = deserializeHelper(ss);
+        return node;
+    }
+};
+
 ```
 
 </details>
